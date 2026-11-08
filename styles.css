@@ -249,6 +249,23 @@ h3 {
   font-size: 1.45rem;
 }
 
+.essay-section {
+  grid-column: 1 / -1;
+  padding: 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+}
+
+.essay-section > summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.essay-content {
+  padding-top: 0.75rem;
+}
+
 .essay-card p:last-child {
   margin-bottom: 0;
 }
