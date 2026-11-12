@@ -1,5 +1,6 @@
 // Team Dolores — renders every page from data/site.js. No build step.
 import { site, members, builds, positions, sources } from "../data/site.js";
+import { mountSign } from "./sign.js";
 
 const ROOT = new URL("../", import.meta.url);          // site root, works under any sub-path
 const href = (p) => new URL(p, ROOT).href;
@@ -71,7 +72,7 @@ function renderChrome() {
 
 /* ---------- pieces ---------- */
 const timeline = () => `<ol class="timeline">${builds.map((b) => `
-  <li><a href="${buildHref(b.n)}">
+  <li><a href="${buildHref(b.n)}"${b.status === "reached" ? "" : " data-locked"}>
     <span class="num">BUILD ${pad(b.n)}</span>
     <span class="name">${esc(buildName(b))}</span>
     ${statusChip(b.status)}
@@ -118,7 +119,7 @@ function renderTeam() {
   $("#team-builds").innerHTML = builds.filter((b) => b.team).map((b) => `
     <article class="card">
       <p class="label">${label(b)}</p>
-      <h3><a href="${buildHref(b.n)}">${esc(buildName(b))}</a></h3>
+      <h3><a href="${buildHref(b.n)}"${b.status === "reached" ? "" : " data-locked"}>${esc(buildName(b))}</a></h3>
       <p>${statusChip(b.status)}</p>
       ${b.n === 6 ? `<p>The collaborative conclusion.</p>` : ""}
     </article>`).join("");
@@ -144,7 +145,7 @@ function renderMember() {
         const e = entryFor(b, b.team ? "team" : m.id);
         const link = e.status === "reached"
           ? `<a href="${buildHref(b.n, b.team ? "team" : m.id)}">${esc(e.title || buildName(b))}</a>`
-          : `<span>${esc(buildName(b))}</span>`;
+          : `<span data-locked>${esc(buildName(b))}</span>`;
         return `<li><span class="num">BUILD ${pad(b.n)}</span><span class="what">${link}${b.team ? ` <span class="label">· team</span>` : ""}</span>${statusChip(e.status)}</li>`;
       }).join("")}</ol>
     </section>
@@ -175,7 +176,7 @@ async function renderBuild() {
   main.innerHTML = head + `
     <nav aria-label="Essays in this build"><ul class="toc">${authors.map((a) => entryFor(b, a.id).status === "reached"
       ? `<li><a href="#${a.id}">${esc(a.name)}</a></li>`
-      : `<li class="locked">${esc(a.name)} <span class="label">· locked</span></li>`).join("")}</ul></nav>
+      : `<li class="locked" data-locked>${esc(a.name)} <span class="label">· locked</span></li>`).join("")}</ul></nav>
     ${authors.map((a) => {
       const e = entryFor(b, a.id);
       return `<article class="essay" id="${a.id}" aria-labelledby="${a.id}-h">
@@ -219,5 +220,6 @@ function maybeStringsHero() {
 
 /* ---------- boot ---------- */
 renderChrome();
+mountSign();
 maybeStringsHero();
 ({ home: renderHome, essays: renderEssaysIndex, team: renderTeam, member: renderMember, build: renderBuild, sources: renderSources }[page] || (() => {}))();

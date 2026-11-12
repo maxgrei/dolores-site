@@ -294,3 +294,31 @@ main { display: block; min-height: 60vh; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- the Sign (cursor light) ---------- */
+.sign-cursor {
+  position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none;
+  width: 0; height: 0; opacity: 0; transition: opacity 600ms var(--ease-out);
+}
+.sign-cursor::before {
+  content: ""; position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%;
+  background: radial-gradient(circle, var(--sign) 0 30%, color-mix(in srgb, var(--sign) 35%, transparent) 55%, transparent 72%);
+  box-shadow: 0 0 14px 2px color-mix(in srgb, var(--sign) 40%, transparent);
+  transition: transform 600ms var(--ease-out), box-shadow 600ms var(--ease-out);
+}
+.sign-cursor.is-on { opacity: 1; }
+.sign-cursor.is-link::before { transform: scale(1.7); box-shadow: 0 0 18px 4px color-mix(in srgb, var(--sign) 35%, transparent); }
+.sign-cursor.is-locked::before { transform: scale(2.4); box-shadow: 0 0 26px 9px color-mix(in srgb, var(--sign) 60%, transparent); }
+.sign-cursor.refuse::before { animation: sign-refuse 900ms var(--ease-out); }
+@keyframes sign-refuse {
+  0% { transform: scale(2.4); } 15% { transform: scale(4) translateX(-3px); box-shadow: 0 0 40px 16px color-mix(in srgb, var(--sign) 75%, transparent); }
+  30% { transform: scale(3.4) translateX(4px); } 45% { transform: scale(3) translateX(-2px); } 100% { transform: scale(2.4); }
+}
+.sign-note {
+  position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none;
+  padding: 0.45rem 0.7rem; background: var(--chasm); color: var(--chasm-text);
+  border-left: 1px solid var(--sign); font-family: var(--font-head); font-style: italic; font-size: 1.1rem;
+  opacity: 0; transition: opacity 600ms var(--ease-out);
+}
+.sign-note.is-on { opacity: 1; }
+.has-sign [data-locked] { cursor: not-allowed; }
