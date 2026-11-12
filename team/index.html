@@ -19,7 +19,14 @@
         <h1 id="hosts-heading">Meet the team</h1>
         <p>The six members of our HP 241 portfolio team.</p>
         <noscript><p>This page loads its content with JavaScript. Please enable it to read our work.</p></noscript>
-        <ul class="stars" id="stars"></ul>
+        <div class="starfield" id="starfield">
+          <div class="starfield-stage">
+            <canvas class="starfield-dust" aria-hidden="true"></canvas>
+            <ul class="stars" id="stars" aria-label="Team members"></ul>
+          </div>
+          <div class="star-panel" id="star-panel" aria-live="polite"></div>
+          <svg class="starfield-thread" aria-hidden="true" focusable="false"><path pathLength="1"/></svg>
+        </div>
       </div>
     </section>
     <div class="wrap page">

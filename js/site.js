@@ -20,6 +20,16 @@ const memberHref = (id) => href(`members/${id}.html`);
 const reachedCount = (id) => builds.filter((b) => entryFor(b, b.team ? "team" : id).status === "reached").length;
 const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
 const label = (b) => `BUILD ${pad(b.n)}${b.theme ? " // " + b.theme.toUpperCase() : ""}${b.team ? " // TEAM BUILD" : ""}`;
+const aliasLabel = (m) => (m.alias ? `HOST // ${esc(m.alias.toUpperCase())}${m.placeholder ? " (PLACEHOLDER)" : ""}` : "HOST // ALIAS PENDING");
+const portrait = (m, cls = "") => (m.photo
+  ? `<img class="portrait ${cls}" src="${href(m.photo)}" alt="Portrait of ${esc(m.name)}" width="320" height="400" loading="lazy">`
+  : `<div class="portrait is-placeholder ${cls}" role="img" aria-label="Placeholder portrait for ${esc(m.name)}"><span>${esc(m.name[0])}</span><small>PHOTO PENDING</small></div>`);
+const buildDots = (m) => `<ol class="build-dots" aria-label="${esc(m.name)}’s builds">${builds.map((b) => {
+  const id = b.team ? "team" : m.id, e = entryFor(b, id), label = `Build ${b.n}${b.team ? " (team)" : ""}`;
+  return e.status === "reached"
+    ? `<li><a class="bd is-reached" href="${buildHref(b.n, id)}" aria-label="${label}: posted">${pad(b.n)}</a></li>`
+    : `<li><span class="bd is-locked" data-locked aria-label="${label}: locked">${pad(b.n)}</span></li>`;
+}).join("")}</ol>`;
 const statusChip = (s) => `<span class="status status-${s}">${STATUS[s]}</span>`;
 
 function buildMeta(b) {
@@ -89,12 +99,22 @@ function renderEssaysIndex() {
 }
 
 function renderTeam() {
-  $("#stars").innerHTML = members.map((m) => `
-    <li class="star"><a href="${memberHref(m.id)}">
-      <span class="dot" aria-hidden="true"></span>
-      <span class="who">${esc(m.name)}</span>
-      <span class="count">${m.alias ? esc(m.alias) + " · " : ""}${reachedCount(m.id)} / 8 builds</span>
-    </a></li>`).join("");
+  const root = $("#starfield");
+  root.querySelector("#star-panel").innerHTML = `<p class="panel-prompt">Hover or tap a star to follow its thread down to that host’s builds.</p>`;
+  import("./starfield.js").then(({ mountStarfield }) => mountStarfield(root, {
+    members, builds, memberHref,
+    posted: reachedCount,
+    panelHTML: (m) => `
+      <div class="panel-inner">
+        ${portrait(m, "is-small")}
+        <div class="panel-body">
+          <p class="label">${aliasLabel(m)}</p>
+          <h2 class="panel-name">${esc(m.name)}</h2>
+          ${buildDots(m)}
+          <a class="panel-link" href="${memberHref(m.id)}">Visit ${esc(m.name)}’s page</a>
+        </div>
+      </div>`,
+  }));
   $("#team-builds").innerHTML = builds.filter((b) => b.team).map((b) => `
     <article class="card">
       <p class="label">${label(b)}</p>
@@ -109,9 +129,14 @@ function renderMember() {
   if (!m) return;
   document.title = `${m.name} · ${site.team}`;
   $("#member").innerHTML = `
-    <p class="label">HOST // ${m.alias ? esc(m.alias.toUpperCase()) : "ALIAS PENDING"}</p>
-    <h1>${esc(m.name)}</h1>
-    <p class="lede">${m.intro ? esc(m.intro) : "An introduction is coming."}</p>
+    <div class="member-head">
+      ${portrait(m)}
+      <div>
+        <p class="label">${aliasLabel(m)}</p>
+        <h1>${esc(m.name)}</h1>
+        <p class="lede">${m.intro ? esc(m.intro) : "An introduction is coming."}</p>
+      </div>
+    </div>
 
     <section class="section" aria-labelledby="builds-h">
       <h2 id="builds-h">Builds</h2>

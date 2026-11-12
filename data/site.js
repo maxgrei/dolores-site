@@ -22,14 +22,16 @@ export const site = {
   },
 };
 
-// Six member slots. alias = Westworld host alias (to be chosen by each member).
+// Six member slots. PLACEHOLDERS: `alias` (Westworld host alias) and `photo` are stand-ins until
+// each member sends theirs. photo = path under images/members/ (e.g. "images/members/kenna.webp") or null.
+// `placeholder: true` marks the alias as a stand-in so pages can label it.
 export const members = [
-  { id: "kenna",  name: "Kenna",  alias: null, intro: null, reveries: [] },
-  { id: "max",    name: "Max",    alias: null, intro: null, reveries: [] },
-  { id: "mia",    name: "Mia",    alias: null, intro: null, reveries: [] },
-  { id: "alexis", name: "Alexis", alias: null, intro: null, reveries: [] },
-  { id: "meer",   name: "Meer",   alias: null, intro: null, reveries: [] },
-  { id: "leo",    name: "Leo",    alias: null, intro: null, reveries: [] },
+  { id: "kenna",  name: "Kenna",  alias: "Host 01", placeholder: true, photo: null, intro: null, reveries: [] },
+  { id: "max",    name: "Max",    alias: "Host 02", placeholder: true, photo: null, intro: null, reveries: [] },
+  { id: "mia",    name: "Mia",    alias: "Host 03", placeholder: true, photo: null, intro: null, reveries: [] },
+  { id: "alexis", name: "Alexis", alias: "Host 04", placeholder: true, photo: null, intro: null, reveries: [] },
+  { id: "meer",   name: "Meer",   alias: "Host 05", placeholder: true, photo: null, intro: null, reveries: [] },
+  { id: "leo",    name: "Leo",    alias: "Host 06", placeholder: true, photo: null, intro: null, reveries: [] },
 ];
 
 // Builds 1–8. Builds 2 and 6 are team builds (one entry, id "team").
