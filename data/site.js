@@ -38,13 +38,17 @@ export const members = [
 // `due` is an ISO date string ("2026-12-04") or null.
 // `pages` are the Plutarch page refs cited in the essay (for Analysis Mode).
 // `words` counts the essay body, not the opening quotation.
+// `sources` and `episodes` (Westworld S1 episodes cited, e.g. "S1E10 The Bicameral Mind") feed Analysis Mode.
 export const builds = [
   {
     n: 1, title: null, theme: null, team: false, due: null, status: "reached",
     entries: {
-      kenna: { status: "reached", title: null, file: "content/build-1/kenna.html", words: 730, pages: ["83", "99", "108", "109", "111"] },
-      max:   { status: "reached", title: null, file: "content/build-1/max.html",   words: 686, pages: ["92", "92–93", "104"] },
-      mia:   { status: "reached", title: null, file: "content/build-1/mia.html",   words: 120, pages: ["104–105"] },
+      kenna: { status: "reached", title: null, file: "content/build-1/kenna.html", words: 730, pages: ["83", "99", "108", "109", "111"],
+             sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [] },
+      max:   { status: "reached", title: null, file: "content/build-1/max.html",   words: 686, pages: ["92", "92–93", "104"],
+             sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [] },
+      mia:   { status: "reached", title: null, file: "content/build-1/mia.html",   words: 120, pages: ["104–105"],
+             sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [] },
     },
   },
   { n: 2, title: null, theme: null, team: true,  due: null, status: "locked", entries: {} },

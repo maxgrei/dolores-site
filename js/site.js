@@ -1,6 +1,7 @@
 // Team Dolores — renders every page from data/site.js. No build step.
 import { site, members, builds, positions, sources } from "../data/site.js";
 import { mountSign } from "./sign.js";
+import { mountAnalysis, annotateEssay } from "./analysis.js";
 
 const ROOT = new URL("../", import.meta.url);          // site root, works under any sub-path
 const href = (p) => new URL(p, ROOT).href;
@@ -60,6 +61,7 @@ function renderChrome() {
       </a>
       <nav class="site-nav" aria-label="Main"><ul>
         ${nav.map(([k, t, p]) => `<li><a href="${href(p)}"${k === current ? ' aria-current="page"' : ""}>${t}</a></li>`).join("")}
+        <li><button class="analysis-toggle" type="button" aria-pressed="false" title="Analysis Mode (or type “analysis”)">Analysis</button></li>
       </ul></nav>
     </div>`;
   const footer = $("#site-footer");
@@ -192,6 +194,8 @@ async function renderBuild() {
       const res = await fetch(href(el.dataset.src));
       if (!res.ok) throw new Error(res.status);
       el.innerHTML = await res.text();
+      const id = el.closest(".essay").id, a = authors.find((x) => x.id === id);
+      annotateEssay(el, entryFor(b, id), { author: a.name, build: b.n });
     } catch {
       el.innerHTML = `<p class="empty">This essay could not be loaded.</p>`;
     }
@@ -220,6 +224,7 @@ function maybeStringsHero() {
 
 /* ---------- boot ---------- */
 renderChrome();
+mountAnalysis();
 mountSign();
 maybeStringsHero();
 ({ home: renderHome, essays: renderEssaysIndex, team: renderTeam, member: renderMember, build: renderBuild, sources: renderSources }[page] || (() => {}))();
