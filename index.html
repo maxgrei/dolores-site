@@ -8,6 +8,9 @@
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/site.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" } }
+  </script>
   <script type="module" src="js/site.js"></script>
 </head>
 <body data-page="home">
@@ -15,8 +18,9 @@
   <header class="site-header" id="site-header"></header>
 
   <main id="main">
-    <!-- Static stand-in for the 3D strings hero (CLAUDE.md, signature interaction 1). -->
-    <section class="hero" aria-labelledby="welcome-heading">
+    <!-- Strings hero: static banner first; js/hero.js crossfades the 3D threads in over it. -->
+    <section class="hero" data-strings aria-labelledby="welcome-heading">
+      <div class="hero-chasm" aria-hidden="true"></div>
       <div class="wrap">
         <div class="hero-copy">
           <p class="label">Dolores · HP 241</p>
@@ -26,6 +30,7 @@
             <p>“The human soul, with all its countless puppet-strings of impulse, is by far the most sensitive machine of all.”</p>
             <cite>Plutarch, Socrates’ Daimonion, 104</cite>
           </blockquote>
+          <button class="hero-pull" type="button" aria-pressed="false" hidden>Pull the face together</button>
         </div>
         <figure class="hero-figure">
           <div class="threads" aria-hidden="true"></div>

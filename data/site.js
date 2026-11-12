@@ -72,6 +72,7 @@ export const sources = [
     items: [
       "Banner artwork (<code>images/Dolores-Portfolio.jpg</code>): Team Dolores.",
       "Typefaces via Google Fonts, SIL Open Font License: Cormorant Garamond, Newsreader, IBM Plex Mono, GFS Didot.",
+      "3D rendering: three.js r170 (MIT License), loaded from jsDelivr. The strings hero, threads, stars and film grain are original code.",
     ],
   },
 ];

@@ -181,6 +181,18 @@ function renderSources() {
     </section>`).join("");
 }
 
+/* ---------- strings hero (lazy, progressive) ---------- */
+function maybeStringsHero() {
+  const hero = document.querySelector(".hero[data-strings]");
+  if (!hero || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const probe = document.createElement("canvas");
+  if (!(probe.getContext("webgl2") || probe.getContext("webgl"))) return;   // static banner stays
+  const go = () => import("./hero.js").then((m) => m.mountHero(hero)).catch(() => hero.classList.remove("is-3d"));
+  const idle = () => ("requestIdleCallback" in window ? requestIdleCallback(go, { timeout: 1200 }) : setTimeout(go, 200));
+  document.readyState === "complete" ? idle() : addEventListener("load", idle, { once: true });
+}
+
 /* ---------- boot ---------- */
 renderChrome();
+maybeStringsHero();
 ({ home: renderHome, essays: renderEssaysIndex, team: renderTeam, member: renderMember, build: renderBuild, sources: renderSources }[page] || (() => {}))();
