@@ -377,3 +377,10 @@ main { display: block; min-height: 60vh; }
   .analysis .prose .has-mnote { position: relative; }
   .analysis .mnote { position: absolute; left: calc(100% + 2rem); top: 0.35rem; width: 12.5rem; margin: 0; }
 }
+
+/* ---------- tap targets (≥ 44px) ---------- */
+.skip-link:focus { min-height: 44px; display: inline-flex; align-items: center; }
+.site-nav a { min-width: 44px; justify-content: center; }
+.toc a { min-width: 44px; }
+.essay h2 a, .card h3 a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+.member-builds .what > a, .member-builds .what > span { display: inline-flex; align-items: center; min-height: 44px; }

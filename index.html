@@ -6,6 +6,8 @@
   <title>Team Dolores · The Voice Was Your Own</title>
   <meta name="description" content="Team Dolores's HP 241 portfolio: Plutarch's Socrates' Daimonion read through Westworld.">
   <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/site.css">
   <script type="importmap">
@@ -34,7 +36,10 @@
         </div>
         <figure class="hero-figure">
           <div class="threads" aria-hidden="true"></div>
-          <img src="images/Dolores-Portfolio.jpg" width="631" height="950" alt="Portfolio artwork for the Dolores team">
+          <picture>
+            <source srcset="images/Dolores-Portfolio.avif" type="image/avif">
+            <img src="images/Dolores-Portfolio.jpg" width="631" height="950" alt="Portfolio artwork for the Dolores team" fetchpriority="high" decoding="async">
+          </picture>
         </figure>
       </div>
     </section>
