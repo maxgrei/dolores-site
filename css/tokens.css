@@ -1,0 +1,58 @@
+/* Team Dolores brand tokens. The ONLY place hex values live (see CLAUDE.md). */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=GFS+Didot&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap");
+
+:root {
+  /* Brand kit */
+  --host-white: #EEF0F2;     /* main background (the lab) */
+  --banner-slate: #8E9BA8;   /* borders, secondary marks */
+  --dolores-blue: #6F93B8;   /* signature color (her dress) */
+  --cold-storage: #0D1014;   /* text; dark-mode background */
+  --daimon-gold: #D9B25F;    /* ONLY "the sign": strings, stars, cursor light, links, highlights */
+
+  /* Supporting greys from the group's original palette */
+  --grey-900: #24262B;
+  --grey-800: #3B3F46;
+  --grey-600: #66707C;
+  --grey-400: #AEB7C1;
+  --grey-100: #F1F3F6;
+
+  /* Semantic roles (light) */
+  --bg: var(--host-white);
+  --surface: var(--grey-100);
+  --text: var(--cold-storage);
+  --text-muted: var(--grey-800);     /* AA on --bg and --surface */
+  --border: var(--banner-slate);
+  --accent: var(--dolores-blue);
+  --sign: var(--daimon-gold);
+  --link: var(--cold-storage);       /* gold carries the underline; text stays AA */
+  --focus: var(--cold-storage);
+  --chasm: var(--cold-storage);      /* always-dark panels (starfield) */
+  --chasm-text: var(--host-white);
+  --chasm-muted: var(--grey-400);
+
+  /* Type */
+  --font-head: "Cormorant Garamond", "Cormorant", Georgia, serif;
+  --font-body: "Newsreader", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-greek: "GFS Didot", "Cormorant Garamond", Georgia, serif;
+
+  /* Layout + motion */
+  --measure: 68ch;
+  --max-width: 72rem;
+  --gutter: 16px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-slow: 900ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--cold-storage);
+    --surface: var(--grey-900);
+    --text: var(--host-white);
+    --text-muted: var(--grey-400);
+    --border: var(--grey-800);
+    --link: var(--host-white);
+    --focus: var(--daimon-gold);
+    --chasm: #000000;
+  }
+}

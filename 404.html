@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Statuaries Street · Team Dolores</title>
+  <script>
+    // GitHub Pages serves this file at any depth, so point relative links at the site root:
+    // /<repo>/ on *.github.io, / everywhere else (local server).
+    (function () {
+      var seg = location.pathname.split("/")[1];
+      var root = /github\.io$/.test(location.hostname) && seg ? "/" + seg + "/" : "/";
+      document.write('<base href="' + root + '">');
+    })();
+  </script>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/site.css">
+  <script type="module" src="js/site.js"></script>
+</head>
+<body data-page="404">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header" id="site-header"></header>
+  <main id="main">
+    <div class="wrap page">
+      <p class="label">Error 404 // the sign was ignored</p>
+      <h1>You kept walking down Statuaries Street.</h1>
+      <div class="prose">
+        <p>Socrates stopped, turned down the street of the Boxmakers, and called his friends to follow. Some of the young men ignored the sign and went straight on, past the statues, and met a herd of pigs, covered in mud, coming the other way (Plutarch, 91–92).</p>
+        <p>There’s no page here, only pigs.</p>
+      </div>
+      <div class="sign-refusal">
+        <p class="label">The sign</p>
+        <p><a href="index.html">Turn back.</a></p>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+</body>
+</html>

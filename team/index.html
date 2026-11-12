@@ -3,45 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Team | Dolores</title>
-  <link rel="stylesheet" href="../styles.css">
+  <title>Hosts · Team Dolores</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/site.css">
+  <script type="module" src="../js/site.js"></script>
 </head>
-<body>
+<body data-page="team">
   <a class="skip-link" href="#main">Skip to main content</a>
-  <header class="site-header">
-    <p class="site-title"><a href="../index.html">Dolores</a></p>
-    <nav aria-label="Main">
-      <ul>
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="index.html" aria-current="page">Team</a></li>
-        <li class="nav-dropdown"><details>
-          <summary>Essays</summary>
-          <ul class="dropdown-menu">
-            <li><a href="../essays/index.html">All essays</a></li>
-            <li><a href="../essays/build-1/index.html">Build 1</a></li>
-            <li><a href="../essays/build-2/index.html">Build 2</a></li>
-            <li><a href="../essays/build-3/index.html">Build 3</a></li>
-            <li><a href="../essays/build-4/index.html">Build 4</a></li>
-            <li><a href="../essays/build-5/index.html">Build 5</a></li>
-            <li><a href="../essays/build-6/index.html">Build 6</a></li>
-            <li><a href="../essays/build-7/index.html">Build 7</a></li>
-            <li><a href="../essays/build-8/index.html">Build 8</a></li>
-          </ul>
-        </details></li>
-      </ul>
-    </nav>
-  </header>
+  <header class="site-header" id="site-header"></header>
   <main id="main">
-    <h1>Meet the team</h1>
-    <p>The six members of our HP 241 portfolio team.</p>
-    <div class="team-grid">
-      <article class="member-card"><div class="member-initials" aria-hidden="true">K</div><h2>Kenna</h2></article>
-      <article class="member-card"><div class="member-initials" aria-hidden="true">M</div><h2>Max</h2></article>
-      <article class="member-card"><div class="member-initials" aria-hidden="true">M</div><h2>Mia</h2></article>
-      <article class="member-card"><div class="member-initials" aria-hidden="true">A</div><h2>Alexis</h2></article>
-      <article class="member-card"><div class="member-initials" aria-hidden="true">M</div><h2>Meer</h2></article>
-      <article class="member-card"><div class="member-initials" aria-hidden="true">L</div><h2>Leo</h2></article>
+    <section class="chasm" aria-labelledby="hosts-heading">
+      <div class="wrap">
+        <p class="label">Hosts // six stars over the chasm</p>
+        <h1 id="hosts-heading">Meet the team</h1>
+        <p>The six members of our HP 241 portfolio team.</p>
+        <noscript><p>This page loads its content with JavaScript. Please enable it to read our work.</p></noscript>
+        <ul class="stars" id="stars"></ul>
+      </div>
+    </section>
+    <div class="wrap page">
+      <section aria-labelledby="tb-heading">
+        <p class="label">Team builds // 02 and 06</p>
+        <h2 id="tb-heading">Built together</h2>
+        <div class="grid" id="team-builds"></div>
+      </section>
     </div>
   </main>
+  <footer class="site-footer" id="site-footer"></footer>
 </body>
 </html>

@@ -3,55 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <title>Plutarch Portfolio</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Team Dolores · The Voice Was Your Own</title>
+  <meta name="description" content="Team Dolores's HP 241 portfolio: Plutarch's Socrates' Daimonion read through Westworld.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/site.css">
+  <script type="module" src="js/site.js"></script>
 </head>
-<body>
+<body data-page="home">
   <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header" id="site-header"></header>
 
-  <header class="site-header">
-    <p class="site-title"><a href="index.html">Plutarch Portfolio</a></p>
-    <nav aria-label="Main">
-      <ul>
-        <li><a href="index.html" aria-current="page">Home</a></li>
-        <li><a href="team/index.html">Team</a></li>
-        <li class="nav-dropdown">
-          <details>
-            <summary>Essays</summary>
-            <ul class="dropdown-menu">
-              <li><a href="essays/index.html">All essays</a></li>
-              <li><a href="essays/build-1/index.html">Build 1</a></li>
-              <li><a href="essays/build-2/index.html">Build 2</a></li>
-              <li><a href="essays/build-3/index.html">Build 3</a></li>
-              <li><a href="essays/build-4/index.html">Build 4</a></li>
-              <li><a href="essays/build-5/index.html">Build 5</a></li>
-              <li><a href="essays/build-6/index.html">Build 6</a></li>
-              <li><a href="essays/build-7/index.html">Build 7</a></li>
-              <li><a href="essays/build-8/index.html">Build 8</a></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
-    </nav>
-  </header>
-
-  <main id="main" class="home-main">
-    <section class="welcome-banner" aria-labelledby="welcome-heading">
-      <img src="images/Dolores-Portfolio.jpg" alt="Portfolio artwork for the Dolores team">
-      <div class="welcome-copy">
-        <p class="eyebrow">Dolores · HP 241</p>
-        <h1 id="welcome-heading">Welcome to Westworld</h1>
+  <main id="main">
+    <!-- Static stand-in for the 3D strings hero (CLAUDE.md, signature interaction 1). -->
+    <section class="hero" aria-labelledby="welcome-heading">
+      <div class="wrap">
+        <div class="hero-copy">
+          <p class="label">Dolores · HP 241</p>
+          <h1 id="welcome-heading">Welcome to Westworld</h1>
+          <p class="tagline">The voice was your own.</p>
+          <blockquote class="epigraph">
+            <p>“The human soul, with all its countless puppet-strings of impulse, is by far the most sensitive machine of all.”</p>
+            <cite>Plutarch, Socrates’ Daimonion, 104</cite>
+          </blockquote>
+        </div>
+        <figure class="hero-figure">
+          <div class="threads" aria-hidden="true"></div>
+          <img src="images/Dolores-Portfolio.jpg" width="631" height="950" alt="Portfolio artwork for the Dolores team">
+        </figure>
       </div>
     </section>
-    <section class="intro-card" aria-labelledby="intro-heading">
-      <h2 id="intro-heading">Our Plutarch portfolio</h2>
-      <p>This site is our team's portfolio for HP 241. Over the semester, each of us wrote a series of builds responding to Plutarch’s readings, exploring consciousness, emotion, reason, and what Socrates' daimonion might have been. Browse the <a href="team/index.html">Team page</a> to meet us and the Essays menu to read our work.</p>
-    </section>
+
+    <div class="wrap">
+      <section class="section" aria-labelledby="intro-heading">
+        <p class="label">Team statement</p>
+        <h2 id="intro-heading">Our Plutarch portfolio</h2>
+        <p class="lede">This site is our team's portfolio for HP 241. Over the semester, each of us wrote a series of builds responding to Plutarch’s readings, exploring consciousness, emotion, reason, and what Socrates' daimonion might have been. Browse the <a href="team/index.html">Team page</a> to meet us and the Essays menu to read our work.</p>
+      </section>
+
+      <section class="section" aria-labelledby="positions-heading">
+        <p class="label">Core positions</p>
+        <h2 id="positions-heading">What we argue</h2>
+        <div id="positions"></div>
+      </section>
+
+      <section class="section" aria-labelledby="timeline-heading">
+        <p class="label">Build timeline</p>
+        <h2 id="timeline-heading">The builds</h2>
+        <div id="timeline"><noscript><p><a href="essays/index.html">See all essays</a>.</p></noscript></div>
+      </section>
+    </div>
   </main>
 
-
+  <footer class="site-footer" id="site-footer"></footer>
 </body>
 </html>
