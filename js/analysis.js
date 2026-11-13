@@ -1,13 +1,14 @@
 // Analysis Mode — the Delos diagnostic view. Toggle in the nav, or type "analysis" anywhere.
-// Esc leaves it. The choice is remembered per visitor (localStorage, best effort).
+// Esc leaves it. The choice lasts for the current visit (sessionStorage, best effort), so a new
+// visit always opens on the normal site, never a wireframe hero that looks broken.
 // Effects: html.analysis (CSS look), "dolores:analysis" event (hero goes wireframe),
 // and mono margin notes on essays built from data/site.js.
 
 const KEY = "dolores:analysis";
 const root = document.documentElement;
 const store = {
-  get() { try { return localStorage.getItem(KEY) === "on"; } catch { return false; } },
-  set(on) { try { localStorage.setItem(KEY, on ? "on" : "off"); } catch { /* private mode: session only */ } },
+  get() { try { return sessionStorage.getItem(KEY) === "on"; } catch { return false; } },
+  set(on) { try { sessionStorage.setItem(KEY, on ? "on" : "off"); localStorage.removeItem(KEY); } catch { /* storage blocked: page only */ } },
 };
 
 export const isAnalysis = () => root.classList.contains("analysis");

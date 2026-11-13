@@ -101,7 +101,8 @@ Analysis Mode, brand-check polish.
 - `js/sound.js` — original generative ambient piano (Web Audio, no audio files). Nav "Sound" toggle, off by
   default, localStorage `dolores:sound`; a remembered "on" waits for the first click/key (autoplay rules).
 - `data/site.js` also exports `humor` ({ jokes, quotes }), rendered on the home page "Improvisations" section; empty until the team fills it.
-- `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, localStorage `dolores:analysis`,
+- `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, sessionStorage `dolores:analysis`
+  (per visit on purpose: a remembered wireframe hero looked broken),
   and `annotateEssay()` margin notes.
 - Page shells (no content in them; JS fills `#main` parts): `index.html`, `team/`, `essays/`,
   `essays/build-1..8/`, `members/{kenna,max,mia,alexis,meer,leo}.html`, `sources/`, `404.html`

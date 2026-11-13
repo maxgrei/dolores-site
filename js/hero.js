@@ -47,7 +47,7 @@ export async function mountHero(hero) {
   }
   plane.setAttribute("aOffset", new THREE.InstancedBufferAttribute(uvOffset, 2));
   const tileMat = new THREE.ShaderMaterial({
-    uniforms: { uMap: { value: tex }, uTile: { value: new THREE.Vector2(1 / COLS, 1 / ROWS) }, uFade: { value: 1 }, uEdge: { value: 1 } },
+    uniforms: { uMap: { value: tex }, uTile: { value: new THREE.Vector2(1 / COLS, 1 / ROWS) }, uFade: { value: 1 }, uEdge: { value: 1 }, uXray: { value: 0 } },
     vertexShader: /* glsl */`
       attribute vec2 aOffset; uniform vec2 uTile; varying vec2 vUv; varying vec2 vLocal;
       void main() {
@@ -55,12 +55,14 @@ export async function mountHero(hero) {
         gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(position, 1.0);
       }`,
     fragmentShader: /* glsl */`
-      uniform sampler2D uMap; uniform float uFade; uniform float uEdge; varying vec2 vUv; varying vec2 vLocal;
+      uniform sampler2D uMap; uniform float uFade; uniform float uEdge; uniform float uXray; varying vec2 vUv; varying vec2 vLocal;
       void main() {
         vec4 c = texture2D(uMap, vUv);
         vec2 e = min(vLocal, 1.0 - vLocal);                 // faint edge so fractures read
         float edge = smoothstep(0.0, 0.035, min(e.x, e.y));
-        gl_FragColor = vec4(c.rgb * mix(1.0 - 0.18 * uEdge, 1.0, edge), uFade);
+        vec3 rgb = c.rgb * mix(1.0 - 0.18 * uEdge, 1.0, edge);
+        rgb = mix(rgb, vec3(dot(rgb, vec3(0.299, 0.587, 0.114))), uXray);   // analysis: greyscale x-ray
+        gl_FragColor = vec4(rgb, uFade * (1.0 - 0.55 * uXray));
       }`,
     side: THREE.DoubleSide, transparent: true,
   });
@@ -69,6 +71,11 @@ export async function mountHero(hero) {
   tiles.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   tiles.frustumCulled = false;
   scene.add(tiles);
+  const wires = new THREE.InstancedMesh(plane, wireMat, N);   // shares the tiles' matrices
+  wires.instanceMatrix = tiles.instanceMatrix;
+  wires.frustumCulled = false;
+  wires.visible = false;
+  scene.add(wires);
 
   /* ---------- threads: glowing ribbons (soft bloom without a post pass) ---------- */
   const tPos = new Float32Array(N * 4 * 3), tSide = new Float32Array(N * 4), tAlong = new Float32Array(N * 4), tIdx = [];
@@ -208,7 +215,8 @@ export async function mountHero(hero) {
 
   /* ---------- analysis mode: wireframe ---------- */
   const applyAnalysis = (on) => {
-    tiles.material = on ? wireMat : tileMat;
+    wires.visible = on;
+    tileMat.uniforms.uXray.value = on ? 1 : 0;
     threadMat.uniforms.uColor.value.copy(on ? slate : gold);
     threadMat.uniforms.uGlow.value = on ? 0 : 1;
     knotMat.uniforms.uColor.value.copy(on ? blue : gold);
