@@ -324,13 +324,16 @@ main { display: block; min-height: 60vh; }
 .has-sign [data-locked] { cursor: not-allowed; }
 
 /* ---------- Analysis Mode (Delos diagnostic) ---------- */
-.analysis-toggle {
+.analysis-toggle, .sound-toggle {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.6rem; cursor: pointer;
   font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--text); background: transparent; border: 1px dashed var(--border);
   transition: border-color 600ms var(--ease-out), background-color 600ms var(--ease-out);
 }
-.analysis-toggle:hover { border-color: var(--accent); }
+.analysis-toggle:hover, .sound-toggle:hover { border-color: var(--accent); }
+.sound-toggle .state { margin-left: 0.4em; color: var(--text-muted); }
+.sound-toggle[aria-pressed="true"] { border-style: solid; border-color: var(--sign); }
+.sound-toggle[aria-pressed="true"] .state { color: var(--text); }
 .analysis-toggle[aria-pressed="true"] { border-style: solid; border-color: var(--accent); background: color-mix(in srgb, var(--accent) 22%, transparent); }
 
 .analysis-bar {
@@ -384,3 +387,35 @@ main { display: block; min-height: 60vh; }
 .toc a { min-width: 44px; }
 .essay h2 a, .card h3 a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 .member-builds .what > a, .member-builds .what > span { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ---------- the daimonion, in Greek ---------- */
+.daimon-gloss { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin: -0.75rem 0 1.5rem; }
+.daimon-gloss .greek { font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: 0.02em; text-transform: none; }
+.daimon-gloss .label { margin: 0; }
+
+/* ---------- humor ---------- */
+.quote { margin: 0; }
+.quote blockquote { margin: 0 0 0.75rem; font-family: var(--font-head); font-size: 1.3rem; font-style: italic; }
+.quote blockquote p { margin: 0; }
+.quote figcaption { margin: 0; }
+
+/* ---------- reverie: a ~600ms glitch on member-star hover ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .star.reverie .who { animation: reverie 600ms steps(1, end) both; }
+  .star.reverie .dot { animation: reverie-dot 600ms steps(1, end) both; }
+}
+@keyframes reverie {
+  0%   { transform: translateX(0); text-shadow: 0 0 6px var(--chasm); clip-path: none; opacity: 1; }
+  12%  { transform: translateX(-3px); text-shadow: 2px 0 0 var(--dolores-blue), -2px 0 0 var(--sign); clip-path: inset(0 0 55% 0); }
+  24%  { transform: translateX(2px); text-shadow: -2px 0 0 var(--dolores-blue), 2px 0 0 var(--sign); clip-path: inset(40% 0 0 0); opacity: 0.55; }
+  38%  { transform: translateX(0); text-shadow: 0 0 6px var(--chasm); clip-path: none; opacity: 1; }
+  52%  { transform: translateX(-1px); text-shadow: 1px 0 0 var(--dolores-blue), -1px 0 0 var(--sign); clip-path: inset(20% 0 30% 0); opacity: 0.8; }
+  66%  { transform: translateX(0); clip-path: none; opacity: 1; }
+  80%  { opacity: 0.7; }
+  100% { transform: none; text-shadow: 0 0 6px var(--chasm), 0 0 2px var(--chasm); clip-path: none; opacity: 1; }
+}
+@keyframes reverie-dot {
+  0%, 38%, 66%, 100% { opacity: 1; }
+  12%, 52% { opacity: 0.25; }
+  24%, 80% { opacity: 0.7; }
+}

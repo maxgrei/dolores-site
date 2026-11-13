@@ -47,8 +47,14 @@ export function mountStarfield(root, { members, builds, posted, panelHTML, membe
     svg.classList.add("is-on");
     place();
   }
+  // reverie: a brief glitch on hover, like a host recalling something it shouldn't (off with reduced motion, via CSS)
+  function reverie(s) {
+    clearTimeout(s.rt);
+    s.li.classList.remove("reverie"); void s.li.offsetWidth; s.li.classList.add("reverie");
+    s.rt = setTimeout(() => s.li.classList.remove("reverie"), 650);
+  }
   for (const s of stars) {
-    s.a.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") select(s); });
+    s.a.addEventListener("pointerenter", (e) => { reverie(s); if (e.pointerType === "mouse") select(s); });
     s.a.addEventListener("focus", () => select(s));
     // touch/pen: first tap shows the thread, second tap follows the link.
     // (focus fires between pointerdown and click, so remember what was selected at pointerdown)

@@ -1,7 +1,8 @@
 // Team Dolores — renders every page from data/site.js. No build step.
-import { site, members, builds, positions, sources } from "../data/site.js";
+import { site, members, builds, positions, sources, humor } from "../data/site.js";
 import { mountSign } from "./sign.js";
 import { mountAnalysis, annotateEssay } from "./analysis.js";
+import { mountSound } from "./sound.js";
 
 const ROOT = new URL("../", import.meta.url);          // site root, works under any sub-path
 const href = (p) => new URL(p, ROOT).href;
@@ -61,6 +62,7 @@ function renderChrome() {
       </a>
       <nav class="site-nav" aria-label="Main"><ul>
         ${nav.map(([k, t, p]) => `<li><a href="${href(p)}"${k === current ? ' aria-current="page"' : ""}>${t}</a></li>`).join("")}
+        <li><button class="sound-toggle" type="button" aria-pressed="false" title="Original ambient piano, off by default">Sound <span class="state">Off</span></button></li>
         <li><button class="analysis-toggle" type="button" aria-pressed="false" title="Analysis Mode (or type “analysis”)">Analysis</button></li>
       </ul></nav>
     </div>`;
@@ -95,6 +97,12 @@ function renderHome() {
   if (pos) pos.innerHTML = positions.length
     ? `<div class="grid">${positions.map((p) => `<article class="card"><p>${esc(p.claim)}</p><p class="label"><a href="${buildHref(p.build)}">Argued in Build ${p.build}</a></p></article>`).join("")}</div>`
     : `<p class="empty">Our core positions will be posted here as the builds argue them, each linked to its build.</p>`;
+  const fun = $("#humor");
+  if (fun) fun.innerHTML = humor.jokes.length || humor.quotes.length
+    ? `<div class="grid">${humor.jokes.map((j) => `<article class="card joke"><p class="label">Off-loop</p><p>${esc(j)}</p></article>`).join("")}${humor.quotes.map((q) => `
+        <figure class="card quote"><blockquote><p>“${esc(q.text)}”</p></blockquote>
+        <figcaption class="label">${esc(q.who)}${q.episode ? " // " + esc(q.episode) : ""}</figcaption></figure>`).join("")}</div>`
+    : `<p class="empty">The team’s jokes and favorite lines will appear here.</p>`;
 }
 
 function renderEssaysIndex() {
@@ -225,6 +233,7 @@ function maybeStringsHero() {
 /* ---------- boot ---------- */
 renderChrome();
 mountAnalysis();
+mountSound();
 mountSign();
 maybeStringsHero();
 ({ home: renderHome, essays: renderEssaysIndex, team: renderTeam, member: renderMember, build: renderBuild, sources: renderSources }[page] || (() => {}))();

@@ -87,7 +87,8 @@ Analysis Mode, brand-check polish.
   (id, name, alias, placeholder flag, photo, intro, reveries), `builds` 1–8 (status, due, team flag,
   per-member `entries` with file, words, Plutarch `pages`, `sources`, `episodes`), `positions`, `sources`.
   A member with no entry for a build counts as locked.
-- `content/build-N/<member>.html` — essay text as HTML fragments, copied verbatim. Build 1 has kenna, max, mia.
+- `content/build-N/<member>.html` — essay text as HTML fragments, copied verbatim. Build 1 has kenna, max, mia;
+  Build 2 has `team.html` (from the team's final PDF; its 57-entry bibliography is the "Build 2 bibliography" group in `sources`).
 - `css/tokens.css` — only place hex values live; semantic roles (--bg, --text, --sign …) + dark mode;
   Google Fonts are @imported here. `css/site.css` — all layout, components, hero/starfield/sign/analysis styles.
 - `js/site.js` — entry module on every page: renders header/nav/footer, then the page by
@@ -97,6 +98,9 @@ Analysis Mode, brand-check polish.
   listens for `dolores:analysis` to go wireframe. Never loaded with reduced motion or no WebGL.
 - `js/starfield.js` — Hosts starfield (DOM + SVG + 2D canvas, no WebGL). Straightness = posted/8.
 - `js/sign.js` — cursor light; refuses mouse clicks on anything with `[data-locked]`.
+- `js/sound.js` — original generative ambient piano (Web Audio, no audio files). Nav "Sound" toggle, off by
+  default, localStorage `dolores:sound`; a remembered "on" waits for the first click/key (autoplay rules).
+- `data/site.js` also exports `humor` ({ jokes, quotes }), rendered on the home page "Improvisations" section; empty until the team fills it.
 - `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, localStorage `dolores:analysis`,
   and `annotateEssay()` margin notes.
 - Page shells (no content in them; JS fills `#main` parts): `index.html`, `team/`, `essays/`,
@@ -115,16 +119,14 @@ Stage files by explicit path (never `git add -A`) and check `git show --stat HEA
 
 ## Open items: what's needed next
 From the team (Max to send; save verbatim, never retype):
-- Build 2 team essay + its bibliography (Build 2 is locked until then; bibliography goes into
-  `sources` in data/site.js; confirm the Russell/Oxford 1993 edition cited there).
 - Builds 3–8 essays as they're written, with due dates for each build (`due` is null everywhere).
 - Each member's host alias (currently "Host 01–06", marked `placeholder: true`), photo
   (→ `images/members/<id>.avif`, ~640×800, set `photo`), a short intro, and any Reveries.
 - Mia's Build 1 is one paragraph (120 words), exactly as on the old site; confirm it's complete.
 - Core positions (claim + build number) for the home page; build titles/themes for the labels.
-Not built yet (from the brief): original ambient/piano loop with remembered mute toggle; humor
-section (jokes, character quotes); "reverie" glitch flicker on member hovers; Greek (δαιμόνιον) in GFS Didot
-isn't used anywhere yet.
+- Jokes and exact character quotes for `humor` in data/site.js (never invent quotes from the show).
+Built since: sound toggle + ambient piano, humor section, ~600ms "reverie" glitch on star hover
+(starfield.js + site.css, off with reduced motion), τὸ δαιμόνιον in GFS Didot in the hero and 404.
 
 ## Tech rules
 - Plain HTML/CSS/JS, NO build step. GitHub Pages serves the repo root as-is (`.nojekyll`).
