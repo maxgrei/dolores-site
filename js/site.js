@@ -37,10 +37,12 @@ const statusChip = (s) => `<span class="status status-${s}">${STATUS[s]}</span>`
 
 function buildMeta(b) {
   const bits = [b.team ? "Team build" : "Individual"];
+  const nb = (t) => t.replace(/ /g, "\u00a0");          // keep "due Oct 9" / "3 of 6 posted" on one line
+  if (b.due) bits.push(nb(`due ${fmtDate(b.due)}`));
   if (b.status === "reached") {
     const n = Object.values(b.entries).filter((e) => e.status === "reached").length;
-    bits.push(b.team ? "posted" : `${n} of ${members.length} posted`);
-  } else if (b.due) bits.push(`due ${fmtDate(b.due)}`);
+    bits.push(b.team ? "posted" : nb(`${n} of ${members.length} posted`));
+  }
   return bits.join(" · ");
 }
 
@@ -80,6 +82,7 @@ const timeline = () => `<ol class="timeline">${builds.map((b) => `
     <span class="num">BUILD ${pad(b.n)}</span>
     <span class="name">${esc(buildName(b))}</span>
     ${statusChip(b.status)}
+    ${b.theme ? `<span class="theme">${esc(b.theme)}</span>` : ""}
     <span class="meta">${esc(buildMeta(b))}</span>
   </a></li>`).join("")}</ol>`;
 

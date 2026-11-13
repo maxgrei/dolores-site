@@ -42,7 +42,7 @@ export const members = [
 // `sources` and `episodes` (Westworld S1 episodes cited, e.g. "S1E10 The Bicameral Mind") feed Analysis Mode.
 export const builds = [
   {
-    n: 1, title: null, theme: null, team: false, due: null, status: "reached",
+    n: 1, title: null, theme: "Engagement with a short passage", team: false, due: "2026-09-11", status: "reached",
     entries: {
       kenna: { status: "reached", title: null, file: "content/build-1/kenna.html", words: 730, pages: ["83", "99", "108", "109", "111"],
              sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [] },
@@ -53,7 +53,7 @@ export const builds = [
     },
   },
   {
-    n: 2, title: null, theme: null, team: true, due: null, status: "reached",
+    n: 2, title: null, theme: "Applying the team reading to Westworld", team: true, due: "2026-09-25", status: "reached",
     entries: {
       // Copied verbatim from the team's final Build 2 PDF (bibliography moved to `sources` below).
       // The essay quotes no page numbers; `pages` are the Plutarch passages it discusses.
@@ -63,12 +63,12 @@ export const builds = [
               episodes: ["S1E7 Trompe L’Oeil", "S1E10 The Bicameral Mind"] },
     },
   },
-  { n: 3, title: null, theme: null, team: false, due: null, status: "locked", entries: {} },
-  { n: 4, title: null, theme: null, team: false, due: null, status: "locked", entries: {} },
-  { n: 5, title: null, theme: null, team: false, due: null, status: "locked", entries: {} },
-  { n: 6, title: null, theme: null, team: true,  due: null, status: "locked", entries: {} },
-  { n: 7, title: null, theme: null, team: false, due: null, status: "locked", entries: {} },
-  { n: 8, title: null, theme: null, team: false, due: null, status: "locked", entries: {} },
+  { n: 3, title: null, theme: "Thematic analysis", team: false, due: "2026-10-09", status: "locked", entries: {} },
+  { n: 4, title: null, theme: "Objection & modification", team: false, due: "2026-10-23", status: "locked", entries: {} },
+  { n: 5, title: null, theme: "Compare & contrast", team: false, due: "2026-11-06", status: "locked", entries: {} },
+  { n: 6, title: null, theme: "Team conclusion", team: true,  due: "2026-11-20", status: "near", entries: {} },
+  { n: 7, title: null, theme: "Personal reflections: transitions from the Log", team: false, due: "2026-12-11", status: "locked", entries: {} },
+  { n: 8, title: null, theme: "Overall conclusion", team: false, due: "2026-12-18", status: "locked", entries: {} },
 ];
 
 // Humor: the team's jokes and favorite character lines for the home page. Left empty on purpose:

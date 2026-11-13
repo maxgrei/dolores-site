@@ -172,7 +172,9 @@ main { display: block; min-height: 60vh; }
 .timeline .num { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
 .timeline .name { font-family: var(--font-head); font-size: 1.3rem; font-weight: 600; }
 .timeline .meta { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); grid-column: 2; }
-.timeline .status { grid-row: 1 / span 2; grid-column: 3; }
+.timeline .theme { grid-column: 2; font-family: var(--font-head); font-style: italic; font-size: 1.1rem; line-height: 1.25; }
+.timeline .status { grid-row: 1 / span 3; grid-column: 3; }
+.timeline .status-near { border-color: var(--accent); color: var(--text); }
 
 .status {
   font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
