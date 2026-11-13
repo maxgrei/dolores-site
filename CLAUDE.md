@@ -80,6 +80,52 @@ From Team Logan's Google Site (sites.google.com/umich.edu/teamlogan):
 - `sources/index.html` — The Chasm: shared bibliography (start from Build 2's list)
 - `404.html` — easter egg (the pigs of Statuaries Street)
 
+## Where everything lives (built Nov 12, 2026)
+All six setup steps are done and live on `origin`: foundation, strings hero, starfield, Sign cursor,
+Analysis Mode, brand-check polish.
+- `data/site.js` — THE data file: `site` (course, professor, GSI Israa Khalifa, epigraph), `members`
+  (id, name, alias, placeholder flag, photo, intro, reveries), `builds` 1–8 (status, due, team flag,
+  per-member `entries` with file, words, Plutarch `pages`, `sources`, `episodes`), `positions`, `sources`.
+  A member with no entry for a build counts as locked.
+- `content/build-N/<member>.html` — essay text as HTML fragments, copied verbatim. Build 1 has kenna, max, mia.
+- `css/tokens.css` — only place hex values live; semantic roles (--bg, --text, --sign …) + dark mode;
+  Google Fonts are @imported here. `css/site.css` — all layout, components, hero/starfield/sign/analysis styles.
+- `js/site.js` — entry module on every page: renders header/nav/footer, then the page by
+  `body[data-page]` (home, team, member, build, essays, sources, 404), lazy-loads the hero.
+- `js/hero.js` — strings hero (three@0.170.0 via the import map in `index.html` only). 216 instanced
+  tiles chained by gold ribbon threads; spring physics; click/tap/button gathers; scroll rises to stars;
+  listens for `dolores:analysis` to go wireframe. Never loaded with reduced motion or no WebGL.
+- `js/starfield.js` — Hosts starfield (DOM + SVG + 2D canvas, no WebGL). Straightness = posted/8.
+- `js/sign.js` — cursor light; refuses mouse clicks on anything with `[data-locked]`.
+- `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, localStorage `dolores:analysis`,
+  and `annotateEssay()` margin notes.
+- Page shells (no content in them; JS fills `#main` parts): `index.html`, `team/`, `essays/`,
+  `essays/build-1..8/`, `members/{kenna,max,mia,alexis,meer,leo}.html`, `sources/`, `404.html`
+  (sets its own `<base>` because GitHub Pages serves it at any depth).
+- `images/Dolores-Portfolio.avif` (served) + `.jpg` (fallback, also the 3D texture fallback).
+- `_inbox/` — Max's drop folder, git-ignored. Do not read or modify it unless Max says so.
+
+## How to test (do this before every push)
+`python3 -m http.server 8000` from the repo root. Check desktop (1440) and phone (390, touch), light
+and dark, `prefers-reduced-motion`, and WebGL disabled; no console errors; no horizontal scroll;
+tap targets ≥ 44px; text contrast AA. Headless Chrome can't go below ~500px wide, so use device
+emulation (puppeteer-core pointed at /Applications/Google Chrome.app, installed in a scratch dir,
+never in the repo). `gh` is not logged in on this machine; verify deploys by loading the live URL.
+Stage files by explicit path (never `git add -A`) and check `git show --stat HEAD` before pushing.
+
+## Open items: what's needed next
+From the team (Max to send; save verbatim, never retype):
+- Build 2 team essay + its bibliography (Build 2 is locked until then; bibliography goes into
+  `sources` in data/site.js; confirm the Russell/Oxford 1993 edition cited there).
+- Builds 3–8 essays as they're written, with due dates for each build (`due` is null everywhere).
+- Each member's host alias (currently "Host 01–06", marked `placeholder: true`), photo
+  (→ `images/members/<id>.avif`, ~640×800, set `photo`), a short intro, and any Reveries.
+- Mia's Build 1 is one paragraph (120 words), exactly as on the old site; confirm it's complete.
+- Core positions (claim + build number) for the home page; build titles/themes for the labels.
+Not built yet (from the brief): original ambient/piano loop with remembered mute toggle; humor
+section (jokes, character quotes); "reverie" glitch flicker on member hovers; Greek (δαιμόνιον) in GFS Didot
+isn't used anywhere yet.
+
 ## Tech rules
 - Plain HTML/CSS/JS, NO build step. GitHub Pages serves the repo root as-is (`.nojekyll`).
 - Libraries only from cdn.jsdelivr.net with exact pinned versions via an import map,

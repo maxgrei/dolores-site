@@ -67,7 +67,7 @@ function renderChrome() {
   const footer = $("#site-footer");
   if (footer) footer.innerHTML = `
     <div class="wrap">
-      <p>Thank you to ${esc(site.professor)} and our GSI.</p>
+      <p>Thank you to ${esc(site.professor)} and our GSI, ${esc(site.gsi)}.</p>
       <p class="label">${esc(site.course)} // ${esc(site.term)}</p>
     </div>`;
 }

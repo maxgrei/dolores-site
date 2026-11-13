@@ -13,6 +13,7 @@ export const site = {
   course: "HONORS 241 · Philosophy of Mind through Westworld",
   term: "Fall 2026",
   professor: "Prof. George Hoffman",
+  gsi: "Israa Khalifa",
   reading: "Plutarch, Socrates’ Daimonion (On the Sign of Socrates), trans. Russell",
   show: "Westworld, Season 1",
   epigraph: {
