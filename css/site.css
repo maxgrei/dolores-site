@@ -722,3 +722,35 @@ main { display: block; min-height: 60vh; }
 .act-q-builds { color: var(--text-muted); }
 .chasm .act-q-builds, .act-bridge .act-q-builds { color: var(--chasm-muted); }
 .act-q a { margin-right: 0.15rem; }
+
+/* ---------- Phase 6: the Boxmakers Street test ---------- */
+.boxmakers { margin-top: 2.5rem; padding: 1.25rem 1.25rem 1.5rem; max-width: 46rem; background: var(--surface); border: 1px solid var(--border); border-left: 1px solid var(--sign); }
+.boxmakers h3 { margin: 0 0 0.3rem; }
+.bx-note { margin: 0 0 1rem; color: var(--text-muted); font-size: 0.95rem; }
+.bx-screen { display: grid; gap: 0.8rem; justify-items: start; }
+.bx-screen[hidden] { display: none; }
+.bx-voice { margin: 0; font: 500 0.95rem/1.5 var(--font-mono); letter-spacing: 0.08em; }
+.bx-voice:focus-visible { outline-offset: 4px; }
+.bx-story, .bx-honest { margin: 0; max-width: var(--measure); }
+.bx-story .label, .bx-reads .label { display: block; margin-bottom: 0.15rem; }
+.bx-honest { color: var(--text-muted); font-size: 0.95rem; }
+.bx-question { margin: 0.3rem 0; font-family: var(--font-head); font-style: italic; font-size: 1.6rem; line-height: 1.25; }
+.bx-reads { margin: 0; }
+.bx-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.bx-btn {
+  min-height: 44px; padding: 0 1rem; cursor: pointer; font: 500 0.75rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text); background: var(--bg); border: 1px solid var(--border); transition: border-color 600ms var(--ease-out);
+}
+.bx-btn:hover { border-color: var(--sign); }
+.bx-skip { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.95rem; }
+.bx-pigs { display: flex; gap: 0.6rem; color: var(--text); }
+.bx-pigs .pig { width: 4.5rem; height: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .bx-enter { animation: bx-in 700ms var(--ease-out) both; }
+  .bx-enter .bx-pigs .pig { animation: pig-run 1100ms var(--ease-out) both; }
+  .bx-enter .bx-pigs .pig:nth-child(2) { animation-delay: 140ms; }
+  .bx-enter .bx-pigs .pig:nth-child(3) { animation-delay: 280ms; }
+}
+@keyframes bx-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pig-run { from { opacity: 0; transform: translateX(3rem); } to { opacity: 1; transform: none; } }
+.bx-pigs.is-static { margin: 1.25rem 0; }

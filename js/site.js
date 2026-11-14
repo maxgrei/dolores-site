@@ -173,6 +173,25 @@ function renderHome() {
       <p class="act-q-builds">ANSWERED IN // ${ans.length ? ans.map((x) => `<a href="${buildHref(x.b.n, x.id)}">${esc(x.name)} B${x.b.n}</a>`).join(" · ") : "awaiting builds"}</p></div>`);
   }
   maybeLoop();
+  mountBoxmakers();
+}
+
+/* ---------- Phase 6: the Boxmakers Street test (no data collected) ---------- */
+function mountBoxmakers() {
+  const box = $("#boxmakers");
+  if (!box) return;
+  const screens = [...box.querySelectorAll(".bx-screen")];
+  const show = (name) => {
+    for (const sc of screens) sc.hidden = sc.dataset.screen !== name;
+    const now = box.querySelector(`[data-screen="${name}"]`);
+    now.classList.remove("bx-enter"); void now.offsetWidth; now.classList.add("bx-enter");
+    now.querySelector(".bx-voice")?.focus({ preventScroll: false });
+  };
+  box.addEventListener("click", (e) => { const go = e.target.closest("[data-go]"); if (go) show(go.dataset.go); });
+  // read on: Build 2 and every posted essay that cites pp.91–92
+  const reads = answering(["91", "92", "92–93"]);
+  const links = [`<a href="${buildHref(2)}">Build 2 (team)</a>`, ...reads.filter((x) => x.b.n !== 2).map((x) => `<a href="${buildHref(x.b.n, x.id)}">${esc(x.name)}, Build ${x.b.n}</a>`)];
+  box.querySelector(".bx-links").innerHTML = links.join(" · ");
 }
 
 /* ---------- Act II: the player piano in "keys" mode ---------- */

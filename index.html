@@ -118,6 +118,40 @@
         <!-- always present: the plain, keyboard-accessible build list -->
         <h3 class="label loop-list-label">All builds</h3>
         <div id="timeline"><noscript><p><a href="essays/index.html">See all essays</a>.</p></noscript></div>
+
+        <!-- Phase 6: the Boxmakers Street test. Plutarch pp.91–92, PARAPHRASED (no quotation). Collects no data. -->
+        <section class="boxmakers" id="boxmakers" aria-labelledby="bx-heading">
+          <p class="label">DELOS // BEHAVIOR TEST // BOXMAKERS STREET</p>
+          <h3 id="bx-heading">The sign at the crossroads</h3>
+          <p class="bx-note">Optional, three screens. The story is paraphrased from Plutarch, pp.91–92; nothing here is a quotation.</p>
+          <div class="bx-screen" data-screen="start">
+            <button type="button" class="bx-btn" data-go="voice">Begin the test</button>
+            <a class="bx-skip" href="#act3-heading">Skip the test</a>
+          </div>
+          <div class="bx-screen" data-screen="voice" hidden>
+            <p class="bx-voice" tabindex="-1">VOICE // TURN BACK. TAKE THE STREET OF THE BOXMAKERS.</p>
+            <p class="bx-story"><span class="label">Paraphrase, pp.91–92</span> Walking with his friends, Socrates stops, says the sign has come to him, and turns down another street. Some of the young men keep walking toward the statues.</p>
+            <div class="bx-choices"><button type="button" class="bx-btn" data-go="turn">Turn back</button><button type="button" class="bx-btn" data-go="walk">Keep walking</button></div>
+          </div>
+          <div class="bx-screen" data-screen="walk" hidden>
+            <p class="bx-voice" tabindex="-1">STATUARIES STREET // YOU KEPT WALKING.</p>
+            <div class="bx-pigs" aria-hidden="true"><svg class="pig" viewBox="0 0 64 40" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="30" cy="22" rx="18" ry="11"/><circle cx="50" cy="18" r="7"/><ellipse cx="56" cy="20" rx="3" ry="2.4"/><path d="M47 11.5 l2-5 3 5.5"/><path d="M18 31v6M26 32v6M36 32v6M43 30v6"/><path d="M12 19c-4-1-5 3-2 4"/></g><circle cx="51" cy="16.5" r="0.9" fill="currentColor"/></svg><svg class="pig" viewBox="0 0 64 40" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="30" cy="22" rx="18" ry="11"/><circle cx="50" cy="18" r="7"/><ellipse cx="56" cy="20" rx="3" ry="2.4"/><path d="M47 11.5 l2-5 3 5.5"/><path d="M18 31v6M26 32v6M36 32v6M43 30v6"/><path d="M12 19c-4-1-5 3-2 4"/></g><circle cx="51" cy="16.5" r="0.9" fill="currentColor"/></svg><svg class="pig" viewBox="0 0 64 40" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="30" cy="22" rx="18" ry="11"/><circle cx="50" cy="18" r="7"/><ellipse cx="56" cy="20" rx="3" ry="2.4"/><path d="M47 11.5 l2-5 3 5.5"/><path d="M18 31v6M26 32v6M36 32v6M43 30v6"/><path d="M12 19c-4-1-5 3-2 4"/></g><circle cx="51" cy="16.5" r="0.9" fill="currentColor"/></svg></div>
+            <p class="bx-story"><span class="label">Paraphrase, pp.91–92</span> A herd of pigs, covered in mud, comes down the street and runs into the ones who kept going.</p>
+            <button type="button" class="bx-btn" data-go="result">Continue</button>
+          </div>
+          <div class="bx-screen" data-screen="turn" hidden>
+            <p class="bx-voice" tabindex="-1">BOXMAKERS STREET // THE SIGN IS HONORED.</p>
+            <p class="bx-story"><span class="label">Paraphrase, pp.91–92</span> You turn with Socrates. The ones who kept walking meet the pigs; you don’t.</p>
+            <button type="button" class="bx-btn" data-go="result">Continue</button>
+          </div>
+          <div class="bx-screen" data-screen="result" hidden>
+            <p class="bx-voice" tabindex="-1">DELOS // RESULT: CHOICE PREDICTED.</p>
+            <p class="bx-honest">That is the system’s claim, not a measurement: nothing was tracked or stored, and this screen reads the same whichever way you went.</p>
+            <p class="bx-question">If a voice feels like yours, does that make the choice yours?</p>
+            <p class="bx-reads"><span class="label">Read on</span> <span class="bx-links"></span></p>
+            <button type="button" class="bx-btn" data-go="voice">Replay the test</button>
+          </div>
+        </section>
       </div>
     </section>
 
