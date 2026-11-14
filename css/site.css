@@ -430,3 +430,50 @@ main { display: block; min-height: 60vh; }
   background: var(--chasm); border-left: 1px solid var(--accent);
 }
 .analysis .hero.is-3d .hero-diag { display: block; }
+
+/* ---------- the oracle: Socrates' head ---------- */
+.oracle { position: relative; background: var(--chasm); color: var(--chasm-text); }
+.oracle .label { color: var(--chasm-muted); }
+.oracle-stage { position: relative; min-height: 100svh; overflow: hidden; display: grid; align-items: center; }
+.oracle-still { position: absolute; inset: 0; display: flex; justify-content: flex-end; align-items: center; transition: opacity 1200ms var(--ease-out); }
+.oracle-still img { height: min(100%, 52rem); width: auto; max-width: 62%; object-fit: contain; }
+.oracle-copy { position: relative; z-index: 2; padding-block: 4rem; pointer-events: none; }
+.oracle-copy > * { pointer-events: auto; }
+.oracle-copy h2 { max-width: 14ch; font-size: clamp(2.2rem, 5vw, 3.6rem); }
+.oracle-theories { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 1.1rem; max-width: 30rem; }
+.oracle-theories li { font-family: var(--font-head); font-size: 1.4rem; line-height: 1.35; transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out); }
+.oracle-theories .label { display: block; margin-bottom: 0.2rem; }
+.oracle-turn { font-style: italic; font-size: 1.7rem !important; border-left: 1px solid var(--sign); padding-left: 0.9rem; }
+@media (max-width: 51.99rem) {
+  .oracle-still { justify-content: center; align-items: flex-start; }
+  .oracle-still img { max-width: 100%; height: 52svh; }
+  .oracle-stage { align-items: end; }
+  .oracle-copy { padding-top: 50svh; }
+}
+
+/* 3D version: tall scroll track, sticky stage, theories appear one by one */
+.can-3d .oracle { height: 300svh; }
+.can-3d .oracle-stage { position: sticky; top: 0; height: 100svh; }
+.oracle-canvas { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; opacity: 0; transition: opacity 1200ms var(--ease-out); }
+.oracle.is-3d .oracle-canvas { opacity: 1; }
+.oracle.is-3d .oracle-still { opacity: 0; }
+.can-3d .oracle-theories li { opacity: 0.12; transform: translateY(0.4rem); }
+.can-3d .oracle-theories li.is-on { opacity: 1; transform: none; }
+@media (max-width: 51.99rem) {
+  .can-3d .oracle-copy { padding-top: 0; padding-bottom: 2.5rem; background: linear-gradient(transparent, var(--chasm) 18%); }
+  .can-3d .oracle-copy h2 { font-size: 2rem; }
+  .can-3d .oracle-theories li { font-size: 1.15rem; }
+  .can-3d .oracle-theories { gap: 0.6rem; }
+}
+
+/* analysis: labelled x-ray of the head */
+.oracle-tag {
+  position: absolute; left: 0; top: 0; z-index: 3; display: none; white-space: nowrap; pointer-events: none;
+  font: 500 0.62rem/1 var(--font-mono); letter-spacing: 0.08em; color: var(--chasm-text);
+  padding: 0.3rem 0.45rem; background: var(--chasm); border-left: 1px solid var(--accent);
+  margin: -0.5rem 0 0 0.6rem;
+}
+.oracle-tag::before { content: ""; position: absolute; left: -0.95rem; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: var(--accent); }
+.oracle.is-xray .oracle-tag { display: block; }
+.oracle-tag.is-flip { border-left: 0; border-right: 1px solid var(--accent); margin-left: 0; }
+.oracle-tag.is-flip::before { left: auto; right: -0.95rem; }

@@ -233,10 +233,29 @@ function maybeStringsHero() {
   document.readyState === "complete" ? idle() : addEventListener("load", idle, { once: true });
 }
 
+/* ---------- the oracle (Socrates' head), loaded only as it nears the viewport ---------- */
+function maybeOracle() {
+  const sec = document.querySelector("[data-oracle]");
+  if (!sec || !document.documentElement.classList.contains("can-3d")) return;
+  const watch = () => new IntersectionObserver(([e], io) => {            // never competes with first paint
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    import("./oracle.js").then((m) => m.mountOracle(sec, href("assets/3d/socrates.glb")))
+      .catch(() => document.documentElement.classList.remove("can-3d"));   // fall back to the still
+  }, { rootMargin: "400px 0px" }).observe(sec);
+  document.readyState === "complete" ? watch() : addEventListener("load", watch, { once: true });
+}
+
 /* ---------- boot ---------- */
+(() => {                                       // 3D allowed? (motion on + WebGL) -> tall scroll stages
+  const c = document.createElement("canvas");
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && (c.getContext("webgl2") || c.getContext("webgl")))
+    document.documentElement.classList.add("can-3d");
+})();
 renderChrome();
 mountAnalysis();
 mountSound();
 mountSign();
 maybeStringsHero();
+maybeOracle();
 ({ home: renderHome, essays: renderEssaysIndex, team: renderTeam, member: renderMember, build: renderBuild, sources: renderSources }[page] || (() => {}))();

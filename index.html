@@ -11,7 +11,10 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/site.css">
   <script type="importmap">
-    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" } }
+    { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
   </script>
   <script type="module" src="js/site.js"></script>
 </head>
@@ -43,6 +46,26 @@
             <img src="images/Dolores-Portfolio.jpg" width="631" height="950" alt="Portfolio artwork for the Dolores team" fetchpriority="high" decoding="async">
           </picture>
         </figure>
+      </div>
+    </section>
+
+    <!-- The Oracle: Socrates' head (js/oracle.js prints it in gold as you scroll). Static still without WebGL / with reduced motion. -->
+    <section class="oracle" data-oracle aria-labelledby="oracle-heading">
+      <div class="oracle-stage">
+        <picture class="oracle-still">
+          <source srcset="images/socrates-still.avif" type="image/avif">
+          <img src="images/socrates-still.jpg" width="900" height="1100" loading="lazy" decoding="async" alt="Marble head of Socrates, lit from one side, a gold light along the back of his head">
+        </picture>
+        <div class="wrap oracle-copy">
+          <p class="label">Plutarch // Socrates’ Daimonion</p>
+          <h2 id="oracle-heading">What spoke to Socrates?</h2>
+          <ol class="oracle-theories">
+            <li data-step="0"><span class="label">p.92 // the sneeze theory</span> A sneeze, his own or someone else’s, on the right or the left.</li>
+            <li data-step="1"><span class="label">p.104 // Simmias</span> “Not a vision but a perception of a voice.”</li>
+            <li data-step="2"><span class="label">pp.108–109 // Timarchus</span> The part of the soul that never sinks into the body, and stays above it.</li>
+            <li data-step="3" class="oracle-turn">Or the voice was his own.</li>
+          </ol>
+        </div>
       </div>
     </section>
 
