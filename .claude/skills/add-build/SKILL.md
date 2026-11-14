@@ -8,5 +8,6 @@ description: Add or update a member's build essay on the Dolores site. Use when 
 3. In `data/site.js`, set that build's status to "reached" for that member, add title,
    word count, and Plutarch page refs mentioned in the text (for Analysis Mode).
 4. Make sure `essays/build-N/index.html` and `members/<member>.html` show it.
-5. Run the site locally and check the page on desktop and phone width.
-6. Tell Max what changed. Do not push unless asked.
+5. Regenerate the plain index: `node tools/sitemap.mjs` (writes sitemap/index.html).
+6. Run the site locally and check the page on desktop and phone width.
+7. Tell Max what changed. Do not push unless asked.

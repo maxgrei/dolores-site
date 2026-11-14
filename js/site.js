@@ -104,6 +104,7 @@ function renderChrome() {
   if (footer) footer.innerHTML = `
     <div class="wrap">
       <p>Thank you to ${esc(site.professor)} and our GSI, ${esc(site.gsi)}.</p>
+      <p class="footer-links"><a href="${href("sitemap/index.html")}">Sitemap: every page and essay</a></p>
       <p class="label">${esc(site.course)} // ${esc(site.term)}</p>
     </div>`;
 }

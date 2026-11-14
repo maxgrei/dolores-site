@@ -754,3 +754,8 @@ main { display: block; min-height: 60vh; }
 @keyframes bx-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes pig-run { from { opacity: 0; transform: translateX(3rem); } to { opacity: 1; transform: none; } }
 .bx-pigs.is-static { margin: 1.25rem 0; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+.sitemap ul, .sitemap ol { padding-left: 1.2rem; }
+.sitemap li { margin: 0.35rem 0; }
+.sitemap-builds h3 { font-size: 1.25rem; margin: 0.9rem 0 0.2rem; }
+.sitemap a { display: inline-flex; align-items: center; min-height: 44px; }
