@@ -582,3 +582,39 @@ main { display: block; min-height: 60vh; }
 .cap-lab-label { display: none; }
 .analysis .capture.has-lab .cap-main-label { display: none; }
 .analysis .capture.has-lab .cap-lab-label { display: inline; }
+
+/* ---------- host profile (member pages) ---------- */
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.await { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-muted); }
+.chasm .await { color: var(--chasm-muted); }
+.host-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.25rem 1.75rem; margin-bottom: 1.75rem; }
+.host-id h1 { margin: 0 0 0.25rem; }
+.host-id .label { margin-bottom: 0.4rem; }
+.spec-sheet {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: 0; margin: 0 0 2rem;
+  border-top: 1px solid var(--border); border-left: 1px solid var(--border);
+}
+.spec-sheet > div { padding: 0.8rem 1rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); min-width: 0; }
+.spec-sheet dt { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
+.spec-sheet dd { margin: 0; font-family: var(--font-head); font-size: 1.2rem; line-height: 1.3; overflow-wrap: anywhere; }
+.host-block { margin: 0 0 2rem; }
+.host-block > .label { margin-bottom: 0.75rem; }
+.attr-matrix { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; max-width: 32rem; }
+.attr-matrix li { display: grid; grid-template-columns: minmax(7.5rem, auto) 1fr 2.2rem; align-items: center; gap: 0.9rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.attr-track { position: relative; height: 2px; background: var(--border); }
+.attr-fill { position: absolute; inset: 0 auto 0 0; background: var(--sign); box-shadow: 0 0 6px color-mix(in srgb, var(--sign) 60%, transparent); }
+.attr-val { text-align: right; color: var(--text-muted); }
+.reverie-line { font-family: var(--font-head); font-style: italic; font-size: 1.35rem; max-width: 40rem; margin: 0; }
+.reverie-line .arrow { color: var(--text-muted); font-style: normal; padding: 0 0.35rem; }
+.host-builds { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.host-builds > li { padding: 0.7rem 1rem; background: var(--surface); border: 1px solid var(--border); }
+.hb-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem; }
+.hb-row .num { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted); min-width: 7.5rem; }
+.hb-row .what { flex: 1 1 14rem; font-family: var(--font-head); font-size: 1.25rem; }
+.hb-row .what > a, .hb-row .what > span { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6rem; min-height: 44px; align-content: center; }
+.hb-row .theme { font-family: var(--font-body); font-style: italic; font-size: 0.95rem; color: var(--text-muted); }
+.hb-claim { margin: 0.3rem 0 0.2rem; padding-left: 0.9rem; border-left: 1px solid var(--accent); font-size: 0.98rem; color: var(--text-muted); max-width: var(--measure); }
+/* compact profile in the Hosts starfield panel */
+.panel-spec { display: flex; flex-wrap: wrap; gap: 0.15rem 1rem; margin: -0.35rem 0 0.6rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; color: var(--chasm-muted); text-transform: uppercase; }
+.star-panel .attr-matrix { margin-bottom: 0.7rem; max-width: 22rem; }
+.star-panel .attr-track { background: var(--grey-800); }

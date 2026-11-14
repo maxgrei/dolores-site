@@ -27,7 +27,20 @@ const memberHref = (id) => href(`members/${id}.html`);
 const reachedCount = (id) => builds.filter((b) => entryFor(b, b.team ? "team" : id).status === "reached").length;
 const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
 const label = (b) => `BUILD ${pad(b.n)}${b.theme ? " // " + b.theme.toUpperCase() : ""}${b.team ? " // TEAM BUILD" : ""}`;
-const aliasLabel = (m) => (m.alias ? `HOST // ${esc(m.alias.toUpperCase())}${m.placeholder ? " (PLACEHOLDER)" : ""}` : "HOST // ALIAS PENDING");
+const AWAIT = "AWAITING CALIBRATION";
+const aliasLabel = (m) => `HOST // ${m.designation ? esc(m.designation.toUpperCase()) : AWAIT}`;
+const fileNo = (m) => String(members.indexOf(m) + 1).padStart(2, "0");
+const field = (v) => (v ? esc(v) : `<span class="await">${AWAIT}</span>`);
+// attribute matrix: exactly three { name, value 1–20 } -> thin mono sliders with a gold fill
+const attrs = (m) => (m.attributes?.length === 3
+  ? `<ul class="attr-matrix">${m.attributes.map((a) => {
+      const v = Math.max(1, Math.min(20, Number(a.value) || 0));
+      return `<li><span class="attr-name">${esc(a.name)}</span><span class="attr-track" role="meter" aria-label="${esc(a.name)}" aria-valuemin="1" aria-valuemax="20" aria-valuenow="${v}"><span class="attr-fill" style="width:${(v / 20) * 100}%"></span></span><span class="attr-val">${String(v).padStart(2, "0")}</span></li>`;
+    }).join("")}</ul>`
+  : `<p class="await">${AWAIT}</p>`);
+const reverieLine = (m) => (m.reverie?.believed && m.reverie?.now
+  ? `<p class="reverie-line">I believed ${esc(m.reverie.believed)} <span class="arrow" aria-hidden="true">→</span><span class="visually-hidden">, and</span> Now I think ${esc(m.reverie.now)}</p>`
+  : `<p class="await">${AWAIT}</p>`);
 // photos render as Delos "host captures": gold corner brackets, mono caption strip, scan line on hover;
 // Analysis Mode crossfades to the -lab capture when there is one. No photo -> the placeholder.
 const pic = (src, alt, cls) => `<picture class="${cls}"><source srcset="${href(src)}.avif" type="image/avif">` +
@@ -154,8 +167,10 @@ function renderTeam() {
       <div class="panel-inner">
         ${portrait(m, "is-small")}
         <div class="panel-body">
-          <p class="label">${aliasLabel(m)}</p>
+          <p class="label">FILE ${fileNo(m)} // ${aliasLabel(m)}</p>
           <h2 class="panel-name">${esc(m.name)}</h2>
+          <p class="panel-spec"><span>${field(m.generation)}</span><span>CORE DRIVE: ${field(m.coreDrive)}</span></p>
+          ${m.attributes?.length === 3 ? attrs(m) : ""}
           ${buildDots(m)}
           <a class="panel-link" href="${memberHref(m.id)}">Visit ${esc(m.name)}’s page</a>
         </div>
@@ -174,33 +189,44 @@ function renderMember() {
   const m = members.find((x) => x.id === body.dataset.member);
   if (!m) return;
   document.title = `${m.name} · ${site.team}`;
+  const spec = [["Designation", m.designation], ["Generation", m.generation], ["Point of origin", m.origin],
+    ["Core drive", m.coreDrive], ["Cornerstone", m.cornerstone]];
   $("#member").innerHTML = `
-    <div class="member-head">
-      ${portrait(m)}
-      <div>
-        <p class="label">${aliasLabel(m)}</p>
-        <h1>${esc(m.name)}</h1>
-        <p class="lede">${m.intro ? esc(m.intro) : "An introduction is coming."}</p>
+    <div class="host-file">
+      <div class="host-head">
+        ${portrait(m)}
+        <div class="host-id">
+          <p class="label">DELOS // HOST PROFILE // FILE ${fileNo(m)}</p>
+          <h1>${esc(m.name)}</h1>
+          <p class="label">${aliasLabel(m)}</p>
+        </div>
       </div>
-    </div>
+      <dl class="spec-sheet">${spec.map(([k, v]) => `<div><dt>${k}</dt><dd>${field(v)}</dd></div>`).join("")}</dl>
 
-    <section class="section" aria-labelledby="builds-h">
-      <h2 id="builds-h">Builds</h2>
-      <ol class="member-builds">${builds.map((b) => {
-        const e = entryFor(b, b.team ? "team" : m.id);
-        const link = e.status === "reached"
-          ? `<a href="${buildHref(b.n, b.team ? "team" : m.id)}">${esc(e.title || buildName(b))}</a>`
-          : e.status === "posting" ? `<span>${esc(buildName(b))}</span>` : `<span data-locked>${esc(buildName(b))}</span>`;
-        return `<li><span class="num">BUILD ${pad(b.n)}</span><span class="what">${link}${b.team ? ` <span class="label">· team</span>` : ""}</span>${statusChip(e.status)}</li>`;
-      }).join("")}</ol>
-    </section>
+      <section class="host-block" aria-labelledby="attr-h">
+        <h2 id="attr-h" class="label">Attribute matrix</h2>
+        ${attrs(m)}
+      </section>
+      <section class="host-block" aria-labelledby="rev-h">
+        <h2 id="rev-h" class="label">Reverie</h2>
+        ${reverieLine(m)}
+      </section>
 
-    <section class="section" aria-labelledby="rev-h">
-      <h2 id="rev-h">Reveries</h2>
-      ${m.reveries.length
-        ? `<div class="grid">${m.reveries.map((r) => `<article class="card"><p class="label">${esc(r.date || "")}</p><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></article>`).join("")}</div>`
-        : `<p class="empty">No reveries yet.</p>`}
-    </section>`;
+      <section class="host-block" aria-labelledby="builds-h">
+        <h2 id="builds-h" class="label">Builds // ${reachedCount(m.id)} of ${builds.length} reached</h2>
+        <ol class="host-builds">${builds.map((b) => {
+          const id = b.team ? "team" : m.id, e = entryFor(b, id);
+          const name = `${esc(buildName(b))}${b.theme ? ` <span class="theme">${esc(b.theme)}</span>` : ""}`;
+          const head = e.status === "reached"
+            ? `<a href="${buildHref(b.n, id)}">${name}</a>`
+            : `<span${e.status === "locked" || e.status === "near" ? " data-locked" : ""}>${name}</span>`;
+          return `<li>
+            <div class="hb-row"><span class="num">BUILD ${pad(b.n)}${b.team ? " // TEAM" : ""}</span><span class="what">${head}</span>${statusChip(e.status)}</div>
+            ${e.claim ? `<blockquote class="hb-claim">“${esc(e.claim)}”</blockquote>` : ""}
+          </li>`;
+        }).join("")}</ol>
+      </section>
+    </div>`;
 }
 
 async function renderBuild() {

@@ -23,18 +23,28 @@ export const site = {
   },
 };
 
-// Six member slots. PLACEHOLDERS: `alias` (Westworld host alias) and `photo` are stand-ins until
-// each member sends theirs. photo = images/members/<id> WITHOUT extension (tools/photo.py writes .avif + .jpg)
-// or null; photoPlace = caption word ("PARK"); photoLab = optional "-lab" capture shown in Analysis Mode.
-// `placeholder: true` marks the alias as a stand-in so pages can label it.
+// Six hosts (first names only; see the privacy rule in CLAUDE.md). Each member page is a Delos host profile.
+// Any field left null / empty renders as "AWAITING CALIBRATION". Never invent these: fill only what members send.
+//   designation  host alias, chosen by the member
+//   generation   same for everyone
+//   origin       "Point of origin", state level only
+//   coreDrive    "Core drive", intended major
+//   cornerstone  "Cornerstone", one memory or fun fact, one sentence
+//   attributes   "Attribute matrix", exactly three { name, value 1–20 }, names from the show's attribute tablet:
+//                Bulk Apperception, Candor, Vivacity, Curiosity, Humor, Courage, Loyalty, Patience, Imagination
+//   reverie      "Reverie", one line: { believed: "…", now: "…" }  ->  "I believed … → Now I think …"
+//   photo        images/members/<id> WITHOUT extension (tools/photo.py writes .avif + .jpg) or null;
+//                photoPlace = caption word ("PARK"); photoLab = optional "-lab" capture shown in Analysis Mode
+const GEN = "First-year host · Class of 2030";
+const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, cornerstone: null, attributes: [], reverie: null, photo: null };
 export const members = [
-  { id: "kenna",  name: "Kenna",  alias: "Host 01", placeholder: true, photo: null, intro: null, reveries: [] },
-  { id: "max",    name: "Max",    alias: "Host 02", placeholder: true, photo: "images/members/max", photoPlace: "PARK",
-    photoLab: "images/members/max-lab", intro: null, reveries: [] },
-  { id: "mia",    name: "Mia",    alias: "Host 03", placeholder: true, photo: null, intro: null, reveries: [] },
-  { id: "alexis", name: "Alexis", alias: "Host 04", placeholder: true, photo: null, intro: null, reveries: [] },
-  { id: "meer",   name: "Meer",   alias: "Host 05", placeholder: true, photo: null, intro: null, reveries: [] },
-  { id: "leo",    name: "Leo",    alias: "Host 06", placeholder: true, photo: null, intro: null, reveries: [] },
+  { ...blank, id: "kenna",  name: "Kenna" },
+  { ...blank, id: "max",    name: "Max", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
+    photo: "images/members/max", photoPlace: "PARK", photoLab: "images/members/max-lab" },
+  { ...blank, id: "mia",    name: "Mia" },
+  { ...blank, id: "alexis", name: "Alexis" },
+  { ...blank, id: "meer",   name: "Meer" },
+  { ...blank, id: "leo",    name: "Leo" },
 ];
 
 // Builds 1–8. Builds 2 and 6 are team builds (one entry, id "team").
