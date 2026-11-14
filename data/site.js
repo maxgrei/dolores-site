@@ -159,6 +159,7 @@ export const sources = [
       "Banner artwork (<code>images/Dolores-Portfolio.jpg</code>): Team Dolores.",
       "Typefaces via Google Fonts, SIL Open Font License: Cormorant Garamond, Newsreader, IBM Plex Mono, GFS Didot.",
       "3D rendering: three.js r170 (MIT License), loaded from jsDelivr. The strings hero, threads, stars and film grain are original code.",
+      "Portrait of Socrates, plaster cast after the Villa Albani portrait (inv. 1040), 3D scan by SMK – Statens Museum for Kunst with Scan the World, Public Domain Mark: <a href=\"https://www.myminifactory.com/object/3d-print-portrait-of-socrates-50341\">https://www.myminifactory.com/object/3d-print-portrait-of-socrates-50341</a>",
     ],
   },
 ];
