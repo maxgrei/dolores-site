@@ -759,3 +759,21 @@ main { display: block; min-height: 60vh; }
 .sitemap li { margin: 0.35rem 0; }
 .sitemap-builds h3 { font-size: 1.25rem; margin: 0.9rem 0 0.2rem; }
 .sitemap a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+
+/* ---------- The Key ---------- */
+.key-list { display: grid; gap: 1rem; margin-top: 2rem; }
+.key-card { padding: 1.1rem 1.25rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-left: 1px solid var(--sign); scroll-margin-top: 1rem; }
+.key-card:target { outline: 1px dashed var(--accent); outline-offset: 3px; }
+.key-card h2 { font-size: 1.6rem; margin: 0 0 0.75rem; }
+.key-card > .label { margin-bottom: 0.25rem; }
+.key-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 0.6rem 1.5rem; margin: 0 0 0.9rem; }
+.key-facts .wide { grid-column: 1 / -1; }
+.key-facts dt { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+.key-facts dd { margin: 0.15rem 0 0; }
+.key-facts dd > a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+.key-build { display: block; }
+.key-meaning { border-top: 1px solid var(--border); padding-top: 0.7rem; }
+.key-meaning p { margin: 0 0 0.4rem; max-width: var(--measure); }
+.key-note { color: var(--text-muted); font-size: 0.95rem; }
+.key-note .label { display: block; margin-bottom: 0.1rem; }
+.analysis-bar .bar-key { color: var(--chasm-text); text-decoration-color: var(--sign); display: inline-flex; align-items: center; min-height: 44px; }

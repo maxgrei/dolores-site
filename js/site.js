@@ -97,14 +97,14 @@ function renderChrome() {
       <nav class="site-nav" aria-label="Main"><ul>
         ${nav.map(([k, t, p]) => `<li><a href="${href(p)}"${k === current ? ' aria-current="page"' : ""}>${t}</a></li>`).join("")}
         <li><button class="sound-toggle" type="button" aria-pressed="false" title="Original ambient piano, off by default">Sound <span class="state">Off</span></button></li>
-        <li><button class="analysis-toggle" type="button" aria-pressed="false" title="Analysis: question the host (or type “analysis”)">Analysis</button></li>
+        <li><button class="analysis-toggle" type="button" aria-pressed="false" title="Analysis: question the host (or type “analysis”). The Key, linked in the Analysis bar, explains the symbols.">Analysis</button></li>
       </ul></nav>
     </div>`;
   const footer = $("#site-footer");
   if (footer) footer.innerHTML = `
     <div class="wrap">
       <p>Thank you to ${esc(site.professor)} and our GSI, ${esc(site.gsi)}.</p>
-      <p class="footer-links"><a href="${href("sitemap/index.html")}">Sitemap: every page and essay</a></p>
+      <p class="footer-links"><a href="${href("keys/index.html")}">The Key: what the symbols mean</a> <span aria-hidden="true">·</span> <a href="${href("sitemap/index.html")}">Sitemap: every page and essay</a></p>
       <p class="label">${esc(site.course)} // ${esc(site.term)}</p>
     </div>`;
 }

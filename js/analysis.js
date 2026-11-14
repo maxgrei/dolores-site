@@ -26,7 +26,7 @@ export function mountAnalysis() {
   const bar = document.createElement("div");
   bar.className = "analysis-bar";
   bar.hidden = true;
-  bar.innerHTML = `<span>ANALYSIS MODE // DELOS DIAGNOSTIC</span><span class="hint">type “analysis” or press Esc to exit</span>`;
+  bar.innerHTML = `<span>ANALYSIS MODE // DELOS DIAGNOSTIC</span><a class="bar-key" href="${new URL("../keys/index.html", import.meta.url).href}">THE KEY: what the symbols mean</a><span class="hint">type “analysis” or press Esc to exit</span>`;
   document.body.append(bar);
 
   document.addEventListener("click", (e) => {
