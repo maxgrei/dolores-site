@@ -153,3 +153,7 @@ Built since: sound toggle + ambient piano, humor section, ~600ms "reverie" glitc
 - Must work on a phone (16px side gutter, no horizontal scroll) and with WebGL unavailable.
 - Test every change in a local server (`python3 -m http.server`) before pushing.
 - Never push to `class` and never use `@agent build` on the class Doc without Max's say-so.
+- First names only, never surnames, anywhere on the site, in data, alt text, file names or commit messages.
+  Hometowns at state level only. Every member photo is neutral grayscale (no tint), cropped 4:5 to 640×800,
+  re-encoded as AVIF + JPG with all metadata (EXIF/GPS) stripped. (The `_inbox` file names contain surnames;
+  never copy them into the site.)
