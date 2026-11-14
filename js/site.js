@@ -110,6 +110,19 @@ function renderHome() {
 
 function renderEssaysIndex() {
   $("#timeline").innerHTML = timeline();
+  const sec = document.querySelector("[data-player]");
+  if (!sec || !document.documentElement.classList.contains("can-3d")) return;
+  const cardHTML = (b) => {
+    const read = b.status === "reached"
+      ? `<a class="player-go" href="${buildHref(b.n)}">Read ${esc(buildName(b))}</a>`
+      : `<a class="player-go" href="${buildHref(b.n)}" data-locked>${b.status === "near" ? "Near: not yet punched" : "Not yet reached"}</a>`;
+    return `<p class="label">${label(b)}</p><h2>${esc(buildName(b))}</h2>
+      <p class="player-meta">${statusChip(b.status)} <span>${esc(buildMeta(b))}</span></p>${read}`;
+  };
+  const go = () => import("./piano.js").then((m) => m.mountPiano(sec, { builds, members, cardHTML }))
+    .catch(() => document.documentElement.classList.remove("can-3d"));     // fall back to the still
+  const idle = () => ("requestIdleCallback" in window ? requestIdleCallback(go, { timeout: 1200 }) : setTimeout(go, 200));
+  document.readyState === "complete" ? idle() : addEventListener("load", idle, { once: true });
 }
 
 function renderTeam() {

@@ -477,3 +477,65 @@ main { display: block; min-height: 60vh; }
 .oracle.is-xray .oracle-tag { display: block; }
 .oracle-tag.is-flip { border-left: 0; border-right: 1px solid var(--accent); margin-left: 0; }
 .oracle-tag.is-flip::before { left: auto; right: -0.95rem; }
+
+/* ---------- the player piano (Essays) ---------- */
+.player { position: relative; background: var(--chasm); color: var(--chasm-text); }
+.player .label { color: var(--chasm-muted); }
+.player .lede { color: var(--chasm-muted); }
+.player a { color: var(--chasm-text); }
+.player-stage { position: relative; min-height: 70svh; overflow: hidden; display: grid; align-items: center; }
+.player-still { position: absolute; inset: 0; display: flex; justify-content: flex-end; align-items: center; transition: opacity 1200ms var(--ease-out); }
+.player-still img { height: 100%; width: auto; max-width: 70%; object-fit: cover; object-position: 60% 50%; mix-blend-mode: lighten; }   /* render's black -> page dark */
+.player-copy { position: relative; z-index: 2; padding-block: 3rem; pointer-events: none; }
+.player-copy > * { pointer-events: auto; }
+.player-copy h1 { margin-bottom: 0.15em; }
+.player-copy .lede { max-width: 26rem; }
+.player-hint, .player-card, .player-controls { display: none; }
+@media (max-width: 51.99rem) {
+  .player-still { position: relative; justify-content: center; }
+  .player-still img { max-width: 100%; height: auto; }
+}
+
+.can-3d .player { height: 520svh; }
+.can-3d .player-stage { position: sticky; top: 0; height: 100svh; align-items: stretch; }
+.can-3d .player-copy { display: flex; flex-direction: column; justify-content: center; gap: 0.5rem; max-width: 24rem; margin: 0 0 0 max(var(--gutter), calc((100% - var(--max-width)) / 2)); padding-inline: 0; }
+.can-3d .player-hint, .can-3d .player-card, .can-3d .player-controls { display: block; }
+.player-canvas { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; opacity: 0; transition: opacity 1200ms var(--ease-out); cursor: pointer; }
+.player.is-3d .player-canvas { opacity: 1; }
+.player.is-3d .player-still { opacity: 0; }
+.player-card { margin-top: 1rem; padding: 1rem 1.1rem; border-left: 1px solid var(--accent); background: color-mix(in srgb, var(--chasm) 82%, transparent); }
+.player-card h2 { margin: 0 0 0.35rem; font-size: 2rem; }
+.player-card .label { margin-bottom: 0.3rem; }
+.player-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; margin: 0 0 0.5rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--chasm-muted); }
+.player .status { color: var(--chasm-muted); border-color: var(--grey-600); }
+.player .status-reached, .player .status-near { color: var(--chasm-text); border-color: var(--accent); }
+.player-go { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-head); font-size: 1.25rem; }
+.player-controls { gap: 0.5rem; }
+.can-3d .player-controls { display: flex; }
+.player-controls button {
+  min-height: 44px; min-width: 44px; padding: 0 0.9rem; cursor: pointer;
+  font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--chasm-text); background: transparent; border: 1px solid var(--grey-600);
+  transition: border-color 600ms var(--ease-out);
+}
+.player-controls button:hover:not(:disabled) { border-color: var(--accent); }
+.player-controls button:disabled { opacity: 0.35; cursor: default; }
+.player-controls button[aria-pressed="true"] { border-color: var(--sign); }
+@media (max-width: 51.99rem) {
+  .can-3d .player-copy { justify-content: flex-end; max-width: none; margin: 0; padding: 0 var(--gutter) 1.25rem; gap: 0.25rem;
+    background: linear-gradient(transparent 55%, var(--chasm) 72%); }
+  .can-3d .player-copy h1 { font-size: 2rem; }
+  .can-3d .player-copy .lede { display: none; }
+  .player-card { margin-top: 0.25rem; padding: 0.6rem 0.8rem; }
+  .player-card h2 { font-size: 1.5rem; }
+}
+.player.is-xray .player-tag { display: block; }
+@media (max-width: 51.99rem) {
+  .can-3d .player-hint { display: none; }
+  .can-3d .player-copy h1 { font-size: 1.6rem; margin: 0; }
+  .can-3d .player-copy > .label:first-child { display: none; }
+  .player-card .label { font-size: 0.62rem; }
+  .player-card h2 { font-size: 1.3rem; margin-bottom: 0.15rem; }
+  .player-meta { margin-bottom: 0.1rem; }
+  .player-meta > span:not(.status) { display: none; }
+}

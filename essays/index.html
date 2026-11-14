@@ -9,16 +9,39 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/site.css">
+  <script type="importmap">
+    { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
+  </script>
   <script type="module" src="../js/site.js"></script>
 </head>
 <body data-page="essays">
   <a class="skip-link" href="#main">Skip to main content</a>
   <header class="site-header" id="site-header"></header>
   <main id="main">
+    <!-- The player piano: its paper roll is the build timeline (js/piano.js). Still image without WebGL / with reduced motion. -->
+    <section class="player" data-player aria-labelledby="essays-heading">
+      <div class="player-stage">
+        <picture class="player-still">
+          <img src="../images/piano-still.jpg" width="1200" height="900" decoding="async" alt="An ebonised upright player piano, its spool-box doors open on a paper roll lit gold through the punched holes">
+        </picture>
+        <div class="wrap player-copy">
+          <p class="label">Delos archive // Builds 01–08</p>
+          <h1 id="essays-heading">Essays</h1>
+          <p class="lede">Read our work responding to Plutarch throughout the semester.</p>
+          <p class="player-hint label">Eight builds on one roll // scroll to wind it</p>
+          <div class="player-card" aria-live="polite"></div>
+          <div class="player-controls">
+            <button type="button" data-roll="prev" aria-label="Previous build">← Prev</button>
+            <button type="button" data-roll="next" aria-label="Next build">Next →</button>
+          </div>
+        </div>
+      </div>
+    </section>
     <div class="wrap page">
-      <p class="label">Delos archive // Builds 01–08</p>
-      <h1>Essays</h1>
-      <p class="lede">Read our work responding to Plutarch throughout the semester.</p>
+      <h2 class="label">All builds</h2>
       <div id="timeline"><noscript><p>This page loads its content with JavaScript. Please enable it to read our work.</p></noscript></div>
     </div>
   </main>
