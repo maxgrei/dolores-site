@@ -16,9 +16,19 @@
         "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
     } }
   </script>
+  <script>
+    // Lab opening plays once per visit. Set before first paint so the hero never flashes under it.
+    try { if (!sessionStorage.getItem("dolores:opened")) document.documentElement.classList.add("lab-opening"); } catch (e) {}
+  </script>
   <script type="module" src="js/site.js"></script>
 </head>
 <body data-page="home">
+  <!-- Lab opening: once per visit, skippable (key, click, scroll); CSS hides it on its own even if JS fails. -->
+  <div class="lab-open" aria-hidden="true">
+    <p class="lab-open-line">MESA HUB // BEHAVIOR LAB // SUBJECT: THE BICAMERAL MIND</p>
+    <p class="lab-open-q">Have you ever questioned the nature of your reality?</p>
+    <p class="lab-open-cite">Westworld, S1E1</p>
+  </div>
   <a class="skip-link" href="#main">Skip to main content</a>
   <header class="site-header" id="site-header"></header>
 
@@ -28,8 +38,8 @@
       <div class="hero-chasm" aria-hidden="true"></div>
       <div class="wrap">
         <div class="hero-copy">
-          <p class="label">Dolores · HONORS 241</p>
-          <h1 id="welcome-heading">Welcome to Westworld</h1>
+          <p class="label">DELOS // BEHAVIOR LAB // TEAM DOLORES</p>
+          <h1 id="welcome-heading">The Bicameral Mind</h1>
           <p class="tagline">The voice was your own.</p>
           <p class="daimon-gloss"><span class="greek" lang="grc">τὸ δαιμόνιον</span> <span class="label">the sign // inside or outside?</span></p>
           <blockquote class="epigraph">
@@ -49,6 +59,14 @@
       </div>
     </section>
 
+    <!-- ═══ ACT I // THE VOICE ═══ -->
+    <section class="act-bridge" aria-labelledby="act1-heading">
+      <div class="wrap">
+        <p class="act-label" id="act1-heading">ACT I // THE VOICE</p>
+        <p class="bridge-line">Westworld calls it the bicameral mind. Plutarch called it the daimonion.</p>
+      </div>
+    </section>
+
     <!-- The Oracle: Socrates' head (js/oracle.js prints it in gold as you scroll). Static still without WebGL / with reduced motion. -->
     <section class="oracle" data-oracle aria-labelledby="oracle-heading">
       <div class="oracle-stage">
@@ -57,7 +75,7 @@
           <img src="images/socrates-still.jpg" width="900" height="1100" loading="lazy" decoding="async" alt="Marble head of Socrates, lit from one side, a gold light along the back of his head">
         </picture>
         <div class="wrap oracle-copy">
-          <p class="label">Plutarch // Socrates’ Daimonion</p>
+          <p class="label">DELOS // FABRICATION // SUBJECT: SOCRATES, 469–399 BC</p>
           <h2 id="oracle-heading">What spoke to Socrates?</h2>
           <ol class="oracle-theories">
             <li data-step="0"><span class="label">p.92 // the sneeze theory</span> A sneeze, his own or someone else’s, on the right or the left.</li>
@@ -69,6 +87,50 @@
       </div>
     </section>
 
+    <section class="thesis" aria-labelledby="thesis-heading">
+      <div class="wrap">
+        <p class="label">TEAM DOLORES // THESIS</p>
+        <!-- DRAFT, pending team approval: the thesis sentence below was written for the site, not taken from a build. -->
+        <h2 id="thesis-heading" class="thesis-line">We argue that the voice that seems to guide us (Socrates’ sign, the voice Dolores hears as Arnold’s) is often the mind narrating impulses it did not choose, and that awakening begins when a host starts to notice the strings.</h2>
+        <figure class="thesis-quote">
+          <!-- pull quote + excerpt copied verbatim from content/build-2/team.html -->
+          <blockquote>
+            <p class="pull">“Like a puppet on strings, the mind may believe it is controlling itself, when in reality its impulses are.”</p>
+            <p class="excerpt">“From Plutarch’s work, Westworld gains new meaning in its position on consciousness. If the hosts are disciplined in their quest for intellect, they can become more conscious than their human counterparts.”</p>
+          </blockquote>
+          <figcaption class="label">Team Dolores, <a href="essays/build-2/index.html">Build 2 // Applying the team reading to Westworld</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ═══ ACT II // THE LOOP ═══ the player piano as the build timeline (js/piano.js, mode "keys") -->
+    <section class="act act-loop" aria-labelledby="act2-heading">
+      <div class="wrap">
+        <p class="act-label" id="act2-heading">ACT II // THE LOOP</p>
+        <h2 class="act-title">Eight builds on one roll</h2>
+        <p class="act-lede">Press a marked key to wind the roll to that build.</p>
+      </div>
+      <div class="loop-stage" data-loop>
+        <div class="loop-keys" role="group" aria-label="Builds on the roll"></div>
+        <div class="loop-card" aria-live="polite"></div>
+      </div>
+      <div class="wrap">
+        <!-- always present: the plain, keyboard-accessible build list -->
+        <h3 class="label loop-list-label">All builds</h3>
+        <div id="timeline"><noscript><p><a href="essays/index.html">See all essays</a>.</p></noscript></div>
+      </div>
+    </section>
+
+    <!-- ═══ ACT III // AWAKENING ═══ -->
+    <section class="act act-awake chasm" aria-labelledby="act3-heading">
+      <div class="wrap">
+        <p class="act-label" id="act3-heading">ACT III // AWAKENING</p>
+        <h2 class="act-title">Six hosts over the chasm</h2>
+        <ul class="host-teaser" id="host-teaser"></ul>
+        <p><a class="act-link" href="team/index.html">Meet the hosts →</a></p>
+      </div>
+    </section>
+
     <div class="wrap">
       <section class="section" aria-labelledby="intro-heading">
         <p class="label">Team statement</p>
@@ -76,22 +138,16 @@
         <p class="lede">This site is our team's portfolio for HONORS 241. Over the semester, each of us wrote a series of builds responding to Plutarch’s readings, exploring consciousness, emotion, reason, and what Socrates' daimonion might have been. Browse the <a href="team/index.html">Team page</a> to meet us and the Essays menu to read our work.</p>
       </section>
 
-      <section class="section" aria-labelledby="positions-heading">
+      <!-- hidden until data/site.js has entries -->
+      <section class="section" aria-labelledby="positions-heading" id="positions-section" hidden>
         <p class="label">Core positions</p>
         <h2 id="positions-heading">What we argue</h2>
         <div id="positions"></div>
       </section>
-
-      <section class="section" aria-labelledby="humor-heading">
+      <section class="section" aria-labelledby="humor-heading" id="humor-section" hidden>
         <p class="label">Off-loop</p>
         <h2 id="humor-heading">Improvisations</h2>
         <div id="humor"></div>
-      </section>
-
-      <section class="section" aria-labelledby="timeline-heading">
-        <p class="label">Build timeline</p>
-        <h2 id="timeline-heading">The builds</h2>
-        <div id="timeline"><noscript><p><a href="essays/index.html">See all essays</a>.</p></noscript></div>
       </section>
     </div>
   </main>

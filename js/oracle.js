@@ -141,9 +141,10 @@ export async function mountOracle(section, modelURL) {
 
     // scroll progress through the tall section
     const r = section.getBoundingClientRect();
-    const p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
-    uniforms.uCut.value = yMin + (yMax - yMin + 0.02) * smooth(0.02, 0.55, p);
-    const step = p < 0.2 ? 0 : p < 0.42 ? 1 : p < 0.64 ? 2 : 3;
+    // progress from the moment the section enters the screen (no empty dark stretch before the print starts)
+    const p = clamp((innerHeight - r.top) / Math.max(1, r.height), 0, 1);
+    uniforms.uCut.value = yMin + (yMax - yMin + 0.02) * smooth(0.06, 0.55, p);
+    const step = p < 0.5 ? 0 : p < 0.66 ? 1 : p < 0.82 ? 2 : 3;
     if (step !== shownStep) { steps.forEach((s, i) => s.classList.toggle("is-on", i <= step)); shownStep = step; section.dataset.step = step; }
 
     // gaze: ease toward the cursor; after ~3s of being watched, look away for ~2s

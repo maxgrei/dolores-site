@@ -109,6 +109,17 @@ Analysis Mode, brand-check polish.
   bar press keys and call `playNote()` in `js/sound.js` (which also exports `soundOn`, `holdAmbient`).
   Fallback still: `images/piano-still.jpg` (sips' AVIF of this dark render decoded black in Chrome; JPEG only).
   `?piano-still` in the URL holds the pose used to render that still.
+- Home page (Nov 14): lab opening (once per visit; `html.lab-opening` set by an inline head script, sessionStorage
+  `dolores:opened`; CSS failsafe hides it after 6 s) -> hero "The Bicameral Mind" (idle drift in hero.js) ->
+  ACT I bridge + Socrates (`oracle.js`, prints from the moment it enters) + team thesis (DRAFT comment, pending
+  team approval) with a verbatim Build 2 pull quote -> ACT II the piano in `mode: "keys"` (8 marked keys = builds,
+  card shows who posted; the plain `#timeline` list is always there) -> ACT III hosts teaser -> team statement.
+  "What we argue" / "Improvisations" stay `hidden` until `positions` / `humor` have entries.
+- Member pages = Delos host profiles (FILE nn, spec sheet, attribute matrix, reverie, builds with verbatim claims);
+  empty fields render "AWAITING CALIBRATION". Photos via `tools/photo.py` (Pillow in a scratch venv) -> "host
+  captures" (gold corner brackets, mono caption, Analysis Mode crossfades to `-lab`).
+- Build status: entries with no post on a past-due build show "Being posted" (computed from `due` in js/site.js);
+  future builds stay "Locked". Every entry has a verbatim `claim` (thesis sentence) for Analysis Mode.
 - `html.can-3d` (set in js/site.js boot) = motion allowed + WebGL; it switches the oracle/piano to tall sticky scroll stages.
 - `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, sessionStorage `dolores:analysis`
   (per visit on purpose: a remembered wireframe hero looked broken),
@@ -129,10 +140,9 @@ Stage files by explicit path (never `git add -A`) and check `git show --stat HEA
 
 ## Open items: what's needed next
 From the team (Max to send; save verbatim, never retype):
-- Builds 3–8 essays as they're written, with due dates for each build (`due` is null everywhere).
-- Each member's host alias (currently "Host 01–06", marked `placeholder: true`), photo
+- Builds still missing (as of Nov 14): Kenna 3, 4, 5; Alexis 1, 3, 4, 5; Meer 1, 3, 4, 5; then everyone's 6–8.
+- Each member's designation (host alias), origin (state), core drive, cornerstone, three attributes, reverie, photo
   (→ `images/members/<id>.avif`, ~640×800, set `photo`), a short intro, and any Reveries.
-- Mia's Build 1 is one paragraph (120 words), exactly as on the old site; confirm it's complete.
 - Core positions (claim + build number) for the home page; build titles/themes for the labels.
 - Jokes and exact character quotes for `humor` in data/site.js (never invent quotes from the show).
 Built since: sound toggle + ambient piano, humor section, ~600ms "reverie" glitch on star hover

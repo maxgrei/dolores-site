@@ -128,16 +128,69 @@ const refusal = (extra = "") => `
 function renderHome() {
   const tl = $("#timeline");
   if (tl) tl.innerHTML = timeline();
-  const pos = $("#positions");
-  if (pos) pos.innerHTML = positions.length
-    ? `<div class="grid">${positions.map((p) => `<article class="card"><p>${esc(p.claim)}</p><p class="label"><a href="${buildHref(p.build)}">Argued in Build ${p.build}</a></p></article>`).join("")}</div>`
-    : `<p class="empty">Our core positions will be posted here as the builds argue them, each linked to its build.</p>`;
-  const fun = $("#humor");
-  if (fun) fun.innerHTML = humor.jokes.length || humor.quotes.length
-    ? `<div class="grid">${humor.jokes.map((j) => `<article class="card joke"><p class="label">Off-loop</p><p>${esc(j)}</p></article>`).join("")}${humor.quotes.map((q) => `
+  // "What we argue" and "Improvisations" stay hidden until data/site.js has entries
+  if (positions.length) {
+    $("#positions").innerHTML = `<div class="grid">${positions.map((p) => `<article class="card"><p>${esc(p.claim)}</p><p class="label"><a href="${buildHref(p.build)}">Argued in Build ${p.build}</a></p></article>`).join("")}</div>`;
+    $("#positions-section").hidden = false;
+  }
+  if (humor.jokes.length || humor.quotes.length) {
+    $("#humor").innerHTML = `<div class="grid">${humor.jokes.map((j) => `<article class="card joke"><p class="label">Off-loop</p><p>${esc(j)}</p></article>`).join("")}${humor.quotes.map((q) => `
         <figure class="card quote"><blockquote><p>“${esc(q.text)}”</p></blockquote>
-        <figcaption class="label">${esc(q.who)}${q.episode ? " // " + esc(q.episode) : ""}</figcaption></figure>`).join("")}</div>`
-    : `<p class="empty">The team’s jokes and favorite lines will appear here.</p>`;
+        <figcaption class="label">${esc(q.who)}${q.episode ? " // " + esc(q.episode) : ""}</figcaption></figure>`).join("")}</div>`;
+    $("#humor-section").hidden = false;
+  }
+  // Act III: the hosts, as a compact strip of stars (photos where we have them)
+  const teaser = $("#host-teaser");
+  if (teaser) teaser.innerHTML = members.map((m) => `
+    <li><a class="teaser-host" href="${memberHref(m.id)}">
+      <span class="dot" aria-hidden="true"></span>
+      ${m.photo ? portrait(m, "is-small") : `<span class="teaser-blank" aria-hidden="true">${esc(m.name[0])}</span>`}
+      <span class="who">${esc(m.name)}</span>
+      <span class="count">FILE ${fileNo(m)} // ${reachedCount(m.id)} / ${builds.length}</span>
+    </a></li>`).join("");
+  maybeLoop();
+}
+
+/* ---------- Act II: the player piano in "keys" mode ---------- */
+function maybeLoop() {
+  const sec = document.querySelector("[data-loop]");
+  if (!sec || !document.documentElement.classList.contains("can-3d")) return;
+  const authorsOf = (b) => (b.team ? ["Team Dolores"] : members.filter((m) => entryFor(b, m.id).status === "reached").map((m) => m.name));
+  const cardHTML = (b) => {
+    const who = authorsOf(b);
+    const go = b.status === "reached"
+      ? `<a class="player-go" href="${buildHref(b.n)}">Read ${esc(buildName(b))}</a>`
+      : b.status === "posting" ? `<span class="player-go is-quiet">Being posted</span>`
+      : `<a class="player-go" href="${buildHref(b.n)}" data-locked>${b.status === "near" ? "Near: not yet punched" : "Not yet reached"}</a>`;
+    return `<p class="label">${label(b)}</p><h3>${esc(buildName(b))}</h3>
+      ${b.theme ? `<p class="loop-theme">${esc(b.theme)}</p>` : ""}
+      <p class="player-meta">${statusChip(b.status)} <span>${b.status === "reached" ? `Posted: ${esc(who.join(", "))}` : esc(buildMeta(b))}</span></p>${go}`;
+  };
+  const watch = () => new IntersectionObserver(([e], io) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    import("./piano.js").then((m) => m.mountPiano(sec, { builds, members, cardHTML, mode: "keys" }))
+      .catch(() => sec.classList.add("is-failed"));            // the plain build list below still works
+  }, { rootMargin: "400px 0px" }).observe(sec);
+  document.readyState === "complete" ? watch() : addEventListener("load", watch, { once: true });
+}
+
+/* ---------- the lab opening: once per visit, skippable, static with reduced motion ---------- */
+function mountLabOpening() {
+  const root = document.documentElement;
+  if (!root.classList.contains("lab-opening")) return;
+  try { sessionStorage.setItem("dolores:opened", "1"); } catch { /* storage blocked: plays each load */ }
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let done = false;
+  const end = () => {
+    if (done) return; done = true;
+    ["keydown", "pointerdown", "wheel", "touchstart", "scroll"].forEach((ev) => removeEventListener(ev, end, true));
+    if (reduce) { root.classList.remove("lab-opening"); return; }
+    root.classList.add("lab-closing");
+    setTimeout(() => root.classList.remove("lab-opening", "lab-closing"), 800);
+  };
+  ["keydown", "pointerdown", "wheel", "touchstart", "scroll"].forEach((ev) => addEventListener(ev, end, { capture: true, passive: true }));
+  setTimeout(end, reduce ? 2600 : 3600);
 }
 
 function renderEssaysIndex() {
@@ -312,6 +365,7 @@ function maybeOracle() {
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches && (c.getContext("webgl2") || c.getContext("webgl")))
     document.documentElement.classList.add("can-3d");
 })();
+mountLabOpening();
 renderChrome();
 mountAnalysis();
 mountSound();

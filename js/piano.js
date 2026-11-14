@@ -106,9 +106,12 @@ export function makeRoll(builds, members, fonts) {
 }
 
 /* ---------- the scene ---------- */
-export async function mountPiano(section, { builds, members, cardHTML }) {
-  const stage = section.querySelector(".player-stage");
-  const card = section.querySelector(".player-card");
+// mode "scroll" (Essays page): the page scroll winds the roll. mode "keys" (home, Act II): eight marked keys,
+// one per build, wind the roll to that build and open its card; the instrument is framed roll-over-keys.
+export async function mountPiano(section, { builds, members, cardHTML, mode = "scroll" }) {
+  const KEYS = mode === "keys";
+  const stage = KEYS ? section : section.querySelector(".player-stage");
+  const card = section.querySelector(KEYS ? ".loop-card" : ".player-card");
   const prev = section.querySelector("[data-roll=prev]"), next = section.querySelector("[data-roll=next]");
   const canvas = document.createElement("canvas");
   canvas.className = "player-canvas";
@@ -227,10 +230,15 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
   piano.add(whites, blacks); parts.push(whites, blacks);
   // a key the roll is holding down: dips 4 mm and takes the sign's gold
   const pressT = new THREE.Matrix4(), keyGold = new THREE.Color().copy(gold).multiplyScalar(1.6);
+  const markGold = new THREE.Color(1, 1, 1).lerp(gold, 0.45);
+  // keys mode: one white key per build, spread across the middle of the keyboard
+  const whiteMidi = []; for (const [m, k] of keyOf) if (k.mesh === whites) whiteMidi[k.i] = m;
+  const markedKeys = KEYS ? builds.map((_, i) => whiteMidi[17 + i * 3]) : [];
+  const marked = new Set(markedKeys);
   function setKey(m, down) {
     const k = keyOf.get(m); if (!k) return;
     pressT.copy(k.base); if (down) pressT.elements[13] -= 0.004;
-    k.mesh.setMatrixAt(k.i, pressT); k.mesh.setColorAt(k.i, down ? keyGold : white);
+    k.mesh.setMatrixAt(k.i, pressT); k.mesh.setColorAt(k.i, down ? keyGold : marked.has(m) ? markGold : white);
     k.mesh.instanceMatrix.needsUpdate = true; k.mesh.instanceColor.needsUpdate = true;
   }
 
@@ -304,7 +312,8 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
     renderer.setSize(VW, VH, false);
     camera.aspect = VW / VH;
     // wide: push the piano right of the copy; narrow: push it up above the card
-    if (wide) camera.setViewOffset(VW, VH, -VW * 0.17, 0, VW, VH);
+    if (KEYS) wide ? camera.clearViewOffset() : camera.setViewOffset(VW, VH, 0, VH * 0.14, VW, VH);   // phone: keys clear of the card
+    else if (wide) camera.setViewOffset(VW, VH, -VW * 0.17, 0, VW, VH);
     else camera.setViewOffset(VW, VH, 0, VH * 0.13, VW, VH);
     camera.updateProjectionMatrix();
   }
@@ -313,6 +322,7 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
 
   const maxR = NB - 1;
   const progress = () => {
+    if (KEYS) return 1;                              // keys mode: doors open, nothing scroll-driven
     const r = section.getBoundingClientRect();
     return clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
   };
@@ -342,7 +352,26 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
   let lastBar = 0.5, down = new Set(), pulse = 0, view = 0;
   prev?.addEventListener("click", () => scrollToBuild(Math.max(0, current - 1)));
   next?.addEventListener("click", () => scrollToBuild(Math.min(maxR, current + 1)));
-  canvas.addEventListener("click", () => card.querySelector("a")?.click());
+  if (!KEYS) canvas.addEventListener("click", () => card.querySelector("a")?.click());
+  // keys mode: real buttons over the eight marked keys
+  let keyTarget = 0;
+  const keyButtons = KEYS ? builds.map((b, i) => {
+    const btn = document.createElement("button");
+    btn.type = "button"; btn.className = "loop-key"; btn.textContent = String(b.n).padStart(2, "0");
+    btn.setAttribute("aria-label", `Build ${b.n}${b.theme ? ": " + b.theme : ""}`);
+    btn.setAttribute("aria-pressed", String(i === 0));
+    btn.dataset.status = b.status;
+    btn.addEventListener("click", () => {
+      keyTarget = i;
+      keyButtons.forEach((k, j) => k.setAttribute("aria-pressed", String(j === i)));
+      const m = markedKeys[i];
+      playNote(m, 0.55); setKey(m, true); setTimeout(() => setKey(m, false), 280);
+      pulse = 1;
+    });
+    section.querySelector(".loop-keys").append(btn);
+    return btn;
+  }) : [];
+  for (const m of marked) setKey(m, false);           // apply the marked keys' gold tint
 
   // ?piano-still holds a composed pose (whole piano, doors open) for rendering images/piano-still.*
   const STILL = new URLSearchParams(location.search).has("piano-still");
@@ -354,14 +383,15 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
     const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
     const p = progress();
     const intro = STILL ? 0 : smooth(0, INTRO, p);
-    if (!STILL) pose.r += (rollAt(p) - pose.r) * (1 - Math.exp(-dt * 8));      // the roll eases after the scroll
+    if (KEYS) pose.r += (keyTarget - pose.r) * (1 - Math.exp(-dt * 3));          // wind toward the chosen build
+    else if (!STILL) pose.r += (rollAt(p) - pose.r) * (1 - Math.exp(-dt * 8));      // the roll eases after the scroll
 
     // camera: whole instrument -> close on the spool box
     const far = fitDist(W * 1.6, H * 1.3), close = fitDist(wide ? 0.62 : 0.46, wide ? 0.5 : 0.42);
     target.set(0, lerp(0.75, (BAR_Y + 0.02), intro), lerp(0, PAPER_Z, intro));
     camera.position.set(lerp(-0.45, 0, intro), lerp(1.1, BAR_Y + 0.06, intro), target.z + lerp(far, close, intro));
     // while the roll plays, ease back so the keys it presses are in view too
-    view += ((playing ? 1 : 0) - view) * Math.min(1, dt * 1.6);
+    view = KEYS ? 1 : view + ((playing ? 1 : 0) - view) * Math.min(1, dt * 1.6);
     if (view > 0.001) {
       const wideShot = fitDist(wide ? 1.4 : 0.8, wide ? 0.95 : 0.62);
       target.y = lerp(target.y, (BAR_Y + KEY.TOP) / 2 + 0.03, view);
@@ -382,7 +412,7 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
 
     // holes crossing the tracker bar: sound + keys (fast scrubs skip the sound)
     const barS = pose.r + 0.5;
-    if (barS > lastBar && barS - lastBar < 0.08) {
+    if (!KEYS && barS > lastBar && barS - lastBar < 0.08) {
       let n = 0;
       for (const e of roll.events) if (e.s0 > lastBar && e.s0 <= barS && n < 5) { playNote(e.midi, e.midi < 50 ? 0.42 : 0.5); n++; pulse = 1; }
     }
@@ -416,6 +446,10 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
 
     if (wire.visible) for (const l of wire.children) { l.position.copy(l.userData.src.position); l.rotation.copy(l.userData.src.rotation); }
     renderer.render(scene, camera);
+    if (KEYS) markedKeys.forEach((m, i) => {           // keep each button on its key
+      const k = keyOf.get(m); v3.set(k.base.elements[12], KEY.TOP + 0.004, KEY_Z1 - 0.03).project(camera);
+      keyButtons[i].style.transform = `translate(${((v3.x + 1) / 2) * VW}px, ${((1 - v3.y) / 2) * VH}px) translate(-50%, -100%)`;
+    });
     if (paperU.uXray.value) for (const tg of tags) {
       v3.copy(tg.p).project(camera);
       const x = ((v3.x + 1) / 2) * VW, y = ((1 - v3.y) / 2) * VH;

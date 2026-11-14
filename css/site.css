@@ -618,3 +618,94 @@ main { display: block; min-height: 60vh; }
 .panel-spec { display: flex; flex-wrap: wrap; gap: 0.15rem 1rem; margin: -0.35rem 0 0.6rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.06em; color: var(--chasm-muted); text-transform: uppercase; }
 .star-panel .attr-matrix { margin-bottom: 0.7rem; max-width: 22rem; }
 .star-panel .attr-track { background: var(--grey-800); }
+
+/* ═════════ home: the lab, in three acts ═════════ */
+/* opening beat (once per visit). Pure-CSS failsafe hides it after 6 s even if JS never runs. */
+.lab-open { display: none; }
+.lab-opening .lab-open {
+  display: flex; position: fixed; inset: 0; z-index: 10000; flex-direction: column; justify-content: center; align-items: center;
+  gap: 1.1rem; padding: var(--gutter); text-align: center; background: var(--cold-storage); color: var(--host-white);
+  animation: lab-failsafe 1ms linear 6s forwards;
+}
+@keyframes lab-failsafe { to { visibility: hidden; opacity: 0; pointer-events: none; } }
+.lab-open-line { margin: 0; font: 500 clamp(0.62rem, 1.6vw, 0.8rem)/1.6 var(--font-mono); letter-spacing: 0.16em; color: var(--grey-400); }
+.lab-open-q { margin: 0; font-family: var(--font-head); font-style: italic; font-size: clamp(1.7rem, 4.6vw, 3rem); line-height: 1.2; max-width: 22ch; }
+.lab-open-cite { margin: 0; font: 500 0.66rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-400); }
+@media (prefers-reduced-motion: no-preference) {
+  .lab-open-line { animation: lab-in 900ms var(--ease-out) both; }
+  .lab-open-q { animation: lab-in 1100ms var(--ease-out) 700ms both; }
+  .lab-open-cite { animation: lab-in 900ms var(--ease-out) 1500ms both; }
+  .lab-opening .lab-open { transition: opacity 800ms var(--ease-out); }
+}
+@keyframes lab-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.lab-closing .lab-open { opacity: 0; pointer-events: none; }
+
+.act-label { margin: 0 0 0.6rem; font: 500 0.74rem/1.4 var(--font-mono); letter-spacing: 0.16em; color: var(--text-muted); }
+.chasm .act-label, .act-bridge .act-label { color: var(--chasm-muted); }
+.act-title { margin: 0 0 0.4rem; }
+.act-lede { color: var(--text-muted); margin: 0 0 1.25rem; }
+.act-link { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-head); font-size: 1.3rem; }
+
+/* Act I */
+.act-bridge { background: var(--chasm); color: var(--chasm-text); }
+.act-bridge .wrap { padding-block: 4.5rem 3.5rem; }
+.bridge-line { margin: 0; max-width: 24ch; font-family: var(--font-head); font-size: clamp(1.7rem, 4vw, 2.8rem); line-height: 1.2; }
+.can-3d .oracle { height: 220svh; }
+.thesis .wrap { padding-block: 4.5rem 4rem; }
+.thesis-line { font-size: clamp(1.6rem, 3.4vw, 2.5rem); line-height: 1.25; font-weight: 500; max-width: 32ch; margin: 0 0 2.25rem; }
+.thesis-quote { margin: 0; max-width: var(--measure); padding-left: 1.25rem; border-left: 1px solid var(--sign); }
+.thesis-quote blockquote { margin: 0 0 0.75rem; }
+.thesis-quote .pull { font-family: var(--font-head); font-size: 1.6rem; line-height: 1.3; margin: 0 0 0.75rem; }
+.thesis-quote .excerpt { color: var(--text-muted); margin: 0; }
+
+/* Act II: the loop (piano in keys mode) */
+.act-loop { padding-block: 4rem 3rem; border-top: 1px solid var(--border); }
+.loop-stage { display: none; position: relative; height: min(78svh, 46rem); margin: 0.5rem 0 1.5rem; background: var(--chasm); overflow: hidden; }
+.can-3d .loop-stage { display: block; }
+.loop-stage.is-failed { display: none; }
+.loop-stage .player-canvas { cursor: default; }
+.loop-keys { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.loop-key {
+  position: absolute; left: 0; top: 0; pointer-events: auto; min-width: 44px; min-height: 44px; padding: 0 0.4rem; cursor: pointer;
+  font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.06em; color: var(--chasm-text);
+  background: color-mix(in srgb, var(--chasm) 82%, transparent); border: 1px solid var(--grey-600);
+  transition: border-color 600ms var(--ease-out), background-color 600ms var(--ease-out);
+}
+.loop-key::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 1px; height: 6px; background: var(--sign); }
+.loop-key:hover { border-color: var(--accent); }
+.loop-key[aria-pressed="true"] { border-color: var(--sign); background: var(--chasm); }
+.loop-key[data-status="locked"], .loop-key[data-status="near"] { color: var(--chasm-muted); border-style: dashed; }
+.loop-card {
+  position: absolute; z-index: 3; left: max(var(--gutter), calc((100% - var(--max-width)) / 2)); top: 1.25rem; width: min(22rem, calc(100% - 2 * var(--gutter)));
+  padding: 0.9rem 1rem; color: var(--chasm-text); background: color-mix(in srgb, var(--chasm) 88%, transparent); border-left: 1px solid var(--accent);
+}
+.loop-card .label { color: var(--chasm-muted); margin-bottom: 0.25rem; }
+.loop-card h3 { margin: 0; font-size: 1.6rem; }
+.loop-theme { margin: 0 0 0.4rem; font-style: italic; color: var(--chasm-muted); }
+.loop-card .player-meta { color: var(--chasm-muted); }
+.loop-card .status { color: var(--chasm-muted); border-color: var(--grey-600); }
+.loop-card .status-reached, .loop-card .status-near { color: var(--chasm-text); border-color: var(--accent); }
+.loop-card a { color: var(--chasm-text); }
+.player-go.is-quiet { color: var(--chasm-muted); font-style: italic; }
+.loop-list-label { margin: 0 0 0.75rem; }
+@media (max-width: 51.99rem) {
+  .loop-stage { height: 70svh; }
+  .loop-card { top: auto; bottom: 0.9rem; padding: 0.6rem 0.8rem; }
+  .loop-card h3 { font-size: 1.3rem; }
+  .loop-card .player-meta > span:not(.status) { display: none; }
+}
+
+/* Act III: the hosts teaser */
+.act-awake .wrap { padding-block: 4rem; }
+.host-teaser { list-style: none; margin: 1.5rem 0 1rem; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
+.teaser-host { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; padding: 0.75rem 0.25rem; text-decoration: none; color: var(--chasm-text); min-height: 44px; }
+.teaser-host .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sign); box-shadow: 0 0 10px 2px color-mix(in srgb, var(--sign) 50%, transparent); }
+.teaser-host .capture.is-small { width: 5.5rem; }
+.teaser-blank { display: grid; place-items: center; width: 5.5rem; aspect-ratio: 4 / 5; font-family: var(--font-head); font-size: 1.8rem; color: var(--chasm-muted); border: 1px solid var(--grey-800); }
+.teaser-host .who { font-family: var(--font-head); font-size: 1.3rem; }
+.teaser-host .count { font-family: var(--font-mono); font-size: 0.64rem; color: var(--chasm-muted); letter-spacing: 0.06em; }
+.teaser-host:hover .who { text-decoration: underline; text-decoration-color: var(--sign); }
+.act-awake .act-link { color: var(--chasm-text); }
+.loop-stage.is-3d .player-canvas { opacity: 1; }
+.teaser-host .capture-strip { display: none; }
+.thesis-quote figcaption a { display: inline-flex; align-items: center; min-height: 44px; }

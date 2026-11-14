@@ -196,6 +196,7 @@ export async function mountHero(hero) {
 
   /* ---------- input: the daimon tugs, it never strikes ---------- */
   const ptr = { x: 0, y: 0, vx: 0, vy: 0, t: 0, inside: false };
+  const idle = { x: 0, y: 0, vx: 0, vy: 0 };
   hero.addEventListener("pointermove", (e) => {
     const r = canvas.getBoundingClientRect(), now = performance.now();
     const x = e.clientX - r.left - W / 2, y = H / 2 - (e.clientY - r.top) + camera.position.y;
@@ -251,7 +252,16 @@ export async function mountHero(hero) {
     const loose = 1 - gather;
     tileMat.uniforms.uEdge.value = loose;
     ptr.vx *= Math.exp(-dt * 6); ptr.vy *= Math.exp(-dt * 6);
-    const pSpeed = Math.hypot(ptr.vx, ptr.vy);
+    // idle drift: until a real cursor arrives, a slow invisible "daimon" wanders across the face,
+    // so the strings read as strings before anyone moves the mouse
+    if (!ptr.inside) {
+      const nx = faceCx + Math.sin(time * 0.31) * tw * 4, ny = faceTop - ROWS * th * 0.45 + Math.cos(time * 0.23) * th * 6;
+      if (!idle.seeded) { idle.x = nx; idle.y = ny; idle.seeded = true; }
+      idle.vx = ((nx - idle.x) / Math.max(dt, 0.001)) * 0.55; idle.vy = ((ny - idle.y) / Math.max(dt, 0.001)) * 0.55;
+      idle.x = nx; idle.y = ny;
+    }
+    const P = ptr.inside ? ptr : idle;
+    const pSpeed = Math.hypot(P.vx, P.vy);
 
     for (let i = 0; i < N; i++) {
       const i3 = i * 3, i6 = i * 6, ph = phase[i];
@@ -261,9 +271,9 @@ export async function mountHero(hero) {
       let ax = K * (tx - pos[i3]) - C * vel[i3];
       let ay = K * (ty - pos[i3 + 1]) - C * vel[i3 + 1];
       let az = K * (tz - pos[i3 + 2]) - C * vel[i3 + 2];
-      if (ptr.inside && pSpeed > 1) {
-        const dx = pos[i3] - ptr.x, dy = pos[i3 + 1] - ptr.y, d = Math.hypot(dx, dy);
-        if (d < R) { const w = (1 - d / R) ** 2; ax += ptr.vx * w * 2.4; ay += ptr.vy * w * 1.6; az -= pSpeed * w * 0.9; }
+      if (pSpeed > 1) {
+        const dx = pos[i3] - P.x, dy = pos[i3 + 1] - P.y, d = Math.hypot(dx, dy);
+        if (d < R) { const w = (1 - d / R) ** 2; ax += P.vx * w * 2.4; ay += P.vy * w * 1.6; az -= pSpeed * w * 0.9; }
       }
       vel[i3] += ax * dt; vel[i3 + 1] += ay * dt; vel[i3 + 2] += az * dt;
       pos[i3] += vel[i3] * dt; pos[i3 + 1] += vel[i3 + 1] * dt; pos[i3 + 2] += vel[i3 + 2] * dt;
