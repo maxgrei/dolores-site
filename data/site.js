@@ -137,6 +137,15 @@ export const builds = [
 // quotes: [{ text: "…", who: "Dr. Ford", episode: "S1E1 The Original" }]
 export const humor = { jokes: [], quotes: [] };
 
+// The three acts of the home page, as Analysis Mode labels them. Questions are SITE FRAMING drawn from CLAUDE.md
+// (the concept and the draft thesis), pending team approval. `pages` = the Plutarch passages each act stages;
+// the builds that "answer" an act are computed: every posted essay citing one of those pages.
+export const acts = [
+  { id: "I",   question: "Is the guiding voice inside or outside?",          pages: ["91", "92", "104", "104–105"] },
+  { id: "II",  question: "Can repetition train a mind into freedom?",       pages: ["98", "98–99", "99"] },
+  { id: "III", question: "When does a host start to notice the strings?",  pages: ["108", "108–109", "109"] },
+];
+
 // Core positions: each one links to the build that argues it. Add as the team agrees on them.
 // { claim: "…", build: 3 }
 export const positions = [];

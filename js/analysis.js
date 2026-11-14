@@ -52,7 +52,10 @@ const wordsIn = (el) => (el.textContent.trim().match(/\S+/g) || []).length;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 // Adds one diagnostic card per essay and a note beside each paragraph. Hidden unless html.analysis.
-export function annotateEssay(prose, entry, { author, build }) {
+export function annotateEssay(prose, entry, { author, build, alsoReads = [] }) {
+  // the passage the essay opens on, read before any margin notes are inserted (verbatim, trimmed if long)
+  const bq0 = prose.querySelector(":scope > blockquote");
+  const words = bq0 ? bq0.textContent.trim().split(/\s+/) : [];
   const known = new Set(entry.pages || []);
   const paras = [...prose.querySelectorAll(":scope > p, :scope > blockquote")];
   let n = 0;
@@ -71,7 +74,11 @@ export function annotateEssay(prose, entry, { author, build }) {
   card.className = "analysis-card";
   card.setAttribute("aria-label", "Analysis notes");
   const row = (k, v) => `<div><dt>${k}</dt><dd>${v}</dd></div>`;
+  const passage = words.length ? esc(words.slice(0, 28).join(" ")) + (words.length > 28 ? " …" : "") : "";
+  const wide = (k, v) => `<div class="wide"><dt>${k}</dt><dd>${v}</dd></div>`;
   card.innerHTML = [
+    entry.claim ? wide("CLAIM", `“${esc(entry.claim)}”`) : "",
+    passage ? wide("PASSAGE QUOTED", passage) : "",
     row("SUBJECT", esc(author)),
     row("BUILD", String(build).padStart(2, "0")),
     row("WORDS", entry.words ?? "—"),
@@ -79,6 +86,7 @@ export function annotateEssay(prose, entry, { author, build }) {
     row("PLUTARCH", entry.pages?.length ? entry.pages.map((p) => "p." + esc(p)).join(", ") : "none cited"),
     row("EPISODES", entry.episodes?.length ? entry.episodes.map(esc).join("; ") : "none cited"),
     row("SOURCES", entry.sources?.length ? entry.sources.map(esc).join("; ") : "—"),
+    alsoReads.length ? wide("ALSO READS", alsoReads.map((a) => `<span class="also">P.${esc(a.page)}: ${a.refs.map((r) => `<a href="${r.href}">${esc(r.label)}</a>`).join(", ")}</span>`).join("")) : "",
   ].join("");
   prose.before(card);
 }

@@ -1,5 +1,5 @@
 // Team Dolores — renders every page from data/site.js. No build step.
-import { site, members, builds, positions, sources, humor } from "../data/site.js";
+import { site, members, builds, positions, sources, humor, acts } from "../data/site.js";
 import { mountSign } from "./sign.js";
 import { mountAnalysis, annotateEssay } from "./analysis.js";
 import { mountSound } from "./sound.js";
@@ -97,7 +97,7 @@ function renderChrome() {
       <nav class="site-nav" aria-label="Main"><ul>
         ${nav.map(([k, t, p]) => `<li><a href="${href(p)}"${k === current ? ' aria-current="page"' : ""}>${t}</a></li>`).join("")}
         <li><button class="sound-toggle" type="button" aria-pressed="false" title="Original ambient piano, off by default">Sound <span class="state">Off</span></button></li>
-        <li><button class="analysis-toggle" type="button" aria-pressed="false" title="Analysis Mode (or type “analysis”)">Analysis</button></li>
+        <li><button class="analysis-toggle" type="button" aria-pressed="false" title="Analysis: question the host (or type “analysis”)">Analysis</button></li>
       </ul></nav>
     </div>`;
   const footer = $("#site-footer");
@@ -107,6 +107,22 @@ function renderChrome() {
       <p class="label">${esc(site.course)} // ${esc(site.term)}</p>
     </div>`;
 }
+
+/* ---------- cross-reading: essays that cite the same Plutarch pages ---------- */
+const pageNums = (p) => { const [a, b] = String(p).split(/[–-]/).map(Number); return b ? Array.from({ length: b - a + 1 }, (_, i) => a + i) : [a]; };
+const essays = () => builds.flatMap((b) => Object.entries(b.entries).filter(([, e]) => e.status === "reached")
+  .map(([id, e]) => ({ b, id, e, name: id === "team" ? "Team" : members.find((m) => m.id === id)?.name, nums: new Set((e.pages || []).flatMap(pageNums)) })));
+// "Also reads p.104: Mia (B1), Leo (B3)": other essays citing any page in each of this essay's references
+function alsoReads(b, id, e) {
+  const all = essays().filter((x) => !(x.b.n === b.n && x.id === id));
+  return [...new Set(e.pages || [])].map((page) => {
+    const nums = pageNums(page);
+    const refs = all.filter((x) => nums.some((n) => x.nums.has(n))).map((x) => ({ label: `${x.name} (B${x.b.n})`, href: buildHref(x.b.n, x.id) }));
+    return { page, refs };
+  }).filter((a) => a.refs.length);
+}
+// builds that answer a question = essays citing any of its pages
+const answering = (pages) => { const want = new Set(pages.flatMap(pageNums)); return essays().filter((x) => [...x.nums].some((n) => want.has(n))); };
 
 /* ---------- pieces ---------- */
 const timeline = () => `<ol class="timeline">${builds.map((b) => `
@@ -148,6 +164,14 @@ function renderHome() {
       <span class="who">${esc(m.name)}</span>
       <span class="count">FILE ${fileNo(m)} // ${reachedCount(m.id)} / ${builds.length}</span>
     </a></li>`).join("");
+  // Analysis Mode: each act labelled with the question it asks and the builds that answer it
+  for (const act of acts) {
+    const host = document.querySelector(`[data-act="${act.id}"] .act-label`);
+    if (!host) continue;
+    const ans = answering(act.pages);
+    host.insertAdjacentHTML("afterend", `<div class="act-q"><p class="act-q-text">QUESTION // ${esc(act.question)}</p>
+      <p class="act-q-builds">ANSWERED IN // ${ans.length ? ans.map((x) => `<a href="${buildHref(x.b.n, x.id)}">${esc(x.name)} B${x.b.n}</a>`).join(" · ") : "awaiting builds"}</p></div>`);
+  }
   maybeLoop();
 }
 
@@ -319,7 +343,7 @@ async function renderBuild() {
       if (!res.ok) throw new Error(res.status);
       el.innerHTML = await res.text();
       const id = el.closest(".essay").id, a = authors.find((x) => x.id === id);
-      annotateEssay(el, entryFor(b, id), { author: a.name, build: b.n });
+      annotateEssay(el, entryFor(b, id), { author: a.name, build: b.n, alsoReads: alsoReads(b, id, entryFor(b, id)) });
     } catch {
       el.innerHTML = `<p class="empty">This essay could not be loaded.</p>`;
     }

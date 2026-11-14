@@ -709,3 +709,16 @@ main { display: block; min-height: 60vh; }
 .loop-stage.is-3d .player-canvas { opacity: 1; }
 .teaser-host .capture-strip { display: none; }
 .thesis-quote figcaption a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ---------- Analysis Mode: the scholarly layer ---------- */
+.analysis-card .wide { grid-column: 1 / -1; }
+.analysis-card .also { display: block; margin-bottom: 0.2rem; }
+.analysis-card a { color: inherit; }
+.analysis-card .also { line-height: 1.9; }
+.act-q { display: none; margin: 0 0 1rem; padding: 0.6rem 0.8rem; border-left: 1px solid var(--accent); font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; max-width: 44rem; }
+.analysis .act-q { display: block; }
+.act-q p { margin: 0; }
+.act-q-text { color: inherit; font-weight: 500; }
+.act-q-builds { color: var(--text-muted); }
+.chasm .act-q-builds, .act-bridge .act-q-builds { color: var(--chasm-muted); }
+.act-q a { margin-right: 0.15rem; }
