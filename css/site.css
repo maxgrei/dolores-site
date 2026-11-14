@@ -515,7 +515,7 @@ main { display: block; min-height: 60vh; }
 .player-controls button {
   min-height: 44px; min-width: 44px; padding: 0 0.9rem; cursor: pointer;
   font: 500 0.72rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--chasm-text); background: transparent; border: 1px solid var(--grey-600);
+  color: var(--chasm-text); background: var(--chasm); border: 1px solid var(--grey-600);
   transition: border-color 600ms var(--ease-out);
 }
 .player-controls button:hover:not(:disabled) { border-color: var(--accent); }

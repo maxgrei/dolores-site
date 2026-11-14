@@ -21,7 +21,7 @@ const CHORDS = [
 const DRIFT = [69, 72, 74, 76, 79, 81, 84];
 const BAR = 6.4;                                   // seconds per chord
 
-let ctx = null, master = null, bus = null, timer = null, nextBar = 0, bar = 0, on = false;
+let ctx = null, master = null, bus = null, timer = null, nextBar = 0, bar = 0, on = false, held = false;
 
 function impulse(c, seconds = 4.5) {
   const len = Math.floor(c.sampleRate * seconds), buf = c.createBuffer(2, len, c.sampleRate);
@@ -85,7 +85,8 @@ async function start() {
   if (!ctx) setup();
   await ctx.resume();
   nextBar = Math.max(nextBar, ctx.currentTime + 0.1);
-  clearInterval(timer); timer = setInterval(pump, 250); pump();
+  clearInterval(timer); timer = null;
+  if (!held) { timer = setInterval(pump, 250); pump(); }       // the player piano can hold the ambient loop
   master.gain.cancelScheduledValues(ctx.currentTime);
   master.gain.setTargetAtTime(0.8, ctx.currentTime, 0.8);       // ~2 s fade in
 }
@@ -96,6 +97,21 @@ function stop() {
   master.gain.cancelScheduledValues(ctx.currentTime);
   master.gain.setTargetAtTime(0, ctx.currentTime, 0.2);
   setTimeout(() => { if (!on) ctx.suspend(); }, 900);
+}
+
+/* ---------- for the player piano (js/piano.js) ---------- */
+export const soundOn = () => on;
+// one note through the same voice, only when the visitor has Sound on
+export function playNote(n, vel = 0.5) {
+  if (!on || !ctx || ctx.state !== "running") return;
+  note(n, ctx.currentTime + 0.005, vel);
+}
+// pause the ambient chords while the roll plays, so the two never clash
+export function holdAmbient(h) {
+  held = h;
+  if (!ctx || !on) return;
+  if (h) { clearInterval(timer); timer = null; }
+  else if (!timer) { nextBar = Math.max(nextBar, ctx.currentTime + 0.6); timer = setInterval(pump, 250); }
 }
 
 export function mountSound() {

@@ -1,12 +1,15 @@
 // The Player Piano — the Westworld piece. An early-1900s upright player piano, modelled in code
 // (no downloaded model), whose paper roll IS the build timeline: one punched section per build,
 // generated from data/site.js. Scroll winds the roll; the build over the tracker bar is "current".
+// Play lets the roll run: each punched hole crossing the bar presses its key and sounds its note
+// (through js/sound.js, only with Sound on). The music comes from no player.
 // Proportions from museum records (Smithsonian / Ingenium): ~145 × 150 × 68 cm, keys topping at
 // 77 cm, sliding spool-box doors, supply spool above / take-up below, 11¼ in paper, 9 holes per inch.
 // Lazy-loaded by js/site.js on the Essays page (WebGL + motion only).
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { playNote, soundOn, holdAmbient } from "./sound.js";
 
 const token = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const col = (n) => new THREE.Color(token(n));
@@ -218,7 +221,18 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
       blacks.setMatrixAt(bi, m4); keyOf.set(m, { mesh: blacks, i: bi, base: m4.clone() }); bi++;
     }
   }
+  const white = new THREE.Color(1, 1, 1);
+  for (let i = 0; i < 52; i++) whites.setColorAt(i, white);
+  for (let i = 0; i < 36; i++) blacks.setColorAt(i, white);
   piano.add(whites, blacks); parts.push(whites, blacks);
+  // a key the roll is holding down: dips 4 mm and takes the sign's gold
+  const pressT = new THREE.Matrix4(), keyGold = new THREE.Color().copy(gold).multiplyScalar(1.6);
+  function setKey(m, down) {
+    const k = keyOf.get(m); if (!k) return;
+    pressT.copy(k.base); if (down) pressT.elements[13] -= 0.004;
+    k.mesh.setMatrixAt(k.i, pressT); k.mesh.setColorAt(k.i, down ? keyGold : white);
+    k.mesh.instanceMatrix.needsUpdate = true; k.mesh.instanceColor.needsUpdate = true;
+  }
 
   /* paper: a shader that reads the roll mask; punched holes show the gold light inside the piano */
   await document.fonts.ready;
@@ -310,6 +324,22 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
     scrollTo({ top: top + p * span + 2, behavior: "smooth" });
   };
   let current = -1;
+  const playBtn = section.querySelector("[data-roll=play]"), hint = section.querySelector(".player-hint");
+  const HINT = hint?.textContent || "";
+  let playing = false;
+  const setPlaying = (on) => {
+    if (playing === on) return;
+    playing = on; holdAmbient(on);
+    if (playBtn) { playBtn.setAttribute("aria-pressed", String(on)); playBtn.textContent = on ? "Pause" : "Play"; }
+    if (hint) hint.textContent = !on ? HINT : soundOn() ? "Playing the roll // scroll or Pause to stop" : "Sound is off // the keys play in silence";
+  };
+  playBtn?.addEventListener("click", () => setPlaying(!playing));
+  // the visitor taking over the scroll stops the roll (our own scrollTo never fires these)
+  for (const ev of ["wheel", "touchstart", "keydown"]) addEventListener(ev, (e) => {
+    if (playing && !e.target.closest?.("[data-roll]")) setPlaying(false);
+  }, { passive: true });
+  const SPEED = 0.12;                                // build segments per second (~8 s per build)
+  let lastBar = 0.5, down = new Set(), pulse = 0, view = 0;
   prev?.addEventListener("click", () => scrollToBuild(Math.max(0, current - 1)));
   next?.addEventListener("click", () => scrollToBuild(Math.min(maxR, current + 1)));
   canvas.addEventListener("click", () => card.querySelector("a")?.click());
@@ -330,10 +360,43 @@ export async function mountPiano(section, { builds, members, cardHTML }) {
     const far = fitDist(W * 1.6, H * 1.3), close = fitDist(wide ? 0.62 : 0.46, wide ? 0.5 : 0.42);
     target.set(0, lerp(0.75, (BAR_Y + 0.02), intro), lerp(0, PAPER_Z, intro));
     camera.position.set(lerp(-0.45, 0, intro), lerp(1.1, BAR_Y + 0.06, intro), target.z + lerp(far, close, intro));
+    // while the roll plays, ease back so the keys it presses are in view too
+    view += ((playing ? 1 : 0) - view) * Math.min(1, dt * 1.6);
+    if (view > 0.001) {
+      const wideShot = fitDist(wide ? 1.4 : 0.8, wide ? 0.95 : 0.62);
+      target.y = lerp(target.y, (BAR_Y + KEY.TOP) / 2 + 0.03, view);
+      camera.position.y = lerp(camera.position.y, target.y + 0.12, view);
+      camera.position.z = lerp(camera.position.z, target.z + wideShot, view);
+    }
     camera.lookAt(target);
     const open = STILL ? 1 : intro;
     doors.forEach((d, k) => { d.position.x = (k ? 1 : -1) * (BOX.x / 2 + open * (BOX.x + 0.005)); });
     if (STILL) { camera.position.set(-0.55, 1.0, 3.35); camera.lookAt(0, 0.72, 0); camera.clearViewOffset(); }
+
+    if (playing) {                                  // the roll plays itself: advance the page
+      const rr = section.getBoundingClientRect(), top = scrollY + rr.top, span = rr.height - innerHeight;
+      let pp = Math.max(p, INTRO + 0.001) + (dt * SPEED / maxR) * (1 - INTRO - 0.02);
+      if (pp >= 0.98) { pp = 0.98; setPlaying(false); }
+      scrollTo(0, top + pp * span);
+    }
+
+    // holes crossing the tracker bar: sound + keys (fast scrubs skip the sound)
+    const barS = pose.r + 0.5;
+    if (barS > lastBar && barS - lastBar < 0.08) {
+      let n = 0;
+      for (const e of roll.events) if (e.s0 > lastBar && e.s0 <= barS && n < 5) { playNote(e.midi, e.midi < 50 ? 0.42 : 0.5); n++; pulse = 1; }
+    }
+    lastBar = barS;
+    const held = new Set();                         // keys whose holes are over the bar right now
+    for (const e of roll.events) if (barS >= e.s0 && barS <= e.s1) held.add(e.midi);
+    for (const m of down) if (!held.has(m)) setKey(m, false);
+    for (const m of held) if (!down.has(m)) setKey(m, true);
+    down = held;
+    pulse *= Math.exp(-dt * 5);
+    glow.intensity = 0.6 + (playing ? 0.4 : 0) + pulse * 1.4;
+    paperU.uLit.value = 0.95 + pulse * 0.5;
+    treadles.forEach((tr, k) => { tr.rotation.x += ((playing ? -0.25 + Math.sin(t * 4 + k * Math.PI) * 0.12 : -0.25) - tr.rotation.x) * Math.min(1, dt * 8); });
+    levers[3].rotation.y += ((playing ? 0.4 : 0) - levers[3].rotation.y) * Math.min(1, dt * 4);
 
     // roll
     paperU.uOff.value = (pose.r + 0.5 - VIS / 2) / NB;
