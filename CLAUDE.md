@@ -1,6 +1,6 @@
-# Team Dolores — HP 241 portfolio site
+# Team Dolores — HONORS 241 portfolio site
 
-HONORS 241 "Philosophy of Mind through Westworld" (Prof. George Hoffman, Fall 2026).
+HONORS 241 "What Westworld Teaches us about Being Human" (Prof. George Hoffman, Fall 2026).
 Team reading: Plutarch, *Socrates' Daimonion* (On the Sign of Socrates), trans. Russell.
 Show: Westworld Season 1. Six members; each writes Builds 1–8 (Builds 2 and 6 are team builds;
 Build 6 is the collaborative conclusion). The best/most creative site in class wins an award.
@@ -101,6 +101,15 @@ Analysis Mode, brand-check polish.
 - `js/sound.js` — original generative ambient piano (Web Audio, no audio files). Nav "Sound" toggle, off by
   default, localStorage `dolores:sound`; a remembered "on" waits for the first click/key (autoplay rules).
 - `data/site.js` also exports `humor` ({ jokes, quotes }), rendered on the home page "Improvisations" section; empty until the team fills it.
+- `js/oracle.js` — home page "What spoke to Socrates?": `assets/3d/socrates.glb` printed in gold layers on scroll,
+  gaze follows the cursor, Analysis = labelled x-ray. Loads after page load, near the section.
+  Fallback still: `images/socrates-still.avif/.jpg`.
+- `js/piano.js` — Essays page player piano, modelled in code. `makeRoll()` draws the paper roll from `builds`
+  (punched = reached, dashed = near, blank = locked); scroll winds it, Play runs it, holes crossing the tracker
+  bar press keys and call `playNote()` in `js/sound.js` (which also exports `soundOn`, `holdAmbient`).
+  Fallback still: `images/piano-still.jpg` (sips' AVIF of this dark render decoded black in Chrome; JPEG only).
+  `?piano-still` in the URL holds the pose used to render that still.
+- `html.can-3d` (set in js/site.js boot) = motion allowed + WebGL; it switches the oracle/piano to tall sticky scroll stages.
 - `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, sessionStorage `dolores:analysis`
   (per visit on purpose: a remembered wireframe hero looked broken),
   and `annotateEssay()` margin notes.

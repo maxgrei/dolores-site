@@ -60,7 +60,7 @@ function renderChrome() {
     <div class="wrap">
       <a class="brand" href="${href("index.html")}">
         <span class="brand-name">${esc(site.team)}</span>
-        <span class="label">HP 241 // Westworld × Plutarch</span>
+        <span class="label">HONORS 241 // Westworld × Plutarch</span>
       </a>
       <nav class="site-nav" aria-label="Main"><ul>
         ${nav.map(([k, t, p]) => `<li><a href="${href(p)}"${k === current ? ' aria-current="page"' : ""}>${t}</a></li>`).join("")}

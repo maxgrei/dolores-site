@@ -10,7 +10,7 @@
 
 export const site = {
   team: "Team Dolores",
-  course: "HONORS 241 · Philosophy of Mind through Westworld",
+  course: "HONORS 241 · What Westworld Teaches us about Being Human",
   term: "Fall 2026",
   professor: "Prof. George Hoffman",
   gsi: "Israa Khalifa",
