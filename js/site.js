@@ -9,7 +9,11 @@ const href = (p) => new URL(p, ROOT).href;
 const $ = (sel) => document.querySelector(sel);
 const pad = (n) => String(n).padStart(2, "0");
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const STATUS = { reached: "Reached", near: "Near", locked: "Locked" };
+const STATUS = { reached: "Reached", near: "Near", locked: "Locked", posting: "Being posted" };
+// past-due builds with nothing posted read "Being posted", not "Locked" (future builds stay locked)
+const TODAY = new Date().toISOString().slice(0, 10);
+const pastDue = (b) => Boolean(b.due && b.due < TODAY);
+for (const b of builds) if (b.status === "locked" && pastDue(b)) b.status = "posting";
 
 const body = document.body;
 const page = body.dataset.page;
@@ -18,7 +22,7 @@ const page = body.dataset.page;
 const buildName = (b) => b.title || `Build ${b.n}`;
 const buildHref = (n, anchor = "") => href(`essays/build-${n}/index.html${anchor ? "#" + anchor : ""}`);
 const authorsFor = (b) => (b.team ? [{ id: "team", name: "Team Dolores" }] : members);
-const entryFor = (b, id) => b.entries[id] || { status: "locked" };
+const entryFor = (b, id) => b.entries[id] || { status: pastDue(b) ? "posting" : "locked" };
 const memberHref = (id) => href(`members/${id}.html`);
 const reachedCount = (id) => builds.filter((b) => entryFor(b, b.team ? "team" : id).status === "reached").length;
 const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -31,7 +35,9 @@ const buildDots = (m) => `<ol class="build-dots" aria-label="${esc(m.name)}’s 
   const id = b.team ? "team" : m.id, e = entryFor(b, id), label = `Build ${b.n}${b.team ? " (team)" : ""}`;
   return e.status === "reached"
     ? `<li><a class="bd is-reached" href="${buildHref(b.n, id)}" aria-label="${label}: posted">${pad(b.n)}</a></li>`
-    : `<li><span class="bd is-locked" data-locked aria-label="${label}: locked">${pad(b.n)}</span></li>`;
+    : e.status === "posting"
+      ? `<li><span class="bd is-posting" aria-label="${label}: being posted">${pad(b.n)}</span></li>`
+      : `<li><span class="bd is-locked" data-locked aria-label="${label}: locked">${pad(b.n)}</span></li>`;
 }).join("")}</ol>`;
 const statusChip = (s) => `<span class="status status-${s}">${STATUS[s]}</span>`;
 
@@ -171,7 +177,7 @@ function renderMember() {
         const e = entryFor(b, b.team ? "team" : m.id);
         const link = e.status === "reached"
           ? `<a href="${buildHref(b.n, b.team ? "team" : m.id)}">${esc(e.title || buildName(b))}</a>`
-          : `<span data-locked>${esc(buildName(b))}</span>`;
+          : e.status === "posting" ? `<span>${esc(buildName(b))}</span>` : `<span data-locked>${esc(buildName(b))}</span>`;
         return `<li><span class="num">BUILD ${pad(b.n)}</span><span class="what">${link}${b.team ? ` <span class="label">· team</span>` : ""}</span>${statusChip(e.status)}</li>`;
       }).join("")}</ol>
     </section>
@@ -202,14 +208,16 @@ async function renderBuild() {
   main.innerHTML = head + `
     <nav aria-label="Essays in this build"><ul class="toc">${authors.map((a) => entryFor(b, a.id).status === "reached"
       ? `<li><a href="#${a.id}">${esc(a.name)}</a></li>`
-      : `<li class="locked" data-locked>${esc(a.name)} <span class="label">· locked</span></li>`).join("")}</ul></nav>
+      : entryFor(b, a.id).status === "posting"
+        ? `<li class="locked">${esc(a.name)} <span class="label">· being posted</span></li>`
+        : `<li class="locked" data-locked>${esc(a.name)} <span class="label">· locked</span></li>`).join("")}</ul></nav>
     ${authors.map((a) => {
       const e = entryFor(b, a.id);
       return `<article class="essay" id="${a.id}" aria-labelledby="${a.id}-h">
         <h2 id="${a.id}-h"><a href="${a.id === "team" ? href("team/index.html") : memberHref(a.id)}">${esc(a.name)}</a></h2>
         ${e.status === "reached"
           ? `<p class="essay-meta">${e.words ? e.words + " words" : ""}${e.pages?.length ? " · Plutarch pp. " + e.pages.join(", ") : ""}</p><div class="prose" data-src="${esc(e.file)}"><p class="empty">Loading…</p></div>`
-          : refusal()}
+          : e.status === "posting" ? `<div class="sign-refusal"><p class="label">Being posted</p><p>This essay is on its way.</p></div>` : refusal()}
       </article>`;
     }).join("")}`;
 

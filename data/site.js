@@ -40,16 +40,24 @@ export const members = [
 // `pages` are the Plutarch page refs cited in the essay (for Analysis Mode).
 // `words` counts the essay body, not the opening quotation.
 // `sources` and `episodes` (Westworld S1 episodes cited, e.g. "S1E10 The Bicameral Mind") feed Analysis Mode.
+// `claim` is the essay's own thesis sentence, copied verbatim. A past-due build with no post for a member
+// shows "Being posted" (computed in js/site.js from `due`); future ones stay "Locked".
 export const builds = [
   {
     n: 1, title: null, theme: "Engagement with a short passage", team: false, due: "2026-09-11", status: "reached",
     entries: {
-      kenna: { status: "reached", title: null, file: "content/build-1/kenna.html", words: 730, pages: ["83", "99", "108", "109", "111"],
-             sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [] },
-      max:   { status: "reached", title: null, file: "content/build-1/max.html",   words: 686, pages: ["92", "92–93", "104"],
-             sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [] },
-      mia:   { status: "reached", title: null, file: "content/build-1/mia.html",   words: 120, pages: ["104–105"],
-             sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [] },
+      kenna: { status: "reached", title: null, file: "content/build-1/kenna.html", words: 730,
+             pages: ["83", "99", "108", "109", "111"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "Yet underlying this framework is a subtle psychological tactic: Plutarch preys on the reader's conscious dreams of greatness to motivate the common man to transcend his ordinary nature." },
+      max: { status: "reached", title: null, file: "content/build-1/max.html", words: 686,
+             pages: ["92", "92–93", "104"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "Did Socrates actually have reliable access to his own mind, or did he do something far more ordinary: settle on a story he could live with because the real reason was never something he could see in the first place?" },
+      mia: { status: "reached", title: null, file: "content/build-1/mia.html", words: 737,
+             pages: ["104", "104–105", "105"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "According to Plutarch then, self-awareness is one’s ability to recognize when one’s emotions are shaping thought and action." },
+      leo: { status: "reached", title: null, file: "content/build-1/leo.html", words: 742,
+             pages: ["98", "98–99", "99"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "Epaminondas argues that, in this way, one can train the mind to have more control over impulses and desires, though whether this “training” is a causal process or simply how he explains virtues he already had remains an open question." },
     },
   },
   {
@@ -60,12 +68,52 @@ export const builds = [
       team: { status: "reached", title: null, file: "content/build-2/team.html", words: 933,
               pages: ["91", "98–99", "104–105", "111"],
               sources: ["Plutarch, Socrates’ Daimonion, trans. Russell", "Westworld, Season 1"],
-              episodes: ["S1E7 Trompe L’Oeil", "S1E10 The Bicameral Mind"] },
+              episodes: ["S1E7 Trompe L’Oeil", "S1E10 The Bicameral Mind"],
+              claim: "Plutarch therefore leaves open whether Socrates’s intellect truly directs his actions, or whether the sense of consciously choosing is just the mind’s interpretation of a decision already made by other forces." },
     },
   },
-  { n: 3, title: null, theme: "Thematic analysis", team: false, due: "2026-10-09", status: "locked", entries: {} },
-  { n: 4, title: null, theme: "Objection & modification", team: false, due: "2026-10-23", status: "locked", entries: {} },
-  { n: 5, title: null, theme: "Compare & contrast", team: false, due: "2026-11-06", status: "locked", entries: {} },
+  {
+    n: 3, title: null, theme: "Thematic analysis", team: false, due: "2026-10-09", status: "reached",
+    entries: {
+      leo: { status: "reached", title: null, file: "content/build-3/leo.html", words: 722,
+             pages: ["98", "98–99", "104", "108"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "If experiences shape desires without conscious choice, perhaps consciousness does not initiate change but rather recognizes and influences a process already underway." },
+      mia: { status: "reached", title: "A Phenomenological Experience of Socrates’ Daimonion", file: "content/build-3/mia.html", words: 774,
+             pages: ["91", "104", "105"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "Phenomenality thus demonstrates that consciousness is not limited to bodily sensation or internally generated thought, but includes what it is like to encounter and respond to experiences that appear to come from beyond the self." },
+      max: { status: "reached", title: null, file: "content/build-3/max.html", words: 721,
+             pages: ["91", "92", "98", "99", "100", "105", "106", "109"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "He uses reflexivity to mark where they run out: a mind disturbed in the middle of acting has to attend to its own state before it can act." },
+    },
+  },
+  {
+    n: 4, title: null, theme: "Objection & modification", team: false, due: "2026-10-23", status: "reached",
+    entries: {
+      leo: { status: "reached", title: null, file: "content/build-4/leo.html", words: 658,
+             pages: ["98", "98–99", "99", "108"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "However, I now think consciousness may influence his character less by controlling individual decisions and more by helping him develop habits that shape his future behavior." },
+      mia: { status: "reached", title: null, file: "content/build-4/mia.html", words: 757,
+             pages: ["97", "99", "103", "104–105", "113"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "Phenomenality does not guarantee correct understanding, but discipline shapes the relationship between felt experience and response." },
+      max: { status: "reached", title: null, file: "content/build-4/max.html", words: 756,
+             pages: ["91", "104", "105", "108–109", "109", "111", "112"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell"], episodes: [],
+             claim: "However, if one considers how Plutarch uses reflexivity in order to show a soul consulting its own intellect at the moment trained habit stops acting for it, one can begin to see how reflexivity might allow consciousness to intervene in the stream of physical causality to influence its course." },
+    },
+  },
+  {
+    n: 5, title: null, theme: "Compare & contrast", team: false, due: "2026-11-06", status: "reached",
+    entries: {
+      leo: { status: "reached", title: null, file: "content/build-5/leo.html", words: 747,
+             pages: ["98–99", "99", "108"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell", "John Milton, Paradise Lost, Book IX (cited IX.708–709)"], episodes: [],
+             claim: "However, while Plutarch presents consciousness as a possible way to develop control over these influences, Milton shows how conscious reasoning can itself become influenced by temptation." },
+      mia: { status: "reached", title: null, file: "content/build-5/mia.html", words: 740,
+             pages: ["92", "104", "109"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell", "Scarry, “The Interior Structure of the Artifact” (pp. 290, 307)"], episodes: [],
+             claim: "Read together, their arguments reveal that consciousness is not simply the relationship between internal experience and external influences, but a cycle in which each continually shapes and reshapes the other." },
+      max: { status: "reached", title: null, file: "content/build-5/max.html", words: 769,
+             pages: ["92", "93"], sources: ["Plutarch, Socrates’ Daimonion, trans. Russell", "Descartes, Meditations, Second Meditation (pp. 20–22)"], episodes: [],
+             claim: "In both cases the object settles nothing by itself, and what turns it into knowledge or action is the subject looking back at its own state, which is what I call reflexivity." },
+    },
+  },
   { n: 6, title: null, theme: "Team conclusion", team: true,  due: "2026-11-20", status: "near", entries: {} },
   { n: 7, title: null, theme: "Personal reflections: transitions from the Log", team: false, due: "2026-12-11", status: "locked", entries: {} },
   { n: 8, title: null, theme: "Overall conclusion", team: false, due: "2026-12-18", status: "locked", entries: {} },

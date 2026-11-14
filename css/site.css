@@ -539,3 +539,8 @@ main { display: block; min-height: 60vh; }
   .player-meta { margin-bottom: 0.1rem; }
   .player-meta > span:not(.status) { display: none; }
 }
+
+/* "Being posted": past due, not up yet (not locked, so no sign refusal) */
+.status-posting::before { content: "◌ "; }
+.bd.is-posting { color: var(--text-muted); border-style: dotted; }
+.chasm .bd.is-posting { color: var(--chasm-muted); }
