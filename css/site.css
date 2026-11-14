@@ -544,3 +544,41 @@ main { display: block; min-height: 60vh; }
 .status-posting::before { content: "◌ "; }
 .bd.is-posting { color: var(--text-muted); border-style: dotted; }
 .chasm .bd.is-posting { color: var(--chasm-muted); }
+
+/* ---------- host captures (member photos) ---------- */
+.capture { flex: 0 0 auto; width: 12rem; margin: 0; }
+.capture.is-small { width: 6rem; }
+.capture-frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--chasm); }
+.capture picture, .capture img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.capture .cap-lab { position: absolute; inset: 0; opacity: 0; transition: opacity 900ms var(--ease-out); }
+.analysis .capture.has-lab .cap-lab { opacity: 1; }
+.cap-corners {                                       /* thin gold corner brackets */
+  position: absolute; inset: 6px; pointer-events: none;
+  --c: var(--sign); --l: 14px;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--l) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top left / 1px var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / var(--l) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 1px var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 1px var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 1px var(--l) no-repeat;
+}
+.capture.is-small .cap-corners { inset: 4px; --l: 9px; }
+.cap-scan {
+  position: absolute; left: 0; right: 0; top: -25%; height: 22%; opacity: 0; pointer-events: none;
+  background: linear-gradient(transparent, color-mix(in srgb, var(--host-white) 22%, transparent) 50%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .capture:hover .cap-scan { opacity: 1; animation: cap-scan 2.8s linear infinite; }
+}
+@keyframes cap-scan { to { top: 105%; } }
+.capture-strip {
+  margin-top: 0.35rem; padding: 0.3rem 0.45rem; background: var(--chasm); color: var(--chasm-text);
+  font: 500 0.6rem/1.35 var(--font-mono); letter-spacing: 0.08em; border-left: 1px solid var(--sign);
+}
+.capture.is-small .capture-strip { font-size: 0.5rem; padding: 0.2rem 0.3rem; }
+.cap-lab-label { display: none; }
+.analysis .capture.has-lab .cap-main-label { display: none; }
+.analysis .capture.has-lab .cap-lab-label { display: inline; }

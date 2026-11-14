@@ -28,9 +28,22 @@ const reachedCount = (id) => builds.filter((b) => entryFor(b, b.team ? "team" : 
 const fmtDate = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
 const label = (b) => `BUILD ${pad(b.n)}${b.theme ? " // " + b.theme.toUpperCase() : ""}${b.team ? " // TEAM BUILD" : ""}`;
 const aliasLabel = (m) => (m.alias ? `HOST // ${esc(m.alias.toUpperCase())}${m.placeholder ? " (PLACEHOLDER)" : ""}` : "HOST // ALIAS PENDING");
-const portrait = (m, cls = "") => (m.photo
-  ? `<img class="portrait ${cls}" src="${href(m.photo)}" alt="Portrait of ${esc(m.name)}" width="320" height="400" loading="lazy">`
-  : `<div class="portrait is-placeholder ${cls}" role="img" aria-label="Placeholder portrait for ${esc(m.name)}"><span>${esc(m.name[0])}</span><small>PHOTO PENDING</small></div>`);
+// photos render as Delos "host captures": gold corner brackets, mono caption strip, scan line on hover;
+// Analysis Mode crossfades to the -lab capture when there is one. No photo -> the placeholder.
+const pic = (src, alt, cls) => `<picture class="${cls}"><source srcset="${href(src)}.avif" type="image/avif">` +
+  `<img src="${href(src)}.jpg" width="640" height="800" alt="${alt}" loading="lazy" decoding="async"></picture>`;
+const portrait = (m, cls = "") => {
+  if (!m.photo) return `<div class="portrait is-placeholder ${cls}" role="img" aria-label="Placeholder portrait for ${esc(m.name)}"><span>${esc(m.name[0])}</span><small>PHOTO PENDING</small></div>`;
+  const who = esc(m.name.toUpperCase());
+  return `<figure class="capture ${cls}${m.photoLab ? " has-lab" : ""}">
+    <div class="capture-frame">
+      ${pic(m.photo, `${esc(m.name)}, host capture`, "cap-main")}
+      ${m.photoLab ? pic(m.photoLab, "", "cap-lab") : ""}
+      <span class="cap-scan" aria-hidden="true"></span><span class="cap-corners" aria-hidden="true"></span>
+    </div>
+    <figcaption class="capture-strip"><span class="cap-main-label">HOST CAPTURE // ${who} // ${esc(m.photoPlace || "FIELD")}</span>${m.photoLab ? `<span class="cap-lab-label">HOST CAPTURE // ${who} // LAB</span>` : ""}</figcaption>
+  </figure>`;
+};
 const buildDots = (m) => `<ol class="build-dots" aria-label="${esc(m.name)}’s builds">${builds.map((b) => {
   const id = b.team ? "team" : m.id, e = entryFor(b, id), label = `Build ${b.n}${b.team ? " (team)" : ""}`;
   return e.status === "reached"
