@@ -34,6 +34,8 @@ const html = `<!DOCTYPE html>
   <title>Sitemap · ${esc(site.team)}</title>
   <meta name="description" content="Every page and every essay on the ${esc(site.team)} site, as plain links.">
   <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/site.css">
 </head>
