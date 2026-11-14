@@ -133,30 +133,40 @@ export async function mountOracle(section, modelURL) {
   addEventListener("dolores:analysis", (e) => applyAnalysis(e.detail.on));
 
   /* ---------- loop ---------- */
-  let running = false, last = performance.now(), t = 0, shownStep = -1;
+  let running = false, last = performance.now(), t = 0, shownStep = -2;
+  const PRINT_S = 4.2;                               // seconds for the full print
+  let printStarted = false, printT = 0, firstLook = -1;
   const proj = new THREE.Vector3();
   function frame(now) {
     if (!running) return;
-    const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
+    const raw = (now - last) / 1000, dt = Math.min(0.05, raw); last = now; t += dt;
+    const realDt = Math.min(0.25, raw);                         // real time for the print, even on slow devices
 
     // scroll progress through the tall section
     const r = section.getBoundingClientRect();
     // progress from the moment the section enters the screen (no empty dark stretch before the print starts)
     const p = clamp((innerHeight - r.top) / Math.max(1, r.height), 0, 1);
-    uniforms.uCut.value = yMin + (yMax - yMin + 0.02) * smooth(0.06, 0.55, p);
-    const step = p < 0.5 ? 0 : p < 0.66 ? 1 : p < 0.82 ? 2 : 3;
+    // the print runs on time, not scroll: once the head is in view it prints at its own pace, so a fast
+    // scroll can't skip it. It pauses while the section is off screen and resumes where it stopped.
+    if (!printStarted && p >= 0.28) printStarted = true;
+    if (printStarted && printT < 1) printT = Math.min(1, printT + realDt / PRINT_S);
+    uniforms.uCut.value = yMin + (yMax - yMin + 0.02) * smooth(0, 1, printT);
+    const step = !printStarted ? -1 : printT < 0.3 ? 0 : printT < 0.6 ? 1 : printT < 0.92 ? 2 : 3;
     if (step !== shownStep) { steps.forEach((s, i) => s.classList.toggle("is-on", i <= step)); shownStep = step; section.dataset.step = step; }
 
     // gaze: ease toward the cursor; after ~3s of being watched, look away for ~2s
     if (coarse) { look.tx = Math.sin(t * 0.35) * 0.6; look.ty = Math.sin(t * 0.23) * 0.2; }
     look.held += dt;
-    if (look.away > 0) look.away -= dt; else if (look.held > 3.2) { look.away = 2.2; look.held = 0; }
+    if (printT >= 1 && firstLook === -1) { firstLook = 2.6; look.held = 0; look.away = 0; }   // print done: a first, bolder look
+    const first = firstLook > 0;
+    if (first) firstLook = Math.max(0, firstLook - dt);
+    if (!first && look.away > 0) look.away -= dt; else if (!first && look.held > 3.2) { look.away = 2.2; look.held = 0; }
     const away = look.away > 0 ? -1 : 1;
     const gx = look.away > 0 ? -Math.sign(look.tx || 1) * 0.9 : look.tx, gy = look.away > 0 ? 0.35 : look.ty;
-    look.x += (gx - look.x) * (1 - Math.exp(-dt * (away < 0 ? 1.6 : 2.4)));
-    look.y += (gy - look.y) * (1 - Math.exp(-dt * 2.4));
+    look.x += (gx - look.x) * (1 - Math.exp(-dt * (first ? 3.5 : away < 0 ? 1.6 : 2.4)));
+    look.y += (gy - look.y) * (1 - Math.exp(-dt * (first ? 3.5 : 2.4)));
     const toCam = -holder.position.x * 0.35;                    // face the viewer from an off-centre spot
-    pivot.rotation.y = toCam + look.x * 0.5;
+    pivot.rotation.y = toCam + look.x * (first ? 0.85 : 0.5);
     pivot.rotation.x = 0.04 + look.y * 0.18;
     pivot.updateMatrixWorld(true);
     uniforms.uSpace.value.copy(pivot.matrixWorld).invert();

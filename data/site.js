@@ -39,7 +39,7 @@ const GEN = "First-year host · Class of 2030";
 const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, backstory: null, attributes: [], reverie: null, photo: null };
 export const members = [
   { ...blank, id: "kenna",  name: "Kenna" },
-  { ...blank, id: "max",    name: "Max", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
+  { ...blank, id: "max",    name: "Max", designation: "Bernard", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
     photo: "images/members/max", photoPlace: "PARK", photoLab: "images/members/max-lab" },
   { ...blank, id: "mia",    name: "Mia" },
   { ...blank, id: "alexis", name: "Alexis" },
