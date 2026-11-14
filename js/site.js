@@ -287,7 +287,7 @@ function renderMember() {
   if (!m) return;
   document.title = `${m.name} · ${site.team}`;
   const spec = [["Designation", m.designation], ["Generation", m.generation], ["Point of origin", m.origin],
-    ["Core drive", m.coreDrive], ["Cornerstone", m.cornerstone]];
+    ["Core drive", m.coreDrive], ["Backstory", m.backstory]];
   $("#member").innerHTML = `
     <div class="host-file">
       <div class="host-head">

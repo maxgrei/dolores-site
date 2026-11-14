@@ -29,14 +29,14 @@ export const site = {
 //   generation   same for everyone
 //   origin       "Point of origin", state level only
 //   coreDrive    "Core drive", intended major
-//   cornerstone  "Cornerstone", one memory or fun fact, one sentence
+//   backstory    "Backstory", one memory or fun fact, one sentence
 //   attributes   "Attribute matrix", exactly three { name, value 1–20 }, names from the show's attribute tablet:
 //                Bulk Apperception, Candor, Vivacity, Curiosity, Humor, Courage, Loyalty, Patience, Imagination
 //   reverie      "Reverie", one line: { believed: "…", now: "…" }  ->  "I believed … → Now I think …"
 //   photo        images/members/<id> WITHOUT extension (tools/photo.py writes .avif + .jpg) or null;
 //                photoPlace = caption word ("PARK"); photoLab = optional "-lab" capture shown in Analysis Mode
 const GEN = "First-year host · Class of 2030";
-const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, cornerstone: null, attributes: [], reverie: null, photo: null };
+const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, backstory: null, attributes: [], reverie: null, photo: null };
 export const members = [
   { ...blank, id: "kenna",  name: "Kenna" },
   { ...blank, id: "max",    name: "Max", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
@@ -160,6 +160,8 @@ export const sources = [
       "<i>Westworld</i>, Season 1. Created by Jonathan Nolan and Lisa Joy. HBO, 2016.",
     ],
   },
+  // Season 1 only (CLAUDE.md): the Westworld entry's "Season two, “The Door.” April 22-June 24, 2018." clause was
+  // removed from the team's citation on Nov 14, 2026. Everything else is copied verbatim from the Build 2 PDF.
   {
     group: "Build 2 bibliography (team)",
     items: [
@@ -218,7 +220,7 @@ export const sources = [
       "Spinoza, Baruch. <i>Ethica Ordine Geometrico Demonstrata.</i> 1665. <i>Opera Posthuma.</i> Amsterdam: Jan Rieuwertsz, 1677. Trans. Samuel Shirley. <i>Ethics, Treatise on the Emendation of the Intellect.</i> Indianapolis, IN: Hackett, 1992.",
       "Velmans, Max. “Is Human Information Processing Conscious?” <i>Behavioral and Brain Sciences</i> 14: 4 (1991): 651–68.",
       "-----------. “How Could Conscious Experiences Affect Brains?” <i>Journal of Consciousness Studies</i> 9: 11 (2002): 3-29.",
-      "<i>Westworld</i>. Season one, “The Maze.” October 2-December 4, 2016. Season two, “The Door.” April 22-June 24, 2018. Created by Jonathan Nolan and Lisa Joy. Produced by Jonathan Nolan, Lisa Joy, J. J. Abrams, Jerry Weintraub, and Bryan Burk. HBO.",
+      "<i>Westworld</i>. Season one, “The Maze.” October 2-December 4, 2016. Created by Jonathan Nolan and Lisa Joy. Produced by Jonathan Nolan, Lisa Joy, J. J. Abrams, Jerry Weintraub, and Bryan Burk. HBO.",
       "Wittgenstein, Ludwig. <i>Philosophical Investigations.</i> 1953. Trans. G. E. M. Anscombe. Oxford: Blackwell, 1958.",
     ],
   },

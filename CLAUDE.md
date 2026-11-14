@@ -141,7 +141,7 @@ Stage files by explicit path (never `git add -A`) and check `git show --stat HEA
 ## Open items: what's needed next
 From the team (Max to send; save verbatim, never retype):
 - Builds still missing (as of Nov 14): Kenna 3, 4, 5; Alexis 1, 3, 4, 5; Meer 1, 3, 4, 5; then everyone's 6–8.
-- Each member's designation (host alias), origin (state), core drive, cornerstone, three attributes, reverie, photo
+- Each member's designation (host alias), origin (state), core drive, backstory, three attributes, reverie, photo
   (→ `images/members/<id>.avif`, ~640×800, set `photo`), a short intro, and any Reveries.
 - Core positions (claim + build number) for the home page; build titles/themes for the labels.
 - Jokes and exact character quotes for `humor` in data/site.js (never invent quotes from the show).
@@ -167,3 +167,5 @@ Built since: sound toggle + ambient piano, humor section, ~600ms "reverie" glitc
   Hometowns at state level only. Every member photo is neutral grayscale (no tint), cropped 4:5 to 640×800,
   re-encoded as AVIF + JPG with all metadata (EXIF/GPS) stripped. (The `_inbox` file names contain surnames;
   never copy them into the site.)
+- Westworld references are Season 1 only (S1E1–S1E10): episodes, characters, scenes, terms and plot points.
+  Nothing from Season 2 or later, even if it would fit.
