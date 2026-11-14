@@ -13,11 +13,25 @@ const store = {
 
 export const isAnalysis = () => root.classList.contains("analysis");
 
+// KEY nn markers: every [data-key="01 14"] element gets a small mono link per symbol to its entry on
+// The Key. Appended inside the element (in the flow, never on top of content); hidden by CSS unless
+// html.analysis, so they are only focusable while Analysis Mode is on.
+const KEYS = new URL("../keys/index.html", import.meta.url).href;
+export function placeKeyMarkers(scope = document) {
+  for (const el of scope.querySelectorAll("[data-key]:not([data-keyed])")) {
+    el.dataset.keyed = "";
+    for (const n of el.dataset.key.split(/\s+/)) {
+      el.insertAdjacentHTML("beforeend", ` <a class="key-marker" href="${KEYS}#key-${n}" aria-label="The Key, entry ${n}"><span>KEY ${n}</span></a>`);
+    }
+  }
+}
+
 export function setAnalysis(on, { save = true } = {}) {
   root.classList.toggle("analysis", on);
   document.querySelectorAll(".analysis-toggle").forEach((b) => b.setAttribute("aria-pressed", String(on)));
   const bar = document.querySelector(".analysis-bar");
   if (bar) bar.hidden = !on;
+  if (on) placeKeyMarkers();
   if (save) store.set(on);
   dispatchEvent(new CustomEvent("dolores:analysis", { detail: { on } }));
 }
@@ -26,7 +40,7 @@ export function mountAnalysis() {
   const bar = document.createElement("div");
   bar.className = "analysis-bar";
   bar.hidden = true;
-  bar.innerHTML = `<span>ANALYSIS MODE // DELOS DIAGNOSTIC</span><a class="bar-key" href="${new URL("../keys/index.html", import.meta.url).href}">THE KEY: what the symbols mean</a><span class="hint">type “analysis” or press Esc to exit</span>`;
+  bar.innerHTML = `<span data-key="05">ANALYSIS MODE // DELOS DIAGNOSTIC</span><a class="bar-key" href="${new URL("../keys/index.html", import.meta.url).href}">THE KEY: what the symbols mean</a><span class="hint">type “analysis” or press Esc to exit</span>`;
   document.body.append(bar);
 
   document.addEventListener("click", (e) => {

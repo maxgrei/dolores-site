@@ -43,18 +43,25 @@ Below the build list: **Begin the test**. A voice says *turn back*. Choose **Kee
 pigs arrive (Plutarch pp.91–92, paraphrased). Continue: Delos claims it predicted the choice.
 > "It didn't: nothing is tracked. But if a voice feels like yours, does that make the choice yours?"
 
-### 2:15 Analysis Mode (25 s)
+### 2:15 Analysis Mode (20 s)
 Type **analysis** (or press the ANALYSIS button). The site becomes a Delos diagnostic: the hero
 turns to an x-ray wireframe, each act shows the question it asks and the builds that answer it.
 Open any essay: the margin shows its claim, the passage it quotes, its Plutarch pages, and
 "Also reads" links to teammates citing the same page.
 
-### 2:40 A member's reverie (20 s)
+### 2:35 A member's reverie (15 s)
 Go to **Hosts**, hover a star (its path straightens as builds are posted, Timarchus' vision,
 pp.108–109), and open a host profile: designation, attribute matrix, and the **reverie** line
 ("I believed … → Now I think …").
 **Placeholder:** no member has written a reverie yet; until one does, the profile shows
 AWAITING CALIBRATION. Pick the member whose reverie is filled in first.
+
+### 2:50 Closing beat: The Key (10 s)
+Still in Analysis Mode, go back to the home page: every symbol now carries a small **KEY nn**
+marker. Click **KEY 01** next to Act II (the player piano). It opens The Key, the site's log of
+its symbols, at entry 01: where the piano appears, the saloon player piano (S1), and the team's
+note on the punched roll as an outside voice versus a player who owns the music.
+**Placeholder:** the entry's meaning reads AWAITING ANNOTATION until the team writes it.
 
 ### 3:00 End
 > "The voice was your own."

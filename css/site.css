@@ -777,3 +777,17 @@ main { display: block; min-height: 60vh; }
 .key-note { color: var(--text-muted); font-size: 0.95rem; }
 .key-note .label { display: block; margin-bottom: 0.1rem; }
 .analysis-bar .bar-key { color: var(--chasm-text); text-decoration-color: var(--sign); display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ---------- KEY nn markers (Analysis Mode only) ---------- */
+.key-marker { display: none; }
+.analysis .key-marker {
+  display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; margin-left: 0.35rem; vertical-align: middle;
+  text-decoration: none; font: 500 0.6rem/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; font-style: normal;
+}
+.analysis .key-marker span { padding: 0.25rem 0.4rem; color: var(--text); background: var(--bg); border: 1px solid var(--accent); white-space: nowrap; }
+.analysis .key-marker:hover span { border-color: var(--sign); }
+.analysis .key-marker:focus-visible { outline: none; }
+.analysis .key-marker:focus-visible span { outline: 2px solid var(--focus); outline-offset: 2px; }
+.analysis .chasm .key-marker span, .analysis .act-bridge .key-marker span, .analysis .oracle .key-marker span,
+.analysis .player .key-marker span, .analysis .analysis-bar .key-marker span, .analysis .capture-strip .key-marker span { color: var(--chasm-text); background: var(--chasm); }
+.analysis .analysis-bar .key-marker { min-height: 0; }

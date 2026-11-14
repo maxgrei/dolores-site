@@ -1,7 +1,7 @@
 // Team Dolores — renders every page from data/site.js. No build step.
 import { site, members, builds, positions, sources, humor, acts } from "../data/site.js";
 import { mountSign } from "./sign.js";
-import { mountAnalysis, annotateEssay } from "./analysis.js";
+import { mountAnalysis, annotateEssay, placeKeyMarkers } from "./analysis.js";
 import { mountSound } from "./sound.js";
 
 const ROOT = new URL("../", import.meta.url);          // site root, works under any sub-path
@@ -54,7 +54,7 @@ const portrait = (m, cls = "") => {
       ${m.photoLab ? pic(m.photoLab, "", "cap-lab") : ""}
       <span class="cap-scan" aria-hidden="true"></span><span class="cap-corners" aria-hidden="true"></span>
     </div>
-    <figcaption class="capture-strip"><span class="cap-main-label">HOST CAPTURE // ${who} // ${esc(m.photoPlace || "FIELD")}</span>${m.photoLab ? `<span class="cap-lab-label">HOST CAPTURE // ${who} // LAB</span>` : ""}</figcaption>
+    <figcaption class="capture-strip" data-key="12"><span class="cap-main-label">HOST CAPTURE // ${who} // ${esc(m.photoPlace || "FIELD")}</span>${m.photoLab ? `<span class="cap-lab-label">HOST CAPTURE // ${who} // LAB</span>` : ""}</figcaption>
   </figure>`;
 };
 const buildDots = (m) => `<ol class="build-dots" aria-label="${esc(m.name)}’s builds">${builds.map((b) => {
@@ -301,7 +301,7 @@ function renderMember() {
       <dl class="spec-sheet">${spec.map(([k, v]) => `<div><dt>${k}</dt><dd>${field(v)}</dd></div>`).join("")}</dl>
 
       <section class="host-block" aria-labelledby="attr-h">
-        <h2 id="attr-h" class="label">Attribute matrix</h2>
+        <h2 id="attr-h" class="label" data-key="11">Attribute matrix</h2>
         ${attrs(m)}
       </section>
       <section class="host-block" aria-labelledby="rev-h">
@@ -417,3 +417,5 @@ mountSign();
 maybeStringsHero();
 maybeOracle();
 ({ home: renderHome, essays: renderEssaysIndex, team: renderTeam, member: renderMember, build: renderBuild, sources: renderSources }[page] || (() => {}))();
+placeKeyMarkers();                               // after the page has rendered (markers show only in Analysis Mode)
+
