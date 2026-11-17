@@ -140,7 +140,7 @@ Stage files by explicit path (never `git add -A`) and check `git show --stat HEA
 
 ## Open items: what's needed next
 From the team (Max to send; save verbatim, never retype):
-- Builds still missing (as of Nov 14): Kenna 3, 4, 5; Alexis 1, 3, 4, 5; Meer 1, 3, 4, 5; then everyone's 6–8.
+- Builds still missing (as of Nov 17): Kenna 3, 4, 5; Alexis 1, 3, 4, 5; then everyone's 6–8 (Build 6 is the team build).
 - Each member's designation (host alias), origin (state), core drive, backstory, three attributes, reverie, photo
   (→ `images/members/<id>.avif`, ~640×800, set `photo`), a short intro, and any Reveries.
 - Core positions (claim + build number) for the home page; build titles/themes for the labels.
