@@ -34,13 +34,13 @@ export const site = {
 //                Bulk Apperception, Candor, Vivacity, Curiosity, Humor, Courage, Loyalty, Patience, Imagination
 //   reverie      "Reverie", one line: { believed: "…", now: "…" }  ->  "I believed … → Now I think …"
 //   photo        images/members/<id> WITHOUT extension (tools/photo.py writes .avif + .jpg) or null;
-//                photoPlace = caption word ("PARK"); photoLab = optional "-lab" capture shown in Analysis Mode
+//                photoPlace = caption word ("PARK"). ONE photo per member (team decision, Nov 17).
 const GEN = "First-year host · Class of 2030";
 const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, backstory: null, attributes: [], reverie: null, photo: null };
 export const members = [
   { ...blank, id: "kenna",  name: "Kenna", origin: "Michigan" },
   { ...blank, id: "max",    name: "Max", designation: "Bernard", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
-    photo: "images/members/max", photoPlace: "PARK", photoLab: "images/members/max-lab" },
+    photo: "images/members/max", photoPlace: "PARK" },
   { ...blank, id: "mia",    name: "Mia", origin: "Massachusetts" },
   { ...blank, id: "alexis", name: "Alexis", origin: "Michigan" },
   { ...blank, id: "meer",   name: "Meer", origin: "Michigan" },
@@ -231,12 +231,6 @@ export const symbols = [
     onSite: [{ label: "Host profiles", href: "members/max.html" }],
     westworld: "Maeve’s attribute tablet (S1E6)", plutarch: [],
     builds: [],
-    note: null,
-    meaning: null },
-  { id: "key-12", number: "12", name: "Park vs lab photos",
-    onSite: [{ label: "Host profiles: the capture changes to the lab photo in Analysis Mode", href: "members/max.html" }],
-    westworld: "The park narratives vs the lab (S1)", plutarch: [],
-    builds: [{ n: 2, members: ["Team"] }],
     note: null,
     meaning: null },
   { id: "key-13", number: "13", name: "τὸ δαιμόνιον in Greek",

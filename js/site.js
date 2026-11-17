@@ -42,19 +42,18 @@ const reverieLine = (m) => (m.reverie?.believed && m.reverie?.now
   ? `<p class="reverie-line">I believed ${esc(m.reverie.believed)} <span class="arrow" aria-hidden="true">→</span><span class="visually-hidden">, and</span> Now I think ${esc(m.reverie.now)}</p>`
   : `<p class="await">${AWAIT}</p>`);
 // photos render as Delos "host captures": gold corner brackets, mono caption strip, scan line on hover;
-// Analysis Mode crossfades to the -lab capture when there is one. No photo -> the placeholder.
+// One photo per member. No photo -> the placeholder.
 const pic = (src, alt, cls) => `<picture class="${cls}"><source srcset="${href(src)}.avif" type="image/avif">` +
   `<img src="${href(src)}.jpg" width="640" height="800" alt="${alt}" loading="lazy" decoding="async"></picture>`;
 const portrait = (m, cls = "") => {
   if (!m.photo) return `<div class="portrait is-placeholder ${cls}" role="img" aria-label="Placeholder portrait for ${esc(m.name)}"><span>${esc(m.name[0])}</span><small>PHOTO PENDING</small></div>`;
   const who = esc(m.name.toUpperCase());
-  return `<figure class="capture ${cls}${m.photoLab ? " has-lab" : ""}">
+  return `<figure class="capture ${cls}">
     <div class="capture-frame">
       ${pic(m.photo, `${esc(m.name)}, host capture`, "cap-main")}
-      ${m.photoLab ? pic(m.photoLab, "", "cap-lab") : ""}
       <span class="cap-scan" aria-hidden="true"></span><span class="cap-corners" aria-hidden="true"></span>
     </div>
-    <figcaption class="capture-strip" data-key="12"><span class="cap-main-label">HOST CAPTURE // ${who} // ${esc(m.photoPlace || "FIELD")}</span>${m.photoLab ? `<span class="cap-lab-label">HOST CAPTURE // ${who} // LAB</span>` : ""}</figcaption>
+    <figcaption class="capture-strip"><span class="cap-main-label">HOST CAPTURE // ${who} // ${esc(m.photoPlace || "FIELD")}</span></figcaption>
   </figure>`;
 };
 const buildDots = (m) => `<ol class="build-dots" aria-label="${esc(m.name)}’s builds">${builds.map((b) => {

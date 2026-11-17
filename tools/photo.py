@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Member photos -> Delos host captures.
 
-Takes _inbox/photos/<firstname>[-lab].<ext> (or explicit --src/--name pairs) and writes
-images/members/<firstname>[-lab].avif + .jpg:
+Takes _inbox/photos/<firstname>.<ext> (or explicit --src/--name pairs) and writes
+images/members/<firstname>.avif + .jpg (ONE photo per member, team decision Nov 17):
   - fixes camera rotation (EXIF orientation), then drops ALL metadata (EXIF, GPS, ICC)
   - crops 4:5, centred horizontally and on the upper third vertically (faces sit there)
   - neutral grayscale (R = G = B, no tint) with a light auto-contrast
@@ -23,14 +23,14 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 INBOX, OUT = ROOT / "_inbox" / "photos", ROOT / "images" / "members"
 MEMBERS = {"kenna", "max", "mia", "alexis", "meer", "leo"}
 W, H = 640, 800
-NAME = re.compile(r"^(?P<who>[a-z]+)(?P<lab>-lab)?$")
+NAME = re.compile(r"^(?P<who>[a-z]+)$")
 
 
 def check_name(stem):
     m = NAME.match(stem.lower())
     if not m or m["who"] not in MEMBERS:
-        raise SystemExit(f"refusing '{stem}': output must be <firstname>[-lab] with a first name from {sorted(MEMBERS)}")
-    return m["who"] + (m["lab"] or "")
+        raise SystemExit(f"refusing '{stem}': output must be <firstname> with a first name from {sorted(MEMBERS)}")
+    return m["who"]
 
 
 def crop_45(im):

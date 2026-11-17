@@ -117,7 +117,7 @@ Analysis Mode, brand-check polish.
   "What we argue" / "Improvisations" stay `hidden` until `positions` / `humor` have entries.
 - Member pages = Delos host profiles (FILE nn, spec sheet, attribute matrix, reverie, builds with verbatim claims);
   empty fields render "AWAITING CALIBRATION". Photos via `tools/photo.py` (Pillow in a scratch venv) -> "host
-  captures" (gold corner brackets, mono caption, Analysis Mode crossfades to `-lab`).
+  captures" (gold corner brackets, mono caption). ONE photo per member (team decision, Nov 17).
 - Build status: entries with no post on a past-due build show "Being posted" (computed from `due` in js/site.js);
   future builds stay "Locked". Every entry has a verbatim `claim` (thesis sentence) for Analysis Mode.
 - `html.can-3d` (set in js/site.js boot) = motion allowed + WebGL; it switches the oracle/piano to tall sticky scroll stages.
