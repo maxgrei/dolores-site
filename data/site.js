@@ -42,7 +42,7 @@ export const members = [
   { ...blank, id: "max",    name: "Max", designation: "Bernard", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
     photo: "images/members/max" },
   { ...blank, id: "mia",    name: "Mia", origin: "Massachusetts" },
-  { ...blank, id: "alexis", name: "Alexis", origin: "Michigan" },
+  { ...blank, id: "alexis", name: "Alexis", origin: "Michigan", photo: "images/members/alexis" },
   { ...blank, id: "meer",   name: "Meer", origin: "Michigan" },
   { ...blank, id: "leo",    name: "Leo", origin: "New Jersey", photo: "images/members/leo" },
 ];
