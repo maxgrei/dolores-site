@@ -34,17 +34,17 @@ export const site = {
 //                Bulk Apperception, Candor, Vivacity, Curiosity, Humor, Courage, Loyalty, Patience, Imagination
 //   reverie      "Reverie", one line: { believed: "…", now: "…" }  ->  "I believed … → Now I think …"
 //   photo        images/members/<id> WITHOUT extension (tools/photo.py writes .avif + .jpg) or null;
-//                photoPlace = caption word ("PARK"). ONE photo per member (team decision, Nov 17).
+//                ONE photo per member (team decision, Nov 17); caption "HOST CAPTURE // NAME".
 const GEN = "First-year host · Class of 2030";
 const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, backstory: null, attributes: [], reverie: null, photo: null };
 export const members = [
-  { ...blank, id: "kenna",  name: "Kenna", origin: "Michigan" },
+  { ...blank, id: "kenna",  name: "Kenna", origin: "Michigan", photo: "images/members/kenna" },
   { ...blank, id: "max",    name: "Max", designation: "Bernard", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
-    photo: "images/members/max", photoPlace: "PARK" },
+    photo: "images/members/max" },
   { ...blank, id: "mia",    name: "Mia", origin: "Massachusetts" },
   { ...blank, id: "alexis", name: "Alexis", origin: "Michigan" },
   { ...blank, id: "meer",   name: "Meer", origin: "Michigan" },
-  { ...blank, id: "leo",    name: "Leo", origin: "New Jersey" },
+  { ...blank, id: "leo",    name: "Leo", origin: "New Jersey", photo: "images/members/leo" },
 ];
 
 // Builds 1–8. Builds 2 and 6 are team builds (one entry, id "team").
@@ -232,6 +232,12 @@ export const symbols = [
     westworld: "Maeve’s attribute tablet (S1E6)", plutarch: [],
     builds: [],
     note: null,
+    meaning: null },
+  { id: "key-12", number: "12", name: "Whose voice?",
+    onSite: [{ label: "Analysis Mode on any essay (e.g. Build 1)", href: "essays/build-1/index.html" }],
+    westworld: "The analysis mode hosts are questioned in (S1)", plutarch: ["104 (Simmias: “a perception of a voice”)"],
+    builds: [{ n: 1, members: ["Max", "Mia", "Leo"] }, { n: 3, members: ["Mia", "Max", "Meer"] }, { n: 4, members: ["Max", "Meer"] }],
+    note: "Quoted words vs. the writer’s own: the bicameral voice and the self.",
     meaning: null },
   { id: "key-13", number: "13", name: "τὸ δαιμόνιον in Greek",
     onSite: [{ label: "Home hero", href: "index.html#welcome-heading" }, { label: "The 404 page", href: "404.html" }],

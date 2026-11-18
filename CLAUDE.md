@@ -117,7 +117,12 @@ Analysis Mode, brand-check polish.
   "What we argue" / "Improvisations" stay `hidden` until `positions` / `humor` have entries.
 - Member pages = Delos host profiles (FILE nn, spec sheet, attribute matrix, reverie, builds with verbatim claims);
   empty fields render "AWAITING CALIBRATION". Photos via `tools/photo.py` (Pillow in a scratch venv) -> "host
-  captures" (gold corner brackets, mono caption). ONE photo per member (team decision, Nov 17).
+  captures" (gold corner brackets, caption "HOST CAPTURE // NAME"). ONE photo per member (team decision, Nov 17);
+  in Analysis Mode the same photo gets a CSS "scan" look and "// UNDER ANALYSIS" (no alternates).
+- "Whose voice?" (Analysis Mode, KEY 12, js/analysis.js `voiceOf`): quoted words (inside quotation marks, plus the
+  opening passage) underlined in gold; meter "PLUTARCH x% · OWN VOICE y%" per essay, per author on build pages,
+  across builds on member pages. Quotes are labelled by the citation after them (Plato / Milton / Descartes /
+  Plutarch, else QUOTED). Counted from quotation marks, so the numbers are approximate.
 - Build status: entries with no post on a past-due build show "Being posted" (computed from `due` in js/site.js);
   future builds stay "Locked". Every entry has a verbatim `claim` (thesis sentence) for Analysis Mode.
 - `html.can-3d` (set in js/site.js boot) = motion allowed + WebGL; it switches the oracle/piano to tall sticky scroll stages.

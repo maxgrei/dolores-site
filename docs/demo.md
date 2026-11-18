@@ -47,7 +47,10 @@ pigs arrive (Plutarch pp.91–92, paraphrased). Continue: Delos claims it predic
 Type **analysis** (or press the ANALYSIS button). The site becomes a Delos diagnostic: the hero
 turns to an x-ray wireframe, each act shows the question it asks and the builds that answer it.
 Open any essay: the margin shows its claim, the passage it quotes, its Plutarch pages, and
-"Also reads" links to teammates citing the same page.
+"Also reads" links to teammates citing the same page. **Whose voice?** underlines every quoted word in
+gold and counts the split above the essay (e.g. "PLUTARCH 25% · OWN VOICE 75%", counted from
+quotation marks); host profiles show each member's total across their builds, and their photo
+shifts to a scan look ("HOST CAPTURE // NAME // UNDER ANALYSIS").
 
 ### 2:35 A member's reverie (15 s)
 Go to **Hosts**, hover a star (its path straightens as builds are posted, Timarchus' vision,

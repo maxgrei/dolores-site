@@ -786,3 +786,34 @@ main { display: block; min-height: 60vh; }
 .analysis .chasm .key-marker span, .analysis .act-bridge .key-marker span, .analysis .oracle .key-marker span,
 .analysis .player .key-marker span, .analysis .analysis-bar .key-marker span, .analysis .capture-strip .key-marker span { color: var(--chasm-text); background: var(--chasm); }
 .analysis .analysis-bar .key-marker { min-height: 0; }
+
+/* ---------- Analysis Mode: host capture "scan" look (one photo) ---------- */
+.cap-analysis { display: none; }
+.analysis .capture .cap-analysis { display: inline; }
+.analysis .capture img { filter: grayscale(1) contrast(1.4) brightness(1.04); }
+.analysis .capture .cap-scan { opacity: 0.45; top: 38%; }
+@media (prefers-reduced-motion: no-preference) {
+  .analysis .capture .cap-scan { animation: cap-scan 4.5s linear infinite; }
+}
+
+/* ---------- Analysis Mode: WHOSE VOICE? (KEY 12) ---------- */
+.voice-q { }                                         /* plain text unless Analysis Mode */
+.analysis .voice-q { text-decoration: underline; text-decoration-color: var(--sign); text-decoration-thickness: 2px; text-underline-offset: 0.22em; }
+.voice-meter, .voice-summary { display: none; }
+.analysis .voice-meter { display: block; max-width: var(--measure); margin: 0 0 1rem; }
+.analysis .voice-summary { display: block; margin: 0 0 1.5rem; padding: 0.7rem 0.9rem; border-left: 1px solid var(--sign); max-width: 44rem; }
+.voice-head { margin: 0 0 0.35rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; }
+.voice-head .label { display: inline; margin: 0 0.4rem 0 0; }
+.voice-line { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; }
+.voice-bar { display: flex; height: 4px; background: var(--border); }
+.voice-bar span { display: block; height: 100%; background: var(--sign); }
+.voice-bar span + span { border-left: 1px solid var(--bg); }
+.voice-bar .v-quoted { background: var(--grey-600); }
+.voice-note { margin: 0.3rem 0 0; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.08em; color: var(--text-muted); text-transform: uppercase; }
+.voice-summary ul, .voice-per { list-style: none; margin: 0.3rem 0 0; padding: 0; }
+.voice-summary li, .voice-per li { margin: 0.2rem 0; }
+.vs-name { font-family: var(--font-head); font-size: 1.05rem; margin-right: 0.4rem; }
+.voice-per a { display: inline-flex; align-items: center; min-height: 44px; margin-right: 0.5rem; font-family: var(--font-head); }
+.voice-block[hidden] { display: none; }
+.voice-block { display: none; }
+.analysis .voice-block:not([hidden]) { display: block; }

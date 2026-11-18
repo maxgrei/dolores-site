@@ -1,7 +1,7 @@
 // Team Dolores — renders every page from data/site.js. No build step.
 import { site, members, builds, positions, sources, humor, acts } from "../data/site.js";
 import { mountSign } from "./sign.js";
-import { mountAnalysis, annotateEssay, placeKeyMarkers } from "./analysis.js";
+import { mountAnalysis, annotateEssay, placeKeyMarkers, voiceOf, addVoice, voiceLine, voiceMeter } from "./analysis.js";
 import { mountSound } from "./sound.js";
 
 const ROOT = new URL("../", import.meta.url);          // site root, works under any sub-path
@@ -53,7 +53,7 @@ const portrait = (m, cls = "") => {
       ${pic(m.photo, `${esc(m.name)}, host capture`, "cap-main")}
       <span class="cap-scan" aria-hidden="true"></span><span class="cap-corners" aria-hidden="true"></span>
     </div>
-    <figcaption class="capture-strip"><span class="cap-main-label">HOST CAPTURE // ${who} // ${esc(m.photoPlace || "FIELD")}</span></figcaption>
+    <figcaption class="capture-strip"><span class="cap-main-label">HOST CAPTURE // ${who}</span><span class="cap-analysis"> // UNDER ANALYSIS</span></figcaption>
   </figure>`;
 };
 const buildDots = (m) => `<ol class="build-dots" aria-label="${esc(m.name)}’s builds">${builds.map((b) => {
@@ -281,6 +281,24 @@ function renderTeam() {
     </article>`).join("");
 }
 
+async function memberVoice(m) {
+  const own = builds.filter((b) => !b.team && b.entries[m.id]?.status === "reached");
+  if (!own.length) return;
+  const per = await Promise.all(own.map(async (b) => {
+    const e = b.entries[m.id], div = document.createElement("div");
+    try { div.innerHTML = await (await fetch(href(e.file))).text(); } catch { return null; }
+    return [b.n, voiceOf(div, e.sources || [])];
+  }));
+  const ok = per.filter(Boolean);
+  if (!ok.length) return;
+  const total = ok.reduce((acc, [, v]) => addVoice(acc, v), { total: 0, by: {} });
+  const block = $(".voice-block");
+  block.querySelector(".voice-total").innerHTML = voiceMeter(total, { title: `${ok.length} BUILD${ok.length > 1 ? "S" : ""}` }) +
+    `<ul class="voice-per">${ok.map(([n, v]) => `<li><a href="${buildHref(n, m.id)}">Build ${n}</a> <span class="voice-line">${voiceLine(v)}</span></li>`).join("")}</ul>`;
+  block.hidden = false;
+  placeKeyMarkers(block);
+}
+
 function renderMember() {
   const m = members.find((x) => x.id === body.dataset.member);
   if (!m) return;
@@ -308,6 +326,10 @@ function renderMember() {
         ${reverieLine(m)}
       </section>
 
+      <section class="host-block voice-block" aria-labelledby="voice-h" hidden>
+        <h2 id="voice-h" class="label">Whose voice? // across their builds</h2>
+        <div class="voice-total"></div>
+      </section>
       <section class="host-block" aria-labelledby="builds-h">
         <h2 id="builds-h" class="label">Builds // ${reachedCount(m.id)} of ${builds.length} reached</h2>
         <ol class="host-builds">${builds.map((b) => {
@@ -323,6 +345,7 @@ function renderMember() {
         }).join("")}</ol>
       </section>
     </div>`;
+  memberVoice(m);
 }
 
 async function renderBuild() {
@@ -356,17 +379,28 @@ async function renderBuild() {
       </article>`;
     }).join("")}`;
 
+  const voices = [];
   await Promise.all([...main.querySelectorAll("[data-src]")].map(async (el) => {
     try {
       const res = await fetch(href(el.dataset.src));
       if (!res.ok) throw new Error(res.status);
       el.innerHTML = await res.text();
       const id = el.closest(".essay").id, a = authors.find((x) => x.id === id);
-      annotateEssay(el, entryFor(b, id), { author: a.name, build: b.n, alsoReads: alsoReads(b, id, entryFor(b, id)) });
+      voices.push([a.name, annotateEssay(el, entryFor(b, id), { author: a.name, build: b.n, alsoReads: alsoReads(b, id, entryFor(b, id)) })]);
     } catch {
       el.innerHTML = `<p class="empty">This essay could not be loaded.</p>`;
     }
   }));
+  // Whose voice?, per author (Analysis Mode only)
+  if (voices.length) {
+    const order = authors.map((x) => x.name);
+    voices.sort((x, y) => order.indexOf(x[0]) - order.indexOf(y[0]));
+    main.querySelector(".toc")?.closest("nav").insertAdjacentHTML("afterend", `<section class="voice-summary" aria-label="Whose voice? by author" data-key="12">
+      <p class="label">WHOSE VOICE? // BY AUTHOR</p>
+      <ul>${voices.map(([n, v]) => `<li><span class="vs-name">${esc(n)}</span> <span class="voice-line">${voiceLine(v)}</span></li>`).join("")}</ul>
+      <p class="voice-note">counted from quotation marks</p></section>`);
+    placeKeyMarkers(main);
+  }
   if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
 }
 
