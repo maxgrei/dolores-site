@@ -124,7 +124,8 @@ Analysis Mode, brand-check polish.
   across builds on member pages. Quotes are labelled by the citation after them (Plato / Milton / Descartes /
   Plutarch, else QUOTED). Counted from quotation marks, so the numbers are approximate.
 - Build status: entries with no post on a past-due build show "Being posted" (computed from `due` in js/site.js);
-  future builds stay "Locked". Every entry has a verbatim `claim` (thesis sentence) for Analysis Mode.
+  future builds stay "Locked". A "near" build (Build 6 now) has a real page with an "In progress // due …" placeholder,
+  and links to it open instead of refusing; it fills in once entries are added and status flips to "reached". Every entry has a verbatim `claim` (thesis sentence) for Analysis Mode.
 - `html.can-3d` (set in js/site.js boot) = motion allowed + WebGL; it switches the oracle/piano to tall sticky scroll stages.
 - `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, sessionStorage `dolores:analysis`
   (per visit on purpose: a remembered wireframe hero looked broken),
@@ -146,6 +147,8 @@ Stage files by explicit path (never `git add -A`) and check `git show --stat HEA
 ## Open items: what's needed next
 From the team (Max to send; save verbatim, never retype):
 - Builds still missing (as of Nov 17): Kenna 3, 4, 5; Alexis 1, 3, 4, 5; then everyone's 6–8 (Build 6 is the team build).
+- Designations so far: Max = Bernard, Kenna = Teddy, Alexis = Logan, Meer = Maeve. Mia's pick "Achecheta" (Akecheta)
+  is a Season 2 character, held back pending Max's call.
 - Each member's designation (host alias), origin (state), core drive, backstory, three attributes, reverie, photo
   (→ `images/members/<id>.avif`, ~640×800, set `photo`), a short intro, and any Reveries.
 - Core positions (claim + build number) for the home page; build titles/themes for the labels.

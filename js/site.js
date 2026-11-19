@@ -62,7 +62,9 @@ const buildDots = (m) => `<ol class="build-dots" aria-label="${esc(m.name)}’s 
     ? `<li><a class="bd is-reached" href="${buildHref(b.n, id)}" aria-label="${label}: posted">${pad(b.n)}</a></li>`
     : e.status === "posting"
       ? `<li><span class="bd is-posting" aria-label="${label}: being posted">${pad(b.n)}</span></li>`
-      : `<li><span class="bd is-locked" data-locked aria-label="${label}: locked">${pad(b.n)}</span></li>`;
+      : b.status === "near"
+        ? `<li><a class="bd is-locked" href="${buildHref(b.n)}" aria-label="${label}: in progress">${pad(b.n)}</a></li>`
+        : `<li><span class="bd is-locked" data-locked aria-label="${label}: locked">${pad(b.n)}</span></li>`;
 }).join("")}</ol>`;
 const statusChip = (s) => `<span class="status status-${s}">${STATUS[s]}</span>`;
 
@@ -126,7 +128,7 @@ const answering = (pages) => { const want = new Set(pages.flatMap(pageNums)); re
 
 /* ---------- pieces ---------- */
 const timeline = () => `<ol class="timeline">${builds.map((b) => `
-  <li><a href="${buildHref(b.n)}"${b.status === "reached" ? "" : " data-locked"}>
+  <li><a href="${buildHref(b.n)}"${opens(b) ? "" : " data-locked"}>
     <span class="num">BUILD ${pad(b.n)}</span>
     <span class="name">${esc(buildName(b))}</span>
     ${statusChip(b.status)}
@@ -134,6 +136,14 @@ const timeline = () => `<ol class="timeline">${builds.map((b) => `
     <span class="meta">${esc(buildMeta(b))}</span>
   </a></li>`).join("")}</ol>`;
 
+// "near" builds have a page now (an in-progress placeholder), so links to them go through; locked ones refuse
+const opens = (b) => b.status === "reached" || b.status === "near";
+const inProgress = (b) => `
+  <div class="in-progress">
+    <p class="label">In progress${b.due ? ` // due ${fmtDate(b.due)}` : ""}</p>
+    <p>${b.team ? "The team is writing this build now." : "This build is being written now."} It will appear here when it is posted.</p>
+    ${b.team ? `<p class="ip-back"><a href="${href("team/index.html")}">Meet the hosts writing it</a></p>` : ""}
+  </div>`;
 const refusal = (extra = "") => `
   <div class="sign-refusal">
     <p class="label">Not yet reached${extra}</p>
@@ -204,7 +214,8 @@ function maybeLoop() {
     const go = b.status === "reached"
       ? `<a class="player-go" href="${buildHref(b.n)}">Read ${esc(buildName(b))}</a>`
       : b.status === "posting" ? `<span class="player-go is-quiet">Being posted</span>`
-      : `<a class="player-go" href="${buildHref(b.n)}" data-locked>${b.status === "near" ? "Near: not yet punched" : "Not yet reached"}</a>`;
+      : b.status === "near" ? `<a class="player-go" href="${buildHref(b.n)}">Near: in progress</a>`
+      : `<a class="player-go" href="${buildHref(b.n)}" data-locked>Not yet reached</a>`;
     return `<p class="label">${label(b)}</p><h3>${esc(buildName(b))}</h3>
       ${b.theme ? `<p class="loop-theme">${esc(b.theme)}</p>` : ""}
       <p class="player-meta">${statusChip(b.status)} <span>${b.status === "reached" ? `Posted: ${esc(who.join(", "))}` : esc(buildMeta(b))}</span></p>${go}`;
@@ -243,7 +254,8 @@ function renderEssaysIndex() {
   const cardHTML = (b) => {
     const read = b.status === "reached"
       ? `<a class="player-go" href="${buildHref(b.n)}">Read ${esc(buildName(b))}</a>`
-      : `<a class="player-go" href="${buildHref(b.n)}" data-locked>${b.status === "near" ? "Near: not yet punched" : "Not yet reached"}</a>`;
+      : b.status === "near" ? `<a class="player-go" href="${buildHref(b.n)}">Near: in progress</a>`
+      : `<a class="player-go" href="${buildHref(b.n)}" data-locked>Not yet reached</a>`;
     return `<p class="label">${label(b)}</p><h2>${esc(buildName(b))}</h2>
       <p class="player-meta">${statusChip(b.status)} <span>${esc(buildMeta(b))}</span></p>${read}`;
   };
@@ -275,7 +287,7 @@ function renderTeam() {
   $("#team-builds").innerHTML = builds.filter((b) => b.team).map((b) => `
     <article class="card">
       <p class="label">${label(b)}</p>
-      <h3><a href="${buildHref(b.n)}"${b.status === "reached" ? "" : " data-locked"}>${esc(buildName(b))}</a></h3>
+      <h3><a href="${buildHref(b.n)}"${opens(b) ? "" : " data-locked"}>${esc(buildName(b))}</a></h3>
       <p>${statusChip(b.status)}</p>
       ${b.n === 6 ? `<p>The collaborative conclusion.</p>` : ""}
     </article>`).join("");
@@ -337,6 +349,7 @@ function renderMember() {
           const name = `${esc(buildName(b))}${b.theme ? ` <span class="theme">${esc(b.theme)}</span>` : ""}`;
           const head = e.status === "reached"
             ? `<a href="${buildHref(b.n, id)}">${name}</a>`
+            : b.status === "near" ? `<a href="${buildHref(b.n)}">${name}</a>`
             : `<span${e.status === "locked" || e.status === "near" ? " data-locked" : ""}>${name}</span>`;
           return `<li>
             <div class="hb-row"><span class="num">BUILD ${pad(b.n)}${b.team ? " // TEAM" : ""}</span><span class="what">${head}</span>${statusChip(e.status)}</div>
@@ -357,6 +370,7 @@ async function renderBuild() {
     <h1>${esc(buildName(b))}</h1>`;
   const main = $("#build");
 
+  if (b.status === "near") { main.innerHTML = head + inProgress(b); return; }
   if (b.status !== "reached") {
     main.innerHTML = head + refusal(b.due ? ` // due ${fmtDate(b.due)}` : "");
     return;

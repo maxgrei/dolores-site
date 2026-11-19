@@ -281,6 +281,11 @@ main { display: block; min-height: 60vh; }
 
 .sign-refusal { border-left: 1px solid var(--sign); padding: 0.25rem 0 0.25rem 1rem; margin: 0; }
 .sign-refusal .label { margin-bottom: 0.25rem; }
+.in-progress { border-left: 1px solid var(--border); padding: 0.25rem 0 0.25rem 1rem; margin: 0; max-width: var(--measure); }
+.in-progress .label { margin-bottom: 0.25rem; }
+.in-progress p:not(.label) { margin: 0 0 0.5rem; font-family: var(--font-head); font-size: 1.3rem; font-style: italic; }
+.in-progress .ip-back { font-family: var(--font-body); font-size: 1rem; font-style: normal; }
+.in-progress .ip-back a { display: inline-block; padding: 0.6rem 0; }
 .sign-refusal p { margin: 0; font-family: var(--font-head); font-size: 1.3rem; font-style: italic; }
 
 /* ---------- member page ---------- */

@@ -38,12 +38,12 @@ export const site = {
 const GEN = "First-year host · Class of 2030";
 const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, backstory: null, attributes: [], reverie: null, photo: null };
 export const members = [
-  { ...blank, id: "kenna",  name: "Kenna", origin: "Michigan", photo: "images/members/kenna" },
+  { ...blank, id: "kenna",  name: "Kenna", designation: "Teddy", origin: "Michigan", photo: "images/members/kenna" },
   { ...blank, id: "max",    name: "Max", designation: "Bernard", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
     photo: "images/members/max" },
   { ...blank, id: "mia",    name: "Mia", origin: "Massachusetts" },
-  { ...blank, id: "alexis", name: "Alexis", origin: "Michigan", photo: "images/members/alexis" },
-  { ...blank, id: "meer",   name: "Meer", origin: "Michigan" },
+  { ...blank, id: "alexis", name: "Alexis", designation: "Logan", origin: "Michigan", photo: "images/members/alexis" },
+  { ...blank, id: "meer",   name: "Meer", designation: "Maeve", origin: "Michigan" },
   { ...blank, id: "leo",    name: "Leo", origin: "New Jersey", photo: "images/members/leo" },
 ];
 
