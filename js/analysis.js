@@ -129,17 +129,18 @@ function sourceOf(after, sources = []) {
   if (/Plutarch/i.test(c)) return "PLUTARCH";
   const num = parseInt((c.match(/\d+/) || [])[0], 10);
   if (num && num < 80 && sources.some((s) => /Descartes/.test(s))) return "DESCARTES";
+  if (num > 130 && sources.some((s) => /Milton/.test(s))) return "MILTON";   // bare line numbers, e.g. (581-585)
   if (num >= 80 && num <= 130) return "PLUTARCH";
   return "QUOTED";
 }
 
-// quoted ranges in a plain string: “…” pairs, or straight "…" pairs
+// quoted ranges in a plain string: “…” pairs, or straight "…" pairs (a straight open may close curly: authors mix them)
 function quoteRanges(text) {
   const out = []; let open = -1, kind = "";
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
     if (open < 0 && (ch === "“" || ch === "\"")) { open = i; kind = ch; }
-    else if (open >= 0 && ((kind === "“" && ch === "”") || (kind === "\"" && ch === "\""))) { out.push([open, i + 1]); open = -1; }
+    else if (open >= 0 && ((kind === "“" && ch === "”") || (kind === "\"" && (ch === "\"" || ch === "”")))) { out.push([open, i + 1]); open = -1; }
   }
   return out;
 }

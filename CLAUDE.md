@@ -146,7 +146,7 @@ Stage files by explicit path (never `git add -A`) and check `git show --stat HEA
 
 ## Open items: what's needed next
 From the team (Max to send; save verbatim, never retype):
-- Builds still missing (as of Nov 17): Kenna 3, 4, 5; Alexis 1, 3, 4, 5; then everyone's 6–8 (Build 6 is the team build).
+- Builds 1–5 are complete for all six members (Nov 19). Next: Build 6 (team, due Nov 20), then everyone's 7–8.
 - Designations so far: Max = Bernard, Kenna = Teddy, Alexis = Logan, Meer = Maeve. Mia's pick "Achecheta" (Akecheta)
   is a Season 2 character, held back pending Max's call.
 - Each member's designation (host alias), origin (state), core drive, backstory, three attributes, reverie, photo
