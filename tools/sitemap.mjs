@@ -21,7 +21,7 @@ if (symbols.length) pages.push(["The Key: what the symbols mean", "../keys/index
 const buildList = builds.map((b) => {
   const posted = Object.entries(b.entries).filter(([, e]) => e.status === "reached");
   const state = posted.length ? "" : b.status === "near" ? " (near)" : b.due && b.due < TODAY ? " (being posted)" : " (locked)";
-  return `      <li><h3><a href="../essays/build-${b.n}/index.html">Build ${b.n}</a>${b.theme ? `: ${esc(b.theme)}` : ""}${state}</h3>
+  return `      <li><h3><a href="../essays/build-${b.n}/index.html">${b.title ? `${esc(b.title)} (Build ${b.n})` : `Build ${b.n}`}</a>${b.theme ? `: ${esc(b.theme)}` : ""}${state}</h3>
         ${posted.length ? `<ul>${posted.map(([id, e]) => `
           <li>${esc(nameOf(id))}${e.title ? `, <i>${esc(e.title)}</i>` : ""}: <a href="../essays/build-${b.n}/index.html#${id}">read on the site</a> · <a href="../${e.file}">plain text</a></li>`).join("")}
         </ul>` : ""}

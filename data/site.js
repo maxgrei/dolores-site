@@ -161,13 +161,14 @@ export const builds = [
     },
   },
   {
-    n: 6, title: null, theme: "Team conclusion", team: true, due: "2026-11-20", status: "reached",
+    // labelled "Conclusion" (assignment requirement) so the professor can find it; `subtitle` names the author
+    n: 6, title: "Conclusion", subtitle: "Build 6 · Team Dolores", theme: "Team conclusion", team: true, due: "2026-11-20", status: "reached",
     entries: {
       // Copied verbatim from content the team sent Nov 21 (header lines skipped). The essay quotes nothing and cites
       // no page numbers; `pages` are the Plutarch passages it discusses: Socrates stopping in the street (91–92),
-      // the sneeze (92), Epaminondas refusing wealth (98–99), the soul yielding to its guide (104–105).
+      // with the sneeze (92), Epaminondas refusing wealth (98–99), the soul yielding to its guide (104–105).
       team: { status: "reached", title: null, file: "content/build-6/team.html", words: 765,
-              pages: ["91–92", "92", "98–99", "104–105"],
+              pages: ["91–92", "98–99", "104–105"],
               sources: ["Plutarch, Socrates’ Daimonion, trans. Russell", "John Milton, Paradise Lost", "Descartes, Meditations (the wax, Second Meditation)",
                         "Scarry, “The Interior Structure of the Artifact”", "Plato, Phaedo"],
               episodes: [],

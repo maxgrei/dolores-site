@@ -372,9 +372,13 @@ async function renderBuild() {
   const b = builds.find((x) => x.n === Number(body.dataset.build));
   if (!b) return;
   document.title = `${buildName(b)} · ${site.team}`;
+  // a build with a `subtitle` (Build 6: "Conclusion" / "Build 6 · Team Dolores") names its one author there,
+  // so the author list and the per-essay author heading are left out (no duplicate "Team Dolores")
+  const solo = Boolean(b.subtitle);
   const head = `
     <p class="label">${label(b)}</p>
-    <h1>${esc(buildName(b))}</h1>`;
+    <h1 id="build-h">${esc(buildName(b))}</h1>${solo ? `
+    <p class="build-sub">${esc(b.subtitle)}</p>` : ""}`;
   const main = $("#build");
 
   if (b.status === "near") { main.innerHTML = head + inProgress(b); return; }
@@ -384,16 +388,16 @@ async function renderBuild() {
   }
 
   const authors = authorsFor(b);
-  main.innerHTML = head + `
+  main.innerHTML = head + (solo ? "" : `
     <nav aria-label="Essays in this build"><ul class="toc">${authors.map((a) => entryFor(b, a.id).status === "reached"
       ? `<li><a href="#${a.id}">${esc(a.name)}</a></li>`
       : entryFor(b, a.id).status === "posting"
         ? `<li class="locked">${esc(a.name)} <span class="label">· being posted</span></li>`
-        : `<li class="locked" data-locked>${esc(a.name)} <span class="label">· locked</span></li>`).join("")}</ul></nav>
+        : `<li class="locked" data-locked>${esc(a.name)} <span class="label">· locked</span></li>`).join("")}</ul></nav>`) + `
     ${authors.map((a) => {
       const e = entryFor(b, a.id);
-      return `<article class="essay" id="${a.id}" aria-labelledby="${a.id}-h">
-        <h2 id="${a.id}-h"><a href="${a.id === "team" ? href("team/index.html") : memberHref(a.id)}">${esc(a.name)}</a></h2>
+      return `<article class="essay" id="${a.id}" aria-labelledby="${solo ? "build-h" : a.id + "-h"}">${solo ? "" : `
+        <h2 id="${a.id}-h"><a href="${a.id === "team" ? href("team/index.html") : memberHref(a.id)}">${esc(a.name)}</a></h2>`}
         ${e.status === "reached"
           ? `<p class="essay-meta">${e.words ? e.words + " words" : ""}${e.pages?.length ? " · Plutarch pp. " + e.pages.join(", ") : ""}</p><div class="prose" data-src="${esc(e.file)}"><p class="empty">Loading…</p></div>`
           : e.status === "posting" ? `<div class="sign-refusal"><p class="label">Being posted</p><p>This essay is on its way.</p></div>` : refusal()}
@@ -416,7 +420,7 @@ async function renderBuild() {
   if (voices.length) {
     const order = authors.map((x) => x.name);
     voices.sort((x, y) => order.indexOf(x[0]) - order.indexOf(y[0]));
-    main.querySelector(".toc")?.closest("nav").insertAdjacentHTML("afterend", `<section class="voice-summary" aria-label="Whose voice? by author" data-key="12">
+    (main.querySelector(".toc")?.closest("nav") || main.querySelector(".build-sub")).insertAdjacentHTML("afterend", `<section class="voice-summary" aria-label="Whose voice? by author" data-key="12">
       <p class="label">WHOSE VOICE? // BY AUTHOR</p>
       <ul>${voices.map(([n, v]) => `<li><span class="vs-name">${esc(n)}</span> <span class="voice-line">${voiceLine(v)}</span></li>`).join("")}</ul>
       <p class="voice-note">counted from quotation marks</p></section>`);
