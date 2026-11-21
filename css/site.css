@@ -652,7 +652,15 @@ main { display: block; min-height: 60vh; }
 .bridge-line { margin: 0; max-width: 24ch; font-family: var(--font-head); font-size: clamp(1.7rem, 4vw, 2.8rem); line-height: 1.2; }
 .can-3d .oracle { height: 220svh; }
 .thesis .wrap { padding-block: 4.5rem 4rem; }
-.thesis-line { font-size: clamp(1.6rem, 3.4vw, 2.5rem); line-height: 1.25; font-weight: 500; max-width: 32ch; margin: 0 0 2.25rem; }
+.thesis-line { font-size: clamp(1.35rem, 2.5vw, 1.95rem); line-height: 1.3; font-weight: 500; max-width: 46ch; margin: 0 0 1rem; }
+.thesis-source { margin: 0 0 2.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem; }
+.thesis-read { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-body); font-size: 1rem; letter-spacing: 0; text-transform: none; }
+.positions .position { display: flex; flex-direction: column; }
+.position blockquote { margin: 0.5rem 0 1rem; }
+.position blockquote p { font-family: var(--font-head); font-size: 1.3rem; line-height: 1.35; margin: 0; }
+.position .pos-links, .position .pos-who { margin: 0; font-size: 0.95rem; }
+.position .pos-links { margin-top: auto; }
+.position a { display: inline-flex; align-items: center; min-height: 44px; }
 .thesis-quote { margin: 0; max-width: var(--measure); padding-left: 1.25rem; border-left: 1px solid var(--sign); }
 .thesis-quote blockquote { margin: 0 0 0.75rem; }
 .thesis-quote .pull { font-family: var(--font-head); font-size: 1.6rem; line-height: 1.3; margin: 0 0 0.75rem; }

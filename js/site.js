@@ -156,7 +156,14 @@ function renderHome() {
   if (tl) tl.innerHTML = timeline();
   // "What we argue" and "Improvisations" stay hidden until data/site.js has entries
   if (positions.length) {
-    $("#positions").innerHTML = `<div class="grid">${positions.map((p) => `<article class="card"><p>${esc(p.claim)}</p><p class="label"><a href="${buildHref(p.build)}">Argued in Build ${p.build}</a></p></article>`).join("")}</div>`;
+    // each card: the quality, the claim (verbatim from the build), the build that argues it, the members who developed it
+    const nameOf = (id) => members.find((m) => m.id === id)?.name || id;
+    $("#positions").innerHTML = `<div class="grid positions">${positions.map((p) => `<article class="card position">
+      <p class="label">QUALITY // ${esc(p.quality.toUpperCase())}</p>
+      <blockquote><p>“${esc(p.claim)}”</p></blockquote>
+      <p class="pos-links"><a href="${buildHref(p.build)}">Argued in Build ${p.build}</a></p>
+      ${p.members?.length ? `<p class="pos-who">Developed by ${p.members.map((id) => `<a href="${memberHref(id)}">${esc(nameOf(id))}</a>`).join(" and ")}</p>` : ""}
+    </article>`).join("")}</div>`;
     $("#positions-section").hidden = false;
   }
   if (humor.jokes.length || humor.quotes.length) {
@@ -316,7 +323,7 @@ function renderMember() {
   if (!m) return;
   document.title = `${m.name} · ${site.team}`;
   const spec = [["Designation", m.designation], ["Generation", m.generation], ["Point of origin", m.origin],
-    ["Core drive", m.coreDrive], ["Backstory", m.backstory]];
+    ["Core drive", m.coreDrive], ["Quality of consciousness", m.quality], ["Backstory", m.backstory]];
   $("#member").innerHTML = `
     <div class="host-file">
       <div class="host-head">

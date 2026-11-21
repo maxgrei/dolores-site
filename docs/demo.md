@@ -27,9 +27,11 @@ what spoke to him appear: the sneeze (p.92), the voice (p.104), the daimon above
 Point out that his gaze follows the cursor, then turns away.
 
 ### 1:05 The thesis (15 s)
-Read the thesis line aloud (it is a team draft; confirm the final wording before presenting), then
-the pull quote from Build 2: *"Like a puppet on strings, the mind may believe it is controlling
-itself, when in reality its impulses are."*
+Read the thesis line aloud: it is the team's own sentence from Build 6, the collaborative conclusion
+(*"…which together point toward a nonreductive theory of consciousness"*). Then the pull quote from Build 2:
+*"Like a puppet on strings, the mind may believe it is controlling itself, when in reality its impulses
+are."* Further down, **What we argue** gives the five qualities of consciousness (reconsolidation,
+deliberation, reflexivity, phenomenality, narration), each in Build 6's words, linked to whoever developed it.
 
 ### 1:20 Act II: the player piano opens a build (30 s)
 > "The builds are a piano roll: the music plays without a player."

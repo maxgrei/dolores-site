@@ -111,8 +111,7 @@ Analysis Mode, brand-check polish.
   `?piano-still` in the URL holds the pose used to render that still.
 - Home page (Nov 14): lab opening (once per visit; `html.lab-opening` set by an inline head script, sessionStorage
   `dolores:opened`; CSS failsafe hides it after 6 s) -> hero "The Bicameral Mind" (idle drift in hero.js) ->
-  ACT I bridge + Socrates (`oracle.js`, prints from the moment it enters) + team thesis (DRAFT comment, pending
-  team approval) with a verbatim Build 2 pull quote -> ACT II the piano in `mode: "keys"` (8 marked keys = builds,
+  ACT I bridge + Socrates (`oracle.js`, prints from the moment it enters) + team thesis (verbatim from Build 6, with a "Read Build 6" link) with a verbatim Build 2 pull quote -> ACT II the piano in `mode: "keys"` (8 marked keys = builds,
   card shows who posted; the plain `#timeline` list is always there) -> ACT III hosts teaser -> team statement.
   "What we argue" / "Improvisations" stay `hidden` until `positions` / `humor` have entries.
 - Member pages = Delos host profiles (FILE nn, spec sheet, attribute matrix, reverie, builds with verbatim claims);
@@ -124,7 +123,7 @@ Analysis Mode, brand-check polish.
   across builds on member pages. Quotes are labelled by the citation after them (Plato / Milton / Descartes /
   Plutarch, else QUOTED). Counted from quotation marks, so the numbers are approximate.
 - Build status: entries with no post on a past-due build show "Being posted" (computed from `due` in js/site.js);
-  future builds stay "Locked". A "near" build (Build 6 now) has a real page with an "In progress // due …" placeholder,
+  future builds stay "Locked". A "near" build has a real page with an "In progress // due …" placeholder,
   and links to it open instead of refusing; it fills in once entries are added and status flips to "reached". Every entry has a verbatim `claim` (thesis sentence) for Analysis Mode.
 - `html.can-3d` (set in js/site.js boot) = motion allowed + WebGL; it switches the oracle/piano to tall sticky scroll stages.
 - `js/analysis.js` — Analysis Mode toggle, "analysis" typing, Esc, sessionStorage `dolores:analysis`
@@ -151,7 +150,8 @@ From the team (Max to send; save verbatim, never retype):
   is a Season 2 character, held back pending Max's call.
 - Each member's designation (host alias), origin (state), core drive, backstory, three attributes, reverie, photo
   (→ `images/members/<id>.avif`, ~640×800, set `photo`), a short intro, and any Reveries.
-- Core positions (claim + build number) for the home page; build titles/themes for the labels.
+- Core positions are filled (Nov 21): five qualities of consciousness, verbatim from Build 6, in `positions`;
+  each member's `quality` shows on their profile.
 - Jokes and exact character quotes for `humor` in data/site.js (never invent quotes from the show).
 Built since: sound toggle + ambient piano, humor section, ~600ms "reverie" glitch on star hover
 (starfield.js + site.css, off with reduced motion), τὸ δαιμόνιον in GFS Didot in the hero and 404.

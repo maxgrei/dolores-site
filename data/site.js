@@ -33,18 +33,19 @@ export const site = {
 //   attributes   "Attribute matrix", exactly three { name, value 1–20 }, names from the show's attribute tablet:
 //                Bulk Apperception, Candor, Vivacity, Curiosity, Humor, Courage, Loyalty, Patience, Imagination
 //   reverie      "Reverie", one line: { believed: "…", now: "…" }  ->  "I believed … → Now I think …"
+//   quality      the member's quality of consciousness (from Build 6 / `positions`)
 //   photo        images/members/<id> WITHOUT extension (tools/photo.py writes .avif + .jpg) or null;
 //                ONE photo per member (team decision, Nov 17); caption "HOST CAPTURE // NAME".
 const GEN = "First-year host · Class of 2030";
-const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, backstory: null, attributes: [], reverie: null, photo: null };
+const blank = { designation: null, generation: GEN, origin: null, coreDrive: null, backstory: null, attributes: [], reverie: null, photo: null, quality: null };
 export const members = [
-  { ...blank, id: "kenna",  name: "Kenna", designation: "Teddy", origin: "Michigan", photo: "images/members/kenna" },
-  { ...blank, id: "max",    name: "Max", designation: "Bernard", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
+  { ...blank, id: "kenna",  name: "Kenna", quality: "Deliberation", designation: "Teddy", origin: "Michigan", photo: "images/members/kenna" },
+  { ...blank, id: "max",    name: "Max", quality: "Reflexivity", designation: "Bernard", origin: "Michigan", coreDrive: "Neuroscience (pre-med)",
     photo: "images/members/max" },
-  { ...blank, id: "mia",    name: "Mia", origin: "Massachusetts" },
-  { ...blank, id: "alexis", name: "Alexis", designation: "Logan", origin: "Michigan", photo: "images/members/alexis" },
-  { ...blank, id: "meer",   name: "Meer", designation: "Maeve", origin: "Michigan" },
-  { ...blank, id: "leo",    name: "Leo", origin: "New Jersey", photo: "images/members/leo" },
+  { ...blank, id: "mia",    name: "Mia", quality: "Phenomenality", origin: "Massachusetts" },
+  { ...blank, id: "alexis", name: "Alexis", quality: "Reconsolidation", designation: "Logan", origin: "Michigan", photo: "images/members/alexis" },
+  { ...blank, id: "meer",   name: "Meer", quality: "Narration", designation: "Maeve", origin: "Michigan" },
+  { ...blank, id: "leo",    name: "Leo", quality: "Reconsolidation", origin: "New Jersey", photo: "images/members/leo" },
 ];
 
 // Builds 1–8. Builds 2 and 6 are team builds (one entry, id "team").
@@ -159,7 +160,20 @@ export const builds = [
              claim: "While these stories are very different, Plutarch and Milton both show that instantaneous choices do not decide whether you have conscious agency." },
     },
   },
-  { n: 6, title: null, theme: "Team conclusion", team: true,  due: "2026-11-20", status: "near", entries: {} },
+  {
+    n: 6, title: null, theme: "Team conclusion", team: true, due: "2026-11-20", status: "reached",
+    entries: {
+      // Copied verbatim from content the team sent Nov 21 (header lines skipped). The essay quotes nothing and cites
+      // no page numbers; `pages` are the Plutarch passages it discusses: Socrates stopping in the street (91–92),
+      // the sneeze (92), Epaminondas refusing wealth (98–99), the soul yielding to its guide (104–105).
+      team: { status: "reached", title: null, file: "content/build-6/team.html", words: 765,
+              pages: ["91–92", "92", "98–99", "104–105"],
+              sources: ["Plutarch, Socrates’ Daimonion, trans. Russell", "John Milton, Paradise Lost", "Descartes, Meditations (the wax, Second Meditation)",
+                        "Scarry, “The Interior Structure of the Artifact”", "Plato, Phaedo"],
+              episodes: [],
+              claim: "Through Epaminondas and Socrates, Plutarch seems to show deliberation and reconsolidation retraining impulses over time, reflexivity taking over when that training fails, phenomenality turning something felt as outside the self into inner experience, and narration taking those changes to create a life of virtue, which together point toward a nonreductive theory of consciousness." },
+    },
+  },
   { n: 7, title: null, theme: "Personal reflections: transitions from the Log", team: false, due: "2026-12-11", status: "locked", entries: {} },
   { n: 8, title: null, theme: "Overall conclusion", team: false, due: "2026-12-18", status: "locked", entries: {} },
 ];
@@ -184,7 +198,7 @@ export const acts = [
 //   westworld  Season 1 reference only; no show quotes unless copied from our essays
 //   plutarch   page refs
 //   builds     builds + first names whose essays discuss it (found by searching content/ for the symbol's
-//              terms and cited pages, Nov 14, 2026; Kenna's and Alexis's Builds 1–5 added Nov 19)
+//              terms and cited pages, Nov 14, 2026; Kenna's and Alexis's Builds 1–5 added Nov 19; Build 6 Nov 21)
 //   note       optional hint for the team (may be null)
 //   meaning    TEAM-WRITTEN paragraph; null until the team writes it ("AWAITING ANNOTATION // TEAM DOLORES")
 export const symbols = [
@@ -197,19 +211,19 @@ export const symbols = [
   { id: "key-02", number: "02", name: "The gold strings",
     onSite: [{ label: "Home hero", href: "index.html#welcome-heading" }],
     westworld: null, plutarch: ["104–105"],
-    builds: [{ n: 1, members: ["Kenna", "Max", "Mia"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Leo", "Mia", "Max", "Kenna"] }, { n: 4, members: ["Mia", "Max", "Alexis"] }, { n: 5, members: ["Mia", "Alexis"] }],
+    builds: [{ n: 1, members: ["Kenna", "Max", "Mia"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Leo", "Mia", "Max", "Kenna"] }, { n: 4, members: ["Mia", "Max", "Alexis"] }, { n: 5, members: ["Mia", "Alexis"] }, { n: 6, members: ["Team"] }],
     note: null,
     meaning: null },
   { id: "key-03", number: "03", name: "Socrates printed in layers (DELOS // FABRICATION)",
     onSite: [{ label: "Home, Act I", href: "index.html#oracle-heading" }],
     westworld: "Host fabrication (S1)", plutarch: ["92", "104", "108–109"],
-    builds: [{ n: 1, members: ["Kenna", "Max", "Mia", "Meer"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Leo", "Mia", "Max", "Meer", "Kenna"] }, { n: 4, members: ["Leo", "Mia", "Max", "Meer", "Kenna", "Alexis"] }, { n: 5, members: ["Leo", "Mia", "Max"] }],
+    builds: [{ n: 1, members: ["Kenna", "Max", "Mia", "Meer"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Leo", "Mia", "Max", "Meer", "Kenna"] }, { n: 4, members: ["Leo", "Mia", "Max", "Meer", "Kenna", "Alexis"] }, { n: 5, members: ["Leo", "Mia", "Max"] }, { n: 6, members: ["Team"] }],
     note: null,
     meaning: null },
   { id: "key-04", number: "04", name: "The Sign: the gold cursor that refuses locked builds",
     onSite: [{ label: "Every page, with a mouse; try a locked build", href: "essays/index.html" }],
     westworld: null, plutarch: ["91–92"],
-    builds: [{ n: 1, members: ["Max", "Alexis"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Mia", "Max", "Meer", "Kenna", "Alexis"] }, { n: 4, members: ["Leo", "Mia", "Max", "Meer", "Kenna", "Alexis"] }, { n: 5, members: ["Mia", "Max"] }],
+    builds: [{ n: 1, members: ["Max", "Alexis"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Mia", "Max", "Meer", "Kenna", "Alexis"] }, { n: 4, members: ["Leo", "Mia", "Max", "Meer", "Kenna", "Alexis"] }, { n: 5, members: ["Mia", "Max"] }, { n: 6, members: ["Team"] }],
     note: null,
     meaning: null },
   { id: "key-05", number: "05", name: "Analysis Mode",
@@ -263,7 +277,7 @@ export const symbols = [
   { id: "key-13", number: "13", name: "τὸ δαιμόνιον in Greek",
     onSite: [{ label: "Home hero", href: "index.html#welcome-heading" }, { label: "The 404 page", href: "404.html" }],
     westworld: null, plutarch: [],
-    builds: [{ n: 1, members: ["Max", "Leo", "Meer", "Alexis"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Mia", "Kenna", "Alexis"] }, { n: 4, members: ["Max", "Kenna", "Alexis"] }, { n: 5, members: ["Mia", "Max"] }],
+    builds: [{ n: 1, members: ["Max", "Leo", "Meer", "Alexis"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Mia", "Kenna", "Alexis"] }, { n: 4, members: ["Max", "Kenna", "Alexis"] }, { n: 5, members: ["Mia", "Max"] }, { n: 6, members: ["Team"] }],
     note: null,
     meaning: null },
   { id: "key-14", number: "14", name: "Gold as the only color",
@@ -275,14 +289,25 @@ export const symbols = [
   { id: "key-15", number: "15", name: "The Boxmakers Street test",
     onSite: [{ label: "Home, Act II", href: "index.html#boxmakers" }],
     westworld: null, plutarch: ["91–92"],
-    builds: [{ n: 1, members: ["Alexis"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Mia", "Max", "Kenna", "Alexis"] }, { n: 4, members: ["Max", "Kenna"] }],
+    builds: [{ n: 1, members: ["Alexis"] }, { n: 2, members: ["Team"] }, { n: 3, members: ["Mia", "Max", "Kenna", "Alexis"] }, { n: 4, members: ["Max", "Kenna"] }, { n: 6, members: ["Team"] }],
     note: null,
     meaning: null },
 ];
 
-// Core positions: each one links to the build that argues it. Add as the team agrees on them.
-// { claim: "…", build: 3 }
-export const positions = [];
+// Core positions: each claim is copied verbatim from Build 6 (the team conclusion), labelled with its quality of
+// consciousness, and linked to the members whose Builds 3–5 developed it (checked in content/, Nov 21, 2026).
+export const positions = [
+  { quality: "Reconsolidation", build: 6, members: ["leo", "alexis"],
+    claim: "Ultimately, reconsolidation suggests that consciousness can influence how our unconscious impulses develop over time, even if it does not fully determine where those impulses come from." },
+  { quality: "Deliberation", build: 6, members: ["kenna"],
+    claim: "Freedom, therefore, exists on a spectrum and is the product of long-term mental discipline that causes impulses to match deeper second-order desires." },
+  { quality: "Reflexivity", build: 6, members: ["max"],
+    claim: "If training shapes most of what we do, reflexivity may take over in the pause where training runs out." },
+  { quality: "Phenomenality", build: 6, members: ["mia"],
+    claim: "These ideas suggest that consciousness is not strictly internal or self-generated, but emerges as individuals experience and transform their surroundings." },
+  { quality: "Narration", build: 6, members: ["meer"],
+    claim: "Both suggest that consciousness can help shape who we become over time, even if repeated practice eventually makes virtuous actions feel more natural." },
+];
 
 // The Chasm: shared bibliography + asset credits. The Build 2 group is copied verbatim from the team PDF;
 // its Plutarch entry (Russell, Selected Essays and Dialogues, Oxford UP, 1993) matches "Primary texts".
