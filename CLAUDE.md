@@ -1,6 +1,6 @@
 # Team Dolores — HONORS 241 portfolio site
 
-HONORS 241 "What Westworld Teaches us about Being Human" (Prof. George Hoffman, Fall 2026).
+HONORS 241 "What Westworld Teaches us about Being Human" (Prof. George Hoffmann, Fall 2026).
 Team reading: Plutarch, *Socrates' Daimonion* (On the Sign of Socrates), trans. Russell.
 Show: Westworld Season 1. Six members; each writes Builds 1–8 (Builds 2 and 6 are team builds;
 Build 6 is the collaborative conclusion). The best/most creative site in class wins an award.
@@ -70,7 +70,7 @@ From Team Logan's GitHub site (joherm96.github.io/team-logan-preview):
 From Team Logan's Google Site (sites.google.com/umich.edu/teamlogan):
 - "core values"/team positions, each linking to the build that argues it
 - humor and personality (a joke section, character quotes)
-- thank-you line for Prof. Hoffman and the GSI
+- thank-you line for Prof. Hoffmann and the GSI
 
 ## Site map (keep the existing URLs so old links still work)
 - `index.html` — Home: strings hero, epigraph, team statement, core positions, build timeline

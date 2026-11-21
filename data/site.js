@@ -12,7 +12,7 @@ export const site = {
   team: "Team Dolores",
   course: "HONORS 241 · What Westworld Teaches us about Being Human",
   term: "Fall 2026",
-  professor: "Prof. George Hoffman",
+  professor: "Prof. George Hoffmann",
   gsi: "Israa Khalifa",
   reading: "Plutarch, Socrates’ Daimonion (On the Sign of Socrates), trans. Russell",
   show: "Westworld, Season 1",
